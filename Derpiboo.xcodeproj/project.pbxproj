@@ -1,0 +1,511 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D98CB9041C2998100029A6F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB9031C2998100029A6F7 /* AppDelegate.swift */; };
+		D98CB9061C2998100029A6F7 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB9051C2998100029A6F7 /* FirstViewController.swift */; };
+		D98CB9081C2998100029A6F7 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB9071C2998100029A6F7 /* SecondViewController.swift */; };
+		D98CB90B1C2998100029A6F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D98CB9091C2998100029A6F7 /* Main.storyboard */; };
+		D98CB90D1C2998100029A6F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D98CB90C1C2998100029A6F7 /* Assets.xcassets */; };
+		D98CB9101C2998100029A6F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D98CB90E1C2998100029A6F7 /* LaunchScreen.storyboard */; };
+		D98CB91B1C2998100029A6F7 /* DerpibooTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB91A1C2998100029A6F7 /* DerpibooTests.swift */; };
+		D98CB9261C2998100029A6F7 /* DerpibooUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB9251C2998100029A6F7 /* DerpibooUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D98CB9171C2998100029A6F7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D98CB8F81C2998100029A6F7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D98CB8FF1C2998100029A6F7;
+			remoteInfo = Derpiboo;
+		};
+		D98CB9221C2998100029A6F7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D98CB8F81C2998100029A6F7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D98CB8FF1C2998100029A6F7;
+			remoteInfo = Derpiboo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D98CB9001C2998100029A6F7 /* Derpiboo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Derpiboo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D98CB9031C2998100029A6F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D98CB9051C2998100029A6F7 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
+		D98CB9071C2998100029A6F7 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		D98CB90A1C2998100029A6F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D98CB90C1C2998100029A6F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D98CB90F1C2998100029A6F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D98CB9111C2998100029A6F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D98CB9161C2998100029A6F7 /* DerpibooTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DerpibooTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D98CB91A1C2998100029A6F7 /* DerpibooTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DerpibooTests.swift; sourceTree = "<group>"; };
+		D98CB91C1C2998100029A6F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D98CB9211C2998100029A6F7 /* DerpibooUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DerpibooUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D98CB9251C2998100029A6F7 /* DerpibooUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DerpibooUITests.swift; sourceTree = "<group>"; };
+		D98CB9271C2998100029A6F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D98CB8FD1C2998100029A6F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D98CB9131C2998100029A6F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D98CB91E1C2998100029A6F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D98CB8F71C2998100029A6F7 = {
+			isa = PBXGroup;
+			children = (
+				D98CB9021C2998100029A6F7 /* Derpiboo */,
+				D98CB9191C2998100029A6F7 /* DerpibooTests */,
+				D98CB9241C2998100029A6F7 /* DerpibooUITests */,
+				D98CB9011C2998100029A6F7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D98CB9011C2998100029A6F7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D98CB9001C2998100029A6F7 /* Derpiboo.app */,
+				D98CB9161C2998100029A6F7 /* DerpibooTests.xctest */,
+				D98CB9211C2998100029A6F7 /* DerpibooUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D98CB9021C2998100029A6F7 /* Derpiboo */ = {
+			isa = PBXGroup;
+			children = (
+				D98CB9031C2998100029A6F7 /* AppDelegate.swift */,
+				D98CB9051C2998100029A6F7 /* FirstViewController.swift */,
+				D98CB9071C2998100029A6F7 /* SecondViewController.swift */,
+				D98CB9091C2998100029A6F7 /* Main.storyboard */,
+				D98CB90C1C2998100029A6F7 /* Assets.xcassets */,
+				D98CB90E1C2998100029A6F7 /* LaunchScreen.storyboard */,
+				D98CB9111C2998100029A6F7 /* Info.plist */,
+			);
+			path = Derpiboo;
+			sourceTree = "<group>";
+		};
+		D98CB9191C2998100029A6F7 /* DerpibooTests */ = {
+			isa = PBXGroup;
+			children = (
+				D98CB91A1C2998100029A6F7 /* DerpibooTests.swift */,
+				D98CB91C1C2998100029A6F7 /* Info.plist */,
+			);
+			path = DerpibooTests;
+			sourceTree = "<group>";
+		};
+		D98CB9241C2998100029A6F7 /* DerpibooUITests */ = {
+			isa = PBXGroup;
+			children = (
+				D98CB9251C2998100029A6F7 /* DerpibooUITests.swift */,
+				D98CB9271C2998100029A6F7 /* Info.plist */,
+			);
+			path = DerpibooUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D98CB8FF1C2998100029A6F7 /* Derpiboo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D98CB92A1C2998100029A6F7 /* Build configuration list for PBXNativeTarget "Derpiboo" */;
+			buildPhases = (
+				D98CB8FC1C2998100029A6F7 /* Sources */,
+				D98CB8FD1C2998100029A6F7 /* Frameworks */,
+				D98CB8FE1C2998100029A6F7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Derpiboo;
+			productName = Derpiboo;
+			productReference = D98CB9001C2998100029A6F7 /* Derpiboo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D98CB9151C2998100029A6F7 /* DerpibooTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D98CB92D1C2998100029A6F7 /* Build configuration list for PBXNativeTarget "DerpibooTests" */;
+			buildPhases = (
+				D98CB9121C2998100029A6F7 /* Sources */,
+				D98CB9131C2998100029A6F7 /* Frameworks */,
+				D98CB9141C2998100029A6F7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D98CB9181C2998100029A6F7 /* PBXTargetDependency */,
+			);
+			name = DerpibooTests;
+			productName = DerpibooTests;
+			productReference = D98CB9161C2998100029A6F7 /* DerpibooTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D98CB9201C2998100029A6F7 /* DerpibooUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D98CB9301C2998100029A6F7 /* Build configuration list for PBXNativeTarget "DerpibooUITests" */;
+			buildPhases = (
+				D98CB91D1C2998100029A6F7 /* Sources */,
+				D98CB91E1C2998100029A6F7 /* Frameworks */,
+				D98CB91F1C2998100029A6F7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D98CB9231C2998100029A6F7 /* PBXTargetDependency */,
+			);
+			name = DerpibooUITests;
+			productName = DerpibooUITests;
+			productReference = D98CB9211C2998100029A6F7 /* DerpibooUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D98CB8F81C2998100029A6F7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = "Austin Chau";
+				TargetAttributes = {
+					D98CB8FF1C2998100029A6F7 = {
+						CreatedOnToolsVersion = 7.2;
+					};
+					D98CB9151C2998100029A6F7 = {
+						CreatedOnToolsVersion = 7.2;
+						TestTargetID = D98CB8FF1C2998100029A6F7;
+					};
+					D98CB9201C2998100029A6F7 = {
+						CreatedOnToolsVersion = 7.2;
+						TestTargetID = D98CB8FF1C2998100029A6F7;
+					};
+				};
+			};
+			buildConfigurationList = D98CB8FB1C2998100029A6F7 /* Build configuration list for PBXProject "Derpiboo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D98CB8F71C2998100029A6F7;
+			productRefGroup = D98CB9011C2998100029A6F7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D98CB8FF1C2998100029A6F7 /* Derpiboo */,
+				D98CB9151C2998100029A6F7 /* DerpibooTests */,
+				D98CB9201C2998100029A6F7 /* DerpibooUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D98CB8FE1C2998100029A6F7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D98CB9101C2998100029A6F7 /* LaunchScreen.storyboard in Resources */,
+				D98CB90D1C2998100029A6F7 /* Assets.xcassets in Resources */,
+				D98CB90B1C2998100029A6F7 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D98CB9141C2998100029A6F7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D98CB91F1C2998100029A6F7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D98CB8FC1C2998100029A6F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D98CB9081C2998100029A6F7 /* SecondViewController.swift in Sources */,
+				D98CB9041C2998100029A6F7 /* AppDelegate.swift in Sources */,
+				D98CB9061C2998100029A6F7 /* FirstViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D98CB9121C2998100029A6F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D98CB91B1C2998100029A6F7 /* DerpibooTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D98CB91D1C2998100029A6F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D98CB9261C2998100029A6F7 /* DerpibooUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D98CB9181C2998100029A6F7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D98CB8FF1C2998100029A6F7 /* Derpiboo */;
+			targetProxy = D98CB9171C2998100029A6F7 /* PBXContainerItemProxy */;
+		};
+		D98CB9231C2998100029A6F7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D98CB8FF1C2998100029A6F7 /* Derpiboo */;
+			targetProxy = D98CB9221C2998100029A6F7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D98CB9091C2998100029A6F7 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D98CB90A1C2998100029A6F7 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		D98CB90E1C2998100029A6F7 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D98CB90F1C2998100029A6F7 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D98CB9281C2998100029A6F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D98CB9291C2998100029A6F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D98CB92B1C2998100029A6F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Derpiboo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.austinmchau.Derpiboo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D98CB92C1C2998100029A6F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Derpiboo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.austinmchau.Derpiboo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		D98CB92E1C2998100029A6F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = DerpibooTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.austinmchau.DerpibooTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Derpiboo.app/Derpiboo";
+			};
+			name = Debug;
+		};
+		D98CB92F1C2998100029A6F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = DerpibooTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.austinmchau.DerpibooTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Derpiboo.app/Derpiboo";
+			};
+			name = Release;
+		};
+		D98CB9311C2998100029A6F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = DerpibooUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.austinmchau.DerpibooUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Derpiboo;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		D98CB9321C2998100029A6F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = DerpibooUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.austinmchau.DerpibooUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Derpiboo;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D98CB8FB1C2998100029A6F7 /* Build configuration list for PBXProject "Derpiboo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D98CB9281C2998100029A6F7 /* Debug */,
+				D98CB9291C2998100029A6F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D98CB92A1C2998100029A6F7 /* Build configuration list for PBXNativeTarget "Derpiboo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D98CB92B1C2998100029A6F7 /* Debug */,
+				D98CB92C1C2998100029A6F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		D98CB92D1C2998100029A6F7 /* Build configuration list for PBXNativeTarget "DerpibooTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D98CB92E1C2998100029A6F7 /* Debug */,
+				D98CB92F1C2998100029A6F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		D98CB9301C2998100029A6F7 /* Build configuration list for PBXNativeTarget "DerpibooUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D98CB9311C2998100029A6F7 /* Debug */,
+				D98CB9321C2998100029A6F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D98CB8F81C2998100029A6F7 /* Project object */;
+}
