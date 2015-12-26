@@ -8,13 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		D98CB9041C2998100029A6F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB9031C2998100029A6F7 /* AppDelegate.swift */; };
-		D98CB9061C2998100029A6F7 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB9051C2998100029A6F7 /* FirstViewController.swift */; };
-		D98CB9081C2998100029A6F7 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB9071C2998100029A6F7 /* SecondViewController.swift */; };
 		D98CB90B1C2998100029A6F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D98CB9091C2998100029A6F7 /* Main.storyboard */; };
 		D98CB90D1C2998100029A6F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D98CB90C1C2998100029A6F7 /* Assets.xcassets */; };
 		D98CB9101C2998100029A6F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D98CB90E1C2998100029A6F7 /* LaunchScreen.storyboard */; };
 		D98CB91B1C2998100029A6F7 /* DerpibooTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB91A1C2998100029A6F7 /* DerpibooTests.swift */; };
 		D98CB9261C2998100029A6F7 /* DerpibooUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB9251C2998100029A6F7 /* DerpibooUITests.swift */; };
+		D98CB9351C29996F0029A6F7 /* TabVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB9341C29996F0029A6F7 /* TabVC.swift */; };
+		D98CB9381C299C140029A6F7 /* ResultsCollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB9371C299C140029A6F7 /* ResultsCollectionVC.swift */; };
+		D98CB93B1C29A24F0029A6F7 /* Derpibooru.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB93A1C29A24F0029A6F7 /* Derpibooru.swift */; };
+		D98CB93D1C29A2BB0029A6F7 /* DBImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB93C1C29A2BB0029A6F7 /* DBImage.swift */; };
+		D98CB93F1C2BA7160029A6F7 /* ResultsCollectionCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB93E1C2BA7160029A6F7 /* ResultsCollectionCellVC.swift */; };
+		D98CB9411C2D86EB0029A6F7 /* DerpiFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB9401C2D86EB0029A6F7 /* DerpiFlowLayout.swift */; };
+		D98CB9441C2D880E0029A6F7 /* ImageDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB9431C2D880E0029A6F7 /* ImageDetailVC.swift */; };
+		D98CB9461C2D8ADC0029A6F7 /* ImageDetailPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB9451C2D8ADC0029A6F7 /* ImageDetailPageVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,8 +43,6 @@
 /* Begin PBXFileReference section */
 		D98CB9001C2998100029A6F7 /* Derpiboo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Derpiboo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D98CB9031C2998100029A6F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D98CB9051C2998100029A6F7 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
-		D98CB9071C2998100029A6F7 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		D98CB90A1C2998100029A6F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D98CB90C1C2998100029A6F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D98CB90F1C2998100029A6F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -49,6 +53,14 @@
 		D98CB9211C2998100029A6F7 /* DerpibooUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DerpibooUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D98CB9251C2998100029A6F7 /* DerpibooUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DerpibooUITests.swift; sourceTree = "<group>"; };
 		D98CB9271C2998100029A6F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D98CB9341C29996F0029A6F7 /* TabVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TabVC.swift; path = Code/TabVC.swift; sourceTree = "<group>"; };
+		D98CB9371C299C140029A6F7 /* ResultsCollectionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResultsCollectionVC.swift; path = Code/ResultsCollectionVC.swift; sourceTree = "<group>"; };
+		D98CB93A1C29A24F0029A6F7 /* Derpibooru.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Derpibooru.swift; path = Code/Derpibooru.swift; sourceTree = "<group>"; };
+		D98CB93C1C29A2BB0029A6F7 /* DBImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DBImage.swift; path = Code/DBImage.swift; sourceTree = "<group>"; };
+		D98CB93E1C2BA7160029A6F7 /* ResultsCollectionCellVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResultsCollectionCellVC.swift; path = Code/ResultsCollectionCellVC.swift; sourceTree = "<group>"; };
+		D98CB9401C2D86EB0029A6F7 /* DerpiFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DerpiFlowLayout.swift; path = Code/DerpiFlowLayout.swift; sourceTree = "<group>"; };
+		D98CB9431C2D880E0029A6F7 /* ImageDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageDetailVC.swift; path = Code/ImageDetailVC.swift; sourceTree = "<group>"; };
+		D98CB9451C2D8ADC0029A6F7 /* ImageDetailPageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageDetailPageVC.swift; path = Code/ImageDetailPageVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,13 +111,15 @@
 		D98CB9021C2998100029A6F7 /* Derpiboo */ = {
 			isa = PBXGroup;
 			children = (
-				D98CB9031C2998100029A6F7 /* AppDelegate.swift */,
-				D98CB9051C2998100029A6F7 /* FirstViewController.swift */,
-				D98CB9071C2998100029A6F7 /* SecondViewController.swift */,
-				D98CB9091C2998100029A6F7 /* Main.storyboard */,
-				D98CB90C1C2998100029A6F7 /* Assets.xcassets */,
 				D98CB90E1C2998100029A6F7 /* LaunchScreen.storyboard */,
+				D98CB90C1C2998100029A6F7 /* Assets.xcassets */,
 				D98CB9111C2998100029A6F7 /* Info.plist */,
+				D98CB9031C2998100029A6F7 /* AppDelegate.swift */,
+				D98CB9091C2998100029A6F7 /* Main.storyboard */,
+				D98CB9391C29A1FA0029A6F7 /* Backend */,
+				D98CB9361C299B4C0029A6F7 /* ResultsCollectionVC */,
+				D98CB9421C2D87E80029A6F7 /* ImageViewVC */,
+				D98CB9331C29992B0029A6F7 /* NavigationVC */,
 			);
 			path = Derpiboo;
 			sourceTree = "<group>";
@@ -126,6 +140,42 @@
 				D98CB9271C2998100029A6F7 /* Info.plist */,
 			);
 			path = DerpibooUITests;
+			sourceTree = "<group>";
+		};
+		D98CB9331C29992B0029A6F7 /* NavigationVC */ = {
+			isa = PBXGroup;
+			children = (
+				D98CB9341C29996F0029A6F7 /* TabVC.swift */,
+			);
+			name = NavigationVC;
+			sourceTree = "<group>";
+		};
+		D98CB9361C299B4C0029A6F7 /* ResultsCollectionVC */ = {
+			isa = PBXGroup;
+			children = (
+				D98CB9371C299C140029A6F7 /* ResultsCollectionVC.swift */,
+				D98CB93E1C2BA7160029A6F7 /* ResultsCollectionCellVC.swift */,
+				D98CB9401C2D86EB0029A6F7 /* DerpiFlowLayout.swift */,
+			);
+			name = ResultsCollectionVC;
+			sourceTree = "<group>";
+		};
+		D98CB9391C29A1FA0029A6F7 /* Backend */ = {
+			isa = PBXGroup;
+			children = (
+				D98CB93A1C29A24F0029A6F7 /* Derpibooru.swift */,
+				D98CB93C1C29A2BB0029A6F7 /* DBImage.swift */,
+			);
+			name = Backend;
+			sourceTree = "<group>";
+		};
+		D98CB9421C2D87E80029A6F7 /* ImageViewVC */ = {
+			isa = PBXGroup;
+			children = (
+				D98CB9431C2D880E0029A6F7 /* ImageDetailVC.swift */,
+				D98CB9451C2D8ADC0029A6F7 /* ImageDetailPageVC.swift */,
+			);
+			name = ImageViewVC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,9 +309,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D98CB9081C2998100029A6F7 /* SecondViewController.swift in Sources */,
+				D98CB93D1C29A2BB0029A6F7 /* DBImage.swift in Sources */,
+				D98CB9381C299C140029A6F7 /* ResultsCollectionVC.swift in Sources */,
+				D98CB9351C29996F0029A6F7 /* TabVC.swift in Sources */,
+				D98CB93B1C29A24F0029A6F7 /* Derpibooru.swift in Sources */,
+				D98CB9411C2D86EB0029A6F7 /* DerpiFlowLayout.swift in Sources */,
+				D98CB9441C2D880E0029A6F7 /* ImageDetailVC.swift in Sources */,
 				D98CB9041C2998100029A6F7 /* AppDelegate.swift in Sources */,
-				D98CB9061C2998100029A6F7 /* FirstViewController.swift in Sources */,
+				D98CB93F1C2BA7160029A6F7 /* ResultsCollectionCellVC.swift in Sources */,
+				D98CB9461C2D8ADC0029A6F7 /* ImageDetailPageVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
