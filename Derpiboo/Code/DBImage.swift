@@ -117,6 +117,14 @@ class DBImage: NSObject {
     }
     
     // ------------------------------------
+    // MARK: - Methods - Image Resizing
+    // ------------------------------------
+    
+//    func resizeImage(image: UIImage, type: DBImageType) -> (UIImage, DBImageType) {
+//        
+//    }
+    
+    // ------------------------------------
     // MARK: - Methods - Error Handling
     // ------------------------------------
     
@@ -162,4 +170,11 @@ struct DBImageDimensions {
         self.width = width
         self.height = height
     }
+}
+
+enum DBImageType {
+    case Thumbnail
+    case FullImage
+    case FullImageOptimized
+    case ThumbnailOptimized
 }

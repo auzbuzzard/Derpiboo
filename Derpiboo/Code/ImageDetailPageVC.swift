@@ -14,6 +14,11 @@ class ImageDetailPageVC: UIViewController, UIPageViewControllerDataSource {
     // MARK: Variables / Stores
     // ------------------------------------
     
+    @IBAction func openInSafari(sender: UIBarButtonItem) {
+        let url = NSURL(string: "https://derpibooru.org/\(imageArray[imageArrayIndexFromSegue].id_number)")
+        UIApplication.sharedApplication().openURL(url!)
+    }
+    
     var pageViewController: UIPageViewController!
     
     var imageArrayIndexFromSegue: Int!
@@ -35,6 +40,7 @@ class ImageDetailPageVC: UIViewController, UIPageViewControllerDataSource {
         
         pageViewController = storyboard?.instantiateViewControllerWithIdentifier("ImageDetailPageViewController") as! UIPageViewController
         pageViewController.dataSource = self
+        pageViewController.view.backgroundColor = UIColor.blackColor()
         
         let startVC = viewControllerAtIndex(imageArrayIndexFromSegue) as ImageDetailVC
         let VCs = [startVC]
@@ -45,10 +51,26 @@ class ImageDetailPageVC: UIViewController, UIPageViewControllerDataSource {
         view.addSubview(pageViewController.view)
         pageViewController.didMoveToParentViewController(self)
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        navigationController?.hidesBarsOnTap = true
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    // ------------------------------------
+    // MARK: Navigation Controller
+    // ------------------------------------
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return navigationController?.navigationBarHidden == true
+    }
+    
+    override func preferredStatusBarUpdateAnimation() -> UIStatusBarAnimation {
+        return UIStatusBarAnimation.Slide
     }
     
     // ------------------------------------

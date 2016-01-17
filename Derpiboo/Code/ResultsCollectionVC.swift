@@ -46,6 +46,10 @@ class ResultsCollectionVC: UICollectionViewController, DBImageThumbnailDelegate 
             } else { return }
         }
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        navigationController?.hidesBarsOnTap = false
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -129,10 +133,13 @@ class ResultsCollectionVC: UICollectionViewController, DBImageThumbnailDelegate 
         cell.backgroundColor = UIColor.whiteColor()
         if let image = imageArrayImageAtIndexPath(indexPath) {
             cell.imageView.image = image.thumbnail
+            if let upvote = image.scores?.upvote, downvote = image.scores?.downvote, favvote = image.scores?.favvote {
+                cell.upvoteText.text = "\(upvote)"
+                cell.downvoteText.text = "\(downvote)"
+                cell.favvoteText.text = "\(favvote)"
+            }
         }
-        if let index = indexPathToImageArrayIndex(indexPath) {
-            cell.imageLabel.text = "\(index)"
-        }
+
         
         return cell
     }
@@ -196,6 +203,25 @@ class ResultsCollectionVC: UICollectionViewController, DBImageThumbnailDelegate 
             }
         }
     }
+}
+
+// -------------------
+// FlowLayout Delegate
+// -------------------
+
+extension ResultsCollectionVC: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        let collectionWidth = CGRectGetWidth(collectionView.bounds)
+        var itemWidth = collectionWidth / 3
+        
+        if(UI_USER_INTERFACE_IDIOM() == .Pad) {
+            itemWidth = collectionWidth / 4
+        }
+        
+        return CGSizeMake(itemWidth - 2, itemWidth + 20);
+    }
+    
 }
 
 // ------------------------------------

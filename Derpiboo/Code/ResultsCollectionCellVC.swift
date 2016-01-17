@@ -11,6 +11,9 @@ import UIKit
 class ResultsCollectionCellVC: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var imageLabel: UILabel!
+    
+    @IBOutlet weak var upvoteText: UILabel!
+    @IBOutlet weak var downvoteText: UILabel!
+    @IBOutlet weak var favvoteText: UILabel!
     
 }
