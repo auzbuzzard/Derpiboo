@@ -161,7 +161,7 @@ class Derpibooru: NSObject, DerpibooruDataSource {
                 query! += ",safe"
             }
             let escapedString = query!.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())
-            queryAPI = "&q=\(escapedString)"
+            queryAPI = "&q=\(escapedString!)"
             jsonKey = .Search
         } else {
             if forceNotLoggedInUserSafeMode {

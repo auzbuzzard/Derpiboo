@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D9216B801C5C370A008008ED /* FeaturedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9216B7F1C5C370A008008ED /* FeaturedVC.swift */; };
+		D9216B831C5C3878008008ED /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9216B821C5C3878008008ED /* SearchVC.swift */; };
 		D98CB9041C2998100029A6F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB9031C2998100029A6F7 /* AppDelegate.swift */; };
 		D98CB90B1C2998100029A6F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D98CB9091C2998100029A6F7 /* Main.storyboard */; };
 		D98CB90D1C2998100029A6F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D98CB90C1C2998100029A6F7 /* Assets.xcassets */; };
@@ -43,6 +45,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D9216B7F1C5C370A008008ED /* FeaturedVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeaturedVC.swift; path = Derpiboo/Code/FeaturedVC.swift; sourceTree = "<group>"; };
+		D9216B821C5C3878008008ED /* SearchVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchVC.swift; path = Derpiboo/Code/SearchVC.swift; sourceTree = "<group>"; };
 		D98CB9001C2998100029A6F7 /* Derpiboo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Derpiboo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D98CB9031C2998100029A6F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D98CB90A1C2998100029A6F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -92,6 +96,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D9216B811C5C370F008008ED /* FeaturedVC */ = {
+			isa = PBXGroup;
+			children = (
+				D9216B7F1C5C370A008008ED /* FeaturedVC.swift */,
+			);
+			name = FeaturedVC;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		D9216B841C5C389A008008ED /* SearchVC */ = {
+			isa = PBXGroup;
+			children = (
+				D9216B821C5C3878008008ED /* SearchVC.swift */,
+			);
+			name = SearchVC;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		D98CB8F71C2998100029A6F7 = {
 			isa = PBXGroup;
 			children = (
@@ -121,6 +143,8 @@
 				D98CB9031C2998100029A6F7 /* AppDelegate.swift */,
 				D98CB9091C2998100029A6F7 /* Main.storyboard */,
 				D98CB9391C29A1FA0029A6F7 /* Backend */,
+				D9216B811C5C370F008008ED /* FeaturedVC */,
+				D9216B841C5C389A008008ED /* SearchVC */,
 				D98CB9361C299B4C0029A6F7 /* ResultsCollectionVC */,
 				D98CB9421C2D87E80029A6F7 /* ImageViewVC */,
 				D9A88C971C302A2B00E14671 /* ProfileVC */,
@@ -323,6 +347,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9216B801C5C370A008008ED /* FeaturedVC.swift in Sources */,
 				D9A88C991C302A5500E14671 /* ProfileVC.swift in Sources */,
 				D98CB93D1C29A2BB0029A6F7 /* DBImage.swift in Sources */,
 				D98CB9381C299C140029A6F7 /* ResultsCollectionVC.swift in Sources */,
@@ -332,6 +357,7 @@
 				D9A88C9B1C30E90300E14671 /* SettingTableVC.swift in Sources */,
 				D98CB9441C2D880E0029A6F7 /* ImageDetailVC.swift in Sources */,
 				D98CB9041C2998100029A6F7 /* AppDelegate.swift in Sources */,
+				D9216B831C5C3878008008ED /* SearchVC.swift in Sources */,
 				D98CB93F1C2BA7160029A6F7 /* ResultsCollectionCellVC.swift in Sources */,
 				D98CB9461C2D8ADC0029A6F7 /* ImageDetailPageVC.swift in Sources */,
 			);

@@ -38,13 +38,7 @@ class ResultsCollectionVC: UICollectionViewController, DBImageThumbnailDelegate 
         pullToRefreshControl.addTarget(self, action: "pullToRefresh", forControlEvents: UIControlEvents.ValueChanged)
         collectionView?.addSubview(pullToRefreshControl)
         
-        dataSource!.loadNewImages(nil) { error in
-            if error == nil {
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.collectionView?.reloadData()
-                }
-            } else { return }
-        }
+        //loadNewImages(nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -111,6 +105,17 @@ class ResultsCollectionVC: UICollectionViewController, DBImageThumbnailDelegate 
             if visibleItems.contains(indexPath) {
                 self.collectionView?.reloadItemsAtIndexPaths([indexPath])
             }
+        }
+    }
+    
+    //for access from parent view controllers
+    func loadNewImages(query: String?) {
+        dataSource!.loadNewImages(query) { error in
+            if error == nil {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.collectionView?.reloadData()
+                }
+            } else { return }
         }
     }
     
