@@ -29,7 +29,7 @@ class ImageDetailVC: UIViewController, DBImageFullImageDelegate {
         if (scrollView.zoomScale > scrollView.minimumZoomScale) {
             scrollView.setZoomScale(scrollView.minimumZoomScale, animated: true)
         } else {
-            scrollView.setZoomScale(scrollView.maximumZoomScale, animated: true)
+            scrollView.setZoomScale(scrollView.minimumZoomScale * 3, animated: true)
         }
     }
     

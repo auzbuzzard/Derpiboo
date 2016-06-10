@@ -125,6 +125,14 @@ class DBImage: NSObject {
 //    }
     
     // ------------------------------------
+    // MARK: - Memory and Data Management
+    // ------------------------------------
+    
+    func didReceiveMemoryWarning() {
+        fullImage = nil
+    }
+    
+    // ------------------------------------
     // MARK: - Methods - Error Handling
     // ------------------------------------
     

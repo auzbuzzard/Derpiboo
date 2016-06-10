@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import SafariServices
 
-class SettingTableVC: UITableViewController {
+class SettingTableVC: UITableViewController, SFSafariViewControllerDelegate {
     
     // ------------------------------------
     // MARK: ViewController Life Cycle
@@ -59,5 +60,36 @@ class SettingTableVC: UITableViewController {
     @IBAction func useAPIKeyToggle(sender: UISwitch) {
         defaults.setBool(sender.on, forKey: "userAPIKeySwitch")
     }
-
+    
+    // ------------------------------------
+    // MARK: TableViewVC
+    // ------------------------------------
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.section == 1 && indexPath.row == 0 {
+            getAPIKeyFromDB()
+        }
+        if indexPath.section == 2 && indexPath.row == 0 {
+            getFilterSettingsFromDB()
+        }
+    }
+    
+    
+    // ------------------------------------
+    // MARK: backend
+    // ------------------------------------
+    
+    func getAPIKeyFromDB() {
+        let url = NSURL(string: "https://derpibooru.org/users/edit")
+        let svc = SFSafariViewController(URL: url!, entersReaderIfAvailable: false)
+        svc.delegate = self
+        self.presentViewController(svc, animated: true, completion: nil)
+    }
+    
+    func getFilterSettingsFromDB() {
+        let url = NSURL(string: "https://derpibooru.org/filters")
+        let svc = SFSafariViewController(URL: url!, entersReaderIfAvailable: false)
+        svc.delegate = self
+        self.presentViewController(svc, animated: true, completion: nil)
+    }
 }

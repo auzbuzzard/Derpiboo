@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchVC: UIViewController {
+class SearchVC: UIViewController, UISearchBarDelegate {
     
     // ------------------------------------
     // MARK: Variables / Stores
@@ -17,6 +17,7 @@ class SearchVC: UIViewController {
     var collectionVC: ResultsCollectionVC!
     
     var searchController: UISearchController?
+    var searchActive : Bool = false
     
     // ------------------------------------
     // MARK: ViewController Life Cycle
@@ -28,10 +29,11 @@ class SearchVC: UIViewController {
         setUpSearchBar()
         
         collectionVC = storyboard?.instantiateViewControllerWithIdentifier("ResultsCollectionVC") as! ResultsCollectionVC
+        collectionVC.dataSource = Derpibooru.listInstance
         addChildViewController(collectionVC)
         view.addSubview(collectionVC.view)
         
-        collectionVC.loadNewImages("twilight sparkle")
+        //collectionVC.loadNewImages("twilight sparkle")
 
         // Do any additional setup after loading the view.
     }
@@ -42,6 +44,30 @@ class SearchVC: UIViewController {
     }
     
     // ------------------------------------
+    // MARK: - Search Bar
+    // ------------------------------------
+    
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        searchActive = true
+    }
+    
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        searchActive = false
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        searchActive = false
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        searchActive = false
+        collectionVC.searchTerm = searchBar.text
+        collectionVC.clearCollectionView()
+        collectionVC.loadNewImages(searchBar.text)
+    }
+    
+    
+    // ------------------------------------
     // MARK: - Convenience Methods
     // ------------------------------------
     
@@ -49,7 +75,7 @@ class SearchVC: UIViewController {
         self.searchController = UISearchController(searchResultsController:  nil)
         
         //self.searchController!.delegate = self
-        //self.searchController!.searchBar.delegate = self
+        self.searchController!.searchBar.delegate = self
         
         self.searchController!.hidesNavigationBarDuringPresentation = false
         self.searchController!.dimsBackgroundDuringPresentation = false

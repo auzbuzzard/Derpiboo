@@ -7,21 +7,33 @@
 //
 
 import UIKit
+import SafariServices
 
-class ImageDetailPageVC: UIViewController, UIPageViewControllerDataSource {
+class ImageDetailPageVC: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, SFSafariViewControllerDelegate {
     
     // ------------------------------------
     // MARK: Variables / Stores
     // ------------------------------------
     
     @IBAction func openInSafari(sender: UIBarButtonItem) {
-        let url = NSURL(string: "https://derpibooru.org/\(imageArray[imageArrayIndexFromSegue].id_number)")
-        UIApplication.sharedApplication().openURL(url!)
+        let url = NSURL(string: "https://derpibooru.org/\(imageArray[curentArrayIndex].id_number)")
+        let svc = SFSafariViewController(URL: url!, entersReaderIfAvailable: true)
+        svc.delegate = self
+        self.presentViewController(svc, animated: true, completion: nil)
     }
+    
+    //SFSafariView
+    
+    func safariViewControllerDidFinish(controller: SFSafariViewController)
+    {
+        controller.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     
     var pageViewController: UIPageViewController!
     
     var imageArrayIndexFromSegue: Int!
+    var curentArrayIndex: Int = 0
     
     // ------------------------------------
     // MARK: DerpibooruDataSource
@@ -40,10 +52,13 @@ class ImageDetailPageVC: UIViewController, UIPageViewControllerDataSource {
         
         pageViewController = storyboard?.instantiateViewControllerWithIdentifier("ImageDetailPageViewController") as! UIPageViewController
         pageViewController.dataSource = self
+        pageViewController.delegate = self
         pageViewController.view.backgroundColor = UIColor.blackColor()
         
         let startVC = viewControllerAtIndex(imageArrayIndexFromSegue) as ImageDetailVC
         let VCs = [startVC]
+        
+        curentArrayIndex = imageArrayIndexFromSegue
         
         pageViewController.setViewControllers(VCs, direction: .Forward, animated: true, completion: nil)
         
@@ -55,9 +70,16 @@ class ImageDetailPageVC: UIViewController, UIPageViewControllerDataSource {
     override func viewDidAppear(animated: Bool) {
         navigationController?.hidesBarsOnTap = true
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        if navigationController?.navigationBarHidden == true {
+            navigationController?.setNavigationBarHidden(false, animated: false)
+        }
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        parentViewController?.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
@@ -86,7 +108,7 @@ class ImageDetailPageVC: UIViewController, UIPageViewControllerDataSource {
             return nil
         }
         
-        index--
+        index -= 1
         
         return viewControllerAtIndex(index)
     }
@@ -96,20 +118,31 @@ class ImageDetailPageVC: UIViewController, UIPageViewControllerDataSource {
         let vc = viewController as! ImageDetailVC
         var index = vc.currentImageArrayIndex as Int
         
-        if index == 0 || index == NSNotFound {
+        if index == imageArray.count - 1 || index == NSNotFound {
             return nil
         }
         
-        index++
+        index += 1
         
         return viewControllerAtIndex(index)
+    }
+    
+    // ------------------------------------
+    // MARK: UIPageViewControllerDelegate
+    // ------------------------------------
+    
+    func pageViewController(pageViewController: UIPageViewController, willTransitionToViewControllers pendingViewControllers: [UIViewController]) {
+        if let pageItemController = pendingViewControllers[0] as? ImageDetailVC {
+            curentArrayIndex = pageItemController.currentImageArrayIndex
+        }
     }
     
     // ------------------------------------
     // MARK: Convenience Method
     // ------------------------------------
     
-    func viewControllerAtIndex(index: Int) -> ImageDetailVC {                if imageArray.count == 0 || index >= imageArray.count {
+    func viewControllerAtIndex(index: Int) -> ImageDetailVC {
+        if imageArray.count == 0 || index >= imageArray.count {
             return ImageDetailVC()
         }
         

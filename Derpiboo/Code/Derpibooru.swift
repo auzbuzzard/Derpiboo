@@ -12,10 +12,15 @@ protocol DerpibooruDataSource {
     var imageArray: [DBImage] { get }
     var searchTerm: String? { get set }
     func setDBImageThumbailDelegate(delegate: DBImageThumbnailDelegate)
-    func loadNewImages(query: String?, completion: ErrorType? -> Void)
-    func loadMoreImages(query: String?, completion: ErrorType? -> Void)
+    func didReceiveMemoryWarning()
+    func clearDataSource()
+    func loadNewImages(completion: ErrorType? -> Void)
+    func loadMoreImages(completion: ErrorType? -> Void)
 }
 
+protocol DerpibooruDelegate {
+    func searchDidReturnZeroResults()
+}
 // ------------------------------------
 // Derpibooru - Singleton class that represents the Derpibooru website. Responsible for fetching and acting as the array source of the returned image results
 // ------------------------------------
@@ -32,6 +37,9 @@ class Derpibooru: NSObject, DerpibooruDataSource {
     let defaults = NSUserDefaults.standardUserDefaults()
     let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
     
+    //delegates be here
+    var delegate: DerpibooruDelegate?
+    
     // ------------------------------------
     // MARK: - Variables
     // ------------------------------------
@@ -41,7 +49,7 @@ class Derpibooru: NSObject, DerpibooruDataSource {
     var searchTerm: String?
     
     private var page = 1
-    private let perPage = 50
+    private let perPage = 48
     
     // ------------------------------------
     // MARK: - Useful stuff
@@ -87,6 +95,16 @@ class Derpibooru: NSObject, DerpibooruDataSource {
         
     private func jsonDictToImageArray(jsonDict: NSDictionary, jsonKey: DBJsonKey) {
         if let images = jsonDict[jsonKey.rawValue] as? [NSDictionary] {
+            //Check if json contains image by looking at the total value, if available
+            if jsonKey == .Search {
+                if let total = jsonDict["total"] as? Int {
+                    if total == 0 {
+                        delegate?.searchDidReturnZeroResults()
+                        return
+                    }
+                }
+            }
+            
             for image in images {
                 //core stuff
                 guard let id = image["id"] as? String else { print("error parsing"); continue }
@@ -97,6 +115,7 @@ class Derpibooru: NSObject, DerpibooruDataSource {
                 let thumbURL = NSURL(string: "https:\(thumbURLString)")!
                 
                 let dbImage = DBImage(id: id, id_number: id_number, imageURL: imageURL, thumbURL: thumbURL, session: session)
+                
                 dbImage.downloadThumb()
                 
                 //thumbnailDelegate
@@ -132,15 +151,19 @@ class Derpibooru: NSObject, DerpibooruDataSource {
     // MARK: - Method - Load Images
     // ------------------------------------
     
-    func loadNewImages(query: String?, completion: ErrorType? -> Void) {
+    func clearDataSource() {
         imageArray.removeAll()
+    }
+    
+    func loadNewImages(completion: ErrorType? -> Void) {
+        clearDataSource()
         page = 1
-        loadMoreImages(query) { error in
+        loadMoreImages() { error in
             completion(error)
         }
     }
     
-    func loadMoreImages(var query: String?, completion: ErrorType? -> Void) {
+    func loadMoreImages(completion: ErrorType? -> Void) {
         let pageAPI = "?page=\(page)"
         let perPageAPI = "&perpage=\(perPage)"
         
@@ -156,11 +179,11 @@ class Derpibooru: NSObject, DerpibooruDataSource {
         var jsonKey: DBJsonKey!
         var queryAPI = ""
         
-        if query != nil {
+        if searchTerm != nil {
             if forceNotLoggedInUserSafeMode {
-                query! += ",safe"
+                searchTerm! += ",safe"
             }
-            let escapedString = query!.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())
+            let escapedString = searchTerm!.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())
             queryAPI = "&q=\(escapedString!)"
             jsonKey = .Search
         } else {
@@ -189,7 +212,7 @@ class Derpibooru: NSObject, DerpibooruDataSource {
         }
         
         //Update the page count
-        page++
+        page += 1
     }
     
     // ------------------------------------
@@ -218,6 +241,17 @@ class Derpibooru: NSObject, DerpibooruDataSource {
             }
         } else {
             return nil
+        }
+    }
+    
+    // ------------------------------------
+    // MARK: - Memory and Data Management
+    // ------------------------------------
+    
+    func didReceiveMemoryWarning() {
+        print("DB")
+        _ = imageArray.map() { dbImage in
+            dbImage.didReceiveMemoryWarning()
         }
     }
     

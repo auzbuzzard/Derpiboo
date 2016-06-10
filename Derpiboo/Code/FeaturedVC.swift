@@ -24,6 +24,7 @@ class FeaturedVC: UIViewController {
         super.viewDidLoad()
         
         collectionVC = storyboard?.instantiateViewControllerWithIdentifier("ResultsCollectionVC") as! ResultsCollectionVC
+        collectionVC.dataSource = Derpibooru.defaultInstance
         addChildViewController(collectionVC)
         view.addSubview(collectionVC.view)
         

@@ -8,7 +8,11 @@
 
 import UIKit
 
-class ResultsCollectionVC: UICollectionViewController, DBImageThumbnailDelegate {
+protocol ResultsCollectionVCDelegate {
+    
+}
+
+class ResultsCollectionVC: UICollectionViewController, DerpibooruDelegate, DBImageThumbnailDelegate {
     
     let cellReuseIdentifier = "resultsCell"
     let footerReuseIdentifier = "resultsCellFooter"
@@ -28,17 +32,15 @@ class ResultsCollectionVC: UICollectionViewController, DBImageThumbnailDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dataSource = Derpibooru.defaultInstance
+        //dataSource = Derpibooru.defaultInstance
         dataSource!.setDBImageThumbailDelegate(self)
 
         self.clearsSelectionOnViewWillAppear = false
         
         pullToRefreshControl = UIRefreshControl()
         pullToRefreshControl.tintColor = UIColor.orangeColor()
-        pullToRefreshControl.addTarget(self, action: "pullToRefresh", forControlEvents: UIControlEvents.ValueChanged)
+        pullToRefreshControl.addTarget(self, action: #selector(ResultsCollectionVC.pullToRefresh), forControlEvents: UIControlEvents.ValueChanged)
         collectionView?.addSubview(pullToRefreshControl)
-        
-        //loadNewImages(nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -47,26 +49,7 @@ class ResultsCollectionVC: UICollectionViewController, DBImageThumbnailDelegate 
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-    }
-    
-    // ------------------------------------
-    // MARK: IBAction / IBOutlet
-    // ------------------------------------
-    
-    @IBOutlet weak var searchButton: UIBarButtonItem!
-    @IBAction func searchButtonClicked(sender: UIBarButtonItem) {
-        
-        self.searchController = UISearchController(searchResultsController:  nil)
-        
-        self.searchController!.delegate = self
-        self.searchController!.searchBar.delegate = self
-        
-        self.searchController!.hidesNavigationBarDuringPresentation = false
-        self.searchController!.dimsBackgroundDuringPresentation = false
-        
-        self.navigationItem.titleView = searchController!.searchBar
-        
-        self.definesPresentationContext = true
+        dataSource?.didReceiveMemoryWarning()
     }
     
     // ------------------------------------
@@ -77,6 +60,14 @@ class ResultsCollectionVC: UICollectionViewController, DBImageThumbnailDelegate 
     var imageArray: [DBImage] { get { return dataSource!.imageArray } }
     var searchTerm: String? { get { return dataSource!.searchTerm } set { dataSource!.searchTerm = newValue } }
     let numberOfSections = 1
+    
+    // ------------------------------------
+    // MARK: DerpibooruDelegate
+    // ------------------------------------
+    
+    func searchDidReturnZeroResults() {
+        
+    }
     
     // ------------------------------------
     // MARK: - Convenience Methods
@@ -108,15 +99,27 @@ class ResultsCollectionVC: UICollectionViewController, DBImageThumbnailDelegate 
         }
     }
     
+    func clearCollectionView() {
+        dataSource!.clearDataSource()
+        self.collectionView?.reloadData()
+    }
+    
     //for access from parent view controllers
     func loadNewImages(query: String?) {
-        dataSource!.loadNewImages(query) { error in
+        searchTerm = query
+        dataSource!.clearDataSource()
+        dataSource!.loadNewImages() { error in
             if error == nil {
                 dispatch_async(dispatch_get_main_queue()) {
                     self.collectionView?.reloadData()
+                    self.scrollToTop()
                 }
             } else { return }
         }
+    }
+    
+    func scrollToTop() {
+        collectionView?.setContentOffset(CGPointMake(0, 0 - topLayoutGuide.length), animated: true)
     }
     
     // ------------------------------------
@@ -167,8 +170,7 @@ class ResultsCollectionVC: UICollectionViewController, DBImageThumbnailDelegate 
             vc.derpibooruDataSource = self.dataSource
             vc.imageArrayIndexFromSegue = index
             
-//            //download full image here
-//            imageArray[index].downloadFullImage()
+            vc.hidesBottomBarWhenPushed = true
         }
     }
     
@@ -177,7 +179,7 @@ class ResultsCollectionVC: UICollectionViewController, DBImageThumbnailDelegate 
     // -------------------
     
     func pullToRefresh() {
-        dataSource!.loadNewImages(searchTerm) { error in
+        dataSource!.loadNewImages() { error in
             dispatch_async(dispatch_get_main_queue()) {
                 self.collectionView?.reloadData()
                 self.pullToRefreshControl.endRefreshing()
@@ -187,11 +189,49 @@ class ResultsCollectionVC: UICollectionViewController, DBImageThumbnailDelegate 
     
     override func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
         if indexPath.item == (imageArray.count-1) {
-            dataSource!.loadMoreImages(searchTerm) { error in
+            dataSource!.loadMoreImages() { error in
                 dispatch_async(dispatch_get_main_queue()) {
                     collectionView.reloadData()
                 }
             }
+        }
+    }
+    
+//    override func collectionView(collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, atIndexPath indexPath: NSIndexPath) {
+//        
+//        switch elementKind {
+//            
+//        case UICollectionElementKindSectionFooter: break
+//            
+//            
+//        default:
+//            
+//            assert(false, "Unexpected element kind")
+//        }
+//            
+//    }
+    
+    override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        switch kind {
+            
+        case UICollectionElementKindSectionHeader:
+            
+            let headerView = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "resultsHeader", forIndexPath: indexPath)
+            
+            headerView.backgroundColor = UIColor.blueColor();
+            return headerView
+            
+        case UICollectionElementKindSectionFooter:
+            let footerView = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "resultsFooter", forIndexPath: indexPath) as! ResultsCollectionFooterVC
+            
+            footerView.footerLabel.text = "loading more…"
+            
+            
+            return footerView
+            
+        default:
+            
+            assert(false, "Unexpected element kind")
         }
     }
     
@@ -227,46 +267,4 @@ extension ResultsCollectionVC: UICollectionViewDelegateFlowLayout {
         return CGSizeMake(itemWidth - 2, itemWidth + 20);
     }
     
-}
-
-// ------------------------------------
-// SearchControllerDelegate
-// ------------------------------------
-
-extension ResultsCollectionVC: UISearchControllerDelegate {
-    func didPresentSearchController(searchController: UISearchController) {
-        navigationItem.setRightBarButtonItem(nil, animated: true)
-    }
-    
-    func didDismissSearchController(searchController: UISearchController) {
-        navigationItem.setRightBarButtonItem(searchButton, animated: true)
-    }
-}
-
-// ------------------------------------
-// SearchBarDelegate
-// ------------------------------------
-
-extension ResultsCollectionVC: UISearchBarDelegate {
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-//        guard let _ = searchBar.text else { return }
-//        searchTerm = searchBar.text
-//        dataSource?.clearImageArray()
-//        collectionView?.reloadData()
-//        dataSource?.loadNewImagesBySearch(searchTerm!) { error in
-//            dispatch_async(dispatch_get_main_queue()) {
-//                self.collectionView?.reloadData()
-//            }
-//        }
-    }
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-//        searchTerm = nil
-//        imageDataSource?.clearImageArray()
-//        collectionView?.reloadData()
-//        imageDataSource?.loadNewImages() { error in
-//            dispatch_async(dispatch_get_main_queue()) {
-//                self.collectionView?.reloadData()
-//            }
-//        }
-    }
 }

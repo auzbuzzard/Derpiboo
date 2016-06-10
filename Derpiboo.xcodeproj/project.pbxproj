@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D92065C01CD7ECDC002AF3D7 /* ProfileHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92065BF1CD7ECDC002AF3D7 /* ProfileHeaderCell.swift */; };
 		D9216B801C5C370A008008ED /* FeaturedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9216B7F1C5C370A008008ED /* FeaturedVC.swift */; };
 		D9216B831C5C3878008008ED /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9216B821C5C3878008008ED /* SearchVC.swift */; };
 		D98CB9041C2998100029A6F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB9031C2998100029A6F7 /* AppDelegate.swift */; };
@@ -23,6 +24,7 @@
 		D98CB9411C2D86EB0029A6F7 /* DerpiFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB9401C2D86EB0029A6F7 /* DerpiFlowLayout.swift */; };
 		D98CB9441C2D880E0029A6F7 /* ImageDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB9431C2D880E0029A6F7 /* ImageDetailVC.swift */; };
 		D98CB9461C2D8ADC0029A6F7 /* ImageDetailPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB9451C2D8ADC0029A6F7 /* ImageDetailPageVC.swift */; };
+		D9A0823E1CCAF2CA006F481D /* ResultsCollectionFooterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0823D1CCAF2CA006F481D /* ResultsCollectionFooterVC.swift */; };
 		D9A88C991C302A5500E14671 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88C981C302A5500E14671 /* ProfileVC.swift */; };
 		D9A88C9B1C30E90300E14671 /* SettingTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88C9A1C30E90300E14671 /* SettingTableVC.swift */; };
 /* End PBXBuildFile section */
@@ -45,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D92065BF1CD7ECDC002AF3D7 /* ProfileHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileHeaderCell.swift; path = Code/ProfileHeaderCell.swift; sourceTree = "<group>"; };
 		D9216B7F1C5C370A008008ED /* FeaturedVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeaturedVC.swift; path = Derpiboo/Code/FeaturedVC.swift; sourceTree = "<group>"; };
 		D9216B821C5C3878008008ED /* SearchVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchVC.swift; path = Derpiboo/Code/SearchVC.swift; sourceTree = "<group>"; };
 		D98CB9001C2998100029A6F7 /* Derpiboo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Derpiboo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -67,6 +70,7 @@
 		D98CB9401C2D86EB0029A6F7 /* DerpiFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DerpiFlowLayout.swift; path = Code/DerpiFlowLayout.swift; sourceTree = "<group>"; };
 		D98CB9431C2D880E0029A6F7 /* ImageDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageDetailVC.swift; path = Code/ImageDetailVC.swift; sourceTree = "<group>"; };
 		D98CB9451C2D8ADC0029A6F7 /* ImageDetailPageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageDetailPageVC.swift; path = Code/ImageDetailPageVC.swift; sourceTree = "<group>"; };
+		D9A0823D1CCAF2CA006F481D /* ResultsCollectionFooterVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResultsCollectionFooterVC.swift; path = Code/ResultsCollectionFooterVC.swift; sourceTree = "<group>"; };
 		D9A88C981C302A5500E14671 /* ProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileVC.swift; path = Code/ProfileVC.swift; sourceTree = "<group>"; };
 		D9A88C9A1C30E90300E14671 /* SettingTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingTableVC.swift; path = Code/SettingTableVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -185,6 +189,7 @@
 			children = (
 				D98CB9371C299C140029A6F7 /* ResultsCollectionVC.swift */,
 				D98CB93E1C2BA7160029A6F7 /* ResultsCollectionCellVC.swift */,
+				D9A0823D1CCAF2CA006F481D /* ResultsCollectionFooterVC.swift */,
 				D98CB9401C2D86EB0029A6F7 /* DerpiFlowLayout.swift */,
 			);
 			name = ResultsCollectionVC;
@@ -212,6 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				D9A88C981C302A5500E14671 /* ProfileVC.swift */,
+				D92065BF1CD7ECDC002AF3D7 /* ProfileHeaderCell.swift */,
 			);
 			name = ProfileVC;
 			sourceTree = "<group>";
@@ -351,7 +357,9 @@
 				D9A88C991C302A5500E14671 /* ProfileVC.swift in Sources */,
 				D98CB93D1C29A2BB0029A6F7 /* DBImage.swift in Sources */,
 				D98CB9381C299C140029A6F7 /* ResultsCollectionVC.swift in Sources */,
+				D9A0823E1CCAF2CA006F481D /* ResultsCollectionFooterVC.swift in Sources */,
 				D98CB9351C29996F0029A6F7 /* TabVC.swift in Sources */,
+				D92065C01CD7ECDC002AF3D7 /* ProfileHeaderCell.swift in Sources */,
 				D98CB93B1C29A24F0029A6F7 /* Derpibooru.swift in Sources */,
 				D98CB9411C2D86EB0029A6F7 /* DerpiFlowLayout.swift in Sources */,
 				D9A88C9B1C30E90300E14671 /* SettingTableVC.swift in Sources */,
@@ -502,6 +510,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Derpiboo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.austinmchau.Derpiboo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -513,6 +522,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Derpiboo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.austinmchau.Derpiboo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
