@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="r1r-jo-pJj">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <scenes>
+        <!--Tab BarVC-->
+        <scene sceneID="BaQ-pu-fnA">
+            <objects>
+                <tabBarController id="r1r-jo-pJj" customClass="TabBarVC" customModule="Derpiboo" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="Cpl-kd-x4L">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="ofg-5T-aRu" kind="relationship" relationship="viewControllers" id="M0F-J5-heh"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="n9l-l6-c1Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-690" y="233"/>
+        </scene>
+        <!--Item-->
+        <scene sceneID="oz3-Kf-UXO">
+            <objects>
+                <navigationController id="ofg-5T-aRu" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="bYa-S7-GHE"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="135-l4-WlX">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="LEt-9k-ONK" kind="relationship" relationship="rootViewController" id="pYZ-Vg-iWz"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="T1F-yN-DUp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="22" y="-214"/>
+        </scene>
+        <!--Home RootVC-->
+        <scene sceneID="V8Y-OZ-Nrq">
+            <objects>
+                <viewController id="LEt-9k-ONK" customClass="HomeRootVC" customModule="Derpiboo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="T5W-nm-dzF"/>
+                        <viewControllerLayoutGuide type="bottom" id="3OD-zZ-r2y"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="7nI-g9-Vrh">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="AOm-Q9-7qB"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ciZ-1o-BzA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="715" y="-214"/>
+        </scene>
+        <!--Image GridVC-->
+        <scene sceneID="Ybz-7b-blS">
+            <objects>
+                <collectionViewController storyboardIdentifier="ImageGridVC" id="jqm-2F-3OS" customClass="ImageGridVC" customModule="Derpiboo" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="0CN-Ph-E7I">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="dlJ-dq-6vO">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="gridCell" id="sGa-b7-sJw">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="jqm-2F-3OS" id="ZSN-Cf-78H"/>
+                            <outlet property="delegate" destination="jqm-2F-3OS" id="2FI-mV-CRk"/>
+                        </connections>
+                    </collectionView>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lf0-OE-pQg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1293" y="-875"/>
+        </scene>
+    </scenes>
+</document>
