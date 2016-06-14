@@ -79,23 +79,7 @@ class ImageGridVC: UICollectionViewController {
             //cell.scoreLabel.text = "\(dbImage.score ?? 0)"
             //cell.commentLabel.text = "\(dbImage.comment_count ?? 0)"
             
-            if let image = dbImage.getImage(DBImage.ImageSizeType.thumb, urlSession: urlSession, completion: onImageDownloadComplete
-                
-//                dbImage, error in
-//                dispatch_async(dispatch_get_main_queue()) {
-////                    guard let indexPath = self.indexPathFromDBImage(dbImage) else { return }
-////                    for vcell in (self.collectionView?.visibleCells())! {
-////                        if self.collectionView?.indexPathForCell(vcell) == indexPath {
-////                            self.collectionView?.reloadItemsAtIndexPaths([indexPath])
-////                            //cell.cellImageView.image = dbImage.thumbImage
-////                            break
-////                        }
-////                    }
-            
-//                }
-            
-                
-            ) {
+            if let image = dbImage.getImage(DBImage.ImageSizeType.thumb, urlSession: urlSession, completion: onImageDownloadComplete) {
                 cell.cellImageView.image = image
             }
         }

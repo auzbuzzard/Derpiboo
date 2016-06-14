@@ -78,10 +78,8 @@ class DBImage {
     
     func getImage(ofSizeType: ImageSizeType, urlSession: NSURLSession, completion: (image: DBImage, error: ErrorType?) -> Void) -> UIImage? {
         if let image = getImageOfSizeType(ofSizeType) {
-            print("has image")
             return image
         } else {
-            print("dont have image")
             downloadImage(ofSizeType, urlSession: urlSession) {
                 image, error in
                 completion(image: image, error: error)
@@ -108,14 +106,13 @@ class DBImage {
     
     private func getImageURLOfSizeType(ofSizeType: ImageSizeType) -> String? {
         switch ofSizeType {
-        case .thumb: return thumb_tiny
+        case .thumb: return thumb
         case .large: return large
         case .full: return image
         }
     }
     
     func downloadImage(ofSizeType: ImageSizeType, urlSession: NSURLSession, completion: (image: DBImage, error: ErrorType?) -> Void) {
-        //guard let u = thumb else { print("doo"); return }
         guard let u = getImageURLOfSizeType(ofSizeType) else { print("download thumbnail url error, \(getImageOfSizeType(ofSizeType))"); return }
         guard let url = NSURL(string: "https:\(u)") else { print("download thumbnail url error, url: \(u)"); return }
         
