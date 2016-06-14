@@ -65,11 +65,84 @@ class DBImage {
     var largeImage: UIImage?
     var fullImage: UIImage?
     
+    enum ImageSizeType {
+        case thumb
+        case large
+        case full
+    }
+    
     init(id: String, id_number: Int) {
         self.id = id
         self.id_number = id_number
     }
     
+    func getImage(ofSizeType: ImageSizeType, urlSession: NSURLSession, completion: (image: DBImage, error: ErrorType?) -> Void) -> UIImage? {
+        if let image = getImageOfSizeType(ofSizeType) {
+            print("has image")
+            return image
+        } else {
+            print("dont have image")
+            downloadImage(ofSizeType, urlSession: urlSession) {
+                image, error in
+                completion(image: image, error: error)
+            }
+            return nil
+        }
+    }
     
+    func getImageOfSizeType(ofSizeType: ImageSizeType) -> UIImage? {
+        switch ofSizeType {
+        case .thumb: return thumbImage
+        case.large: return largeImage
+        case.full: return fullImage
+        }
+    }
+    
+    private func setImageOfSizeType(ofSizeType: ImageSizeType, image: UIImage) {
+        switch ofSizeType {
+        case .thumb: thumbImage = image
+        case.large: largeImage = image
+        case.full: fullImage = image
+        }
+    }
+    
+    private func getImageURLOfSizeType(ofSizeType: ImageSizeType) -> String? {
+        switch ofSizeType {
+        case .thumb: return thumb_tiny
+        case .large: return large
+        case .full: return image
+        }
+    }
+    
+    func downloadImage(ofSizeType: ImageSizeType, urlSession: NSURLSession, completion: (image: DBImage, error: ErrorType?) -> Void) {
+        //guard let u = thumb else { print("doo"); return }
+        guard let u = getImageURLOfSizeType(ofSizeType) else { print("download thumbnail url error, \(getImageOfSizeType(ofSizeType))"); return }
+        guard let url = NSURL(string: "https:\(u)") else { print("download thumbnail url error, url: \(u)"); return }
+        
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        
+        let dataTask = urlSession.dataTaskWithURL(url) {
+            data, response, error in
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            }
+            
+            if let error = error {
+                print(error.localizedDescription)
+            } else if let HTTPResponse = response as? NSHTTPURLResponse {
+                if HTTPResponse.statusCode == 200 {
+                    guard let data = data else { return completion(image: self, error: error) }
+                    guard let image = UIImage(data: data) else { print("data to image error"); return completion(image: self, error: error) }
+                    self.setImageOfSizeType(ofSizeType, image: image)
+                    completion(image: self, error: nil)
+                    
+                } else {
+                    print("HTTP Error (\(HTTPResponse.statusCode)")
+                }
+            }
+        }
+        dataTask.resume()
+    }
     
 }

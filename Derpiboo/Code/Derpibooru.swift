@@ -180,22 +180,26 @@ class Derpibooru {
             let source_url = image["source_url"] as? String
             dbImage.source_url = source_url
             
-            let thumb_tiny = image["thumb_tiny"] as? String
-            dbImage.thumb_tiny = thumb_tiny
-            let thumb_small = image["thumb_small"] as? String
-            dbImage.thumb_small = thumb_small
-            let thumb = image["thumb"] as? String
-            dbImage.thumb = thumb
-            let small = image["small"] as? String
-            dbImage.small = small
-            let medium = image["medium"] as? String
-            dbImage.medium = medium
-            let large = image["large"] as? String
-            dbImage.large = large
-            let tall = image["tall"] as? String
-            dbImage.tall = tall
-            let full = image["full"] as? String
-            dbImage.full = full
+            if let representations = image["representations"] as? NSDictionary {
+                
+                let thumb_tiny = representations["thumb_tiny"] as? String
+                dbImage.thumb_tiny = thumb_tiny
+                let thumb_small = representations["thumb_small"] as? String
+                dbImage.thumb_small = thumb_small
+                let thumb = representations["thumb"] as? String
+                dbImage.thumb = thumb
+                let small = representations["small"] as? String
+                dbImage.small = small
+                let medium = representations["medium"] as? String
+                dbImage.medium = medium
+                let large = representations["large"] as? String
+                dbImage.large = large
+                let tall = representations["tall"] as? String
+                dbImage.tall = tall
+                let full = representations["full"] as? String
+                dbImage.full = full
+                
+            }
             
              let is_rendered = image["is_rendered"] as? Bool
             dbImage.is_rendered = is_rendered
