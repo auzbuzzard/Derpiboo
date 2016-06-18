@@ -11,6 +11,7 @@ import UIKit
 class ImageGridVC: UICollectionViewController {
     
     private let cellReuseIdentifier = "gridCell"
+    private let footerReuseIdentifier = "gridFooter"
     
     var derpibooru: Derpibooru!
     var images: [DBImage] { get { return derpibooru.images } }
@@ -18,27 +19,55 @@ class ImageGridVC: UICollectionViewController {
     var refreshControl: UIRefreshControl!
     
     let urlSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    
+    var isLoadingImages: Bool = false {
+        didSet {
+            shouldLoadMoreImage = !isLoadingImages
+        }
+    }
+    var shouldLoadMoreImage: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationController?.hidesBarsOnSwipe = true
 
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(pullToRefresh), forControlEvents: .ValueChanged)
         collectionView?.addSubview(refreshControl)
-        collectionView?.backgroundColor = Utils.ColorDark.background
-        
-        pullToRefresh()
+        collectionView?.backgroundColor = Utils.color().background
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
+    func loadNewImages() {
+        pullToRefresh()
+    }
+    
     @objc private func pullToRefresh() {
+        isLoadingImages = true
         derpibooru.loadNewImages() {
             error in
             dispatch_async(dispatch_get_main_queue()) {
+                self.isLoadingImages = false
                 self.refreshControl.endRefreshing()
+                self.collectionView?.reloadData()
+            }
+        }
+    }
+    
+    private func loadMoreImages(completion: (error: ErrorType?, isEndOfResults: Bool) -> Void) {
+        isLoadingImages = true
+        let currentImagesCount = images.count
+        derpibooru.loadMoreImages() {
+            error in
+            self.isLoadingImages = false
+            if let error = error { completion(error: error, isEndOfResults: false); return }
+            let bool = currentImagesCount == self.images.count
+            dispatch_async(dispatch_get_main_queue()) {
+                completion(error: nil, isEndOfResults: bool)
                 self.collectionView?.reloadData()
             }
         }
@@ -67,17 +96,29 @@ class ImageGridVC: UICollectionViewController {
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellReuseIdentifier, forIndexPath: indexPath) as! ImageGridCellVC
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellReuseIdentifier, forIndexPath: indexPath) as! ImageGridCell
         
         cell.layer.shouldRasterize = true
         cell.layer.rasterizationScale = UIScreen.mainScreen().scale
         
-        cell.backgroundColor = Utils.ColorDark.background2
+        cell.contentView.layer.borderWidth = 1
+        cell.contentView.layer.borderColor = Utils.color().background2.CGColor
+        
+        cell.backgroundColor = Utils.color().background
+        cell.stackViewBackgroundView.backgroundColor = Utils.color().background2
+        
+        cell.favIcon.textColor = Utils.color().fav
+        cell.favLabel.textColor = Utils.color().fav
+        cell.upvIcon.textColor = Utils.color().upv
+        cell.scoreLabel.textColor = Utils.color().labelText
+        cell.dnvIcon.textColor = Utils.color().dnv
+        cell.commentIcon.textColor = Utils.color().comment
+        cell.commentLabel.textColor = Utils.color().comment
         
         if let dbImage = dbImageFromIndexPath(indexPath) {
-            //cell.favLabel.text = "\(dbImage.faves ?? 0)"
-            //cell.scoreLabel.text = "\(dbImage.score ?? 0)"
-            //cell.commentLabel.text = "\(dbImage.comment_count ?? 0)"
+            cell.favLabel.text = "\(dbImage.faves ?? 0)"
+            cell.scoreLabel.text = "\(dbImage.score ?? 0)"
+            cell.commentLabel.text = "\(dbImage.comment_count ?? 0)"
             
             if let image = dbImage.getImage(DBImage.ImageSizeType.thumb, urlSession: urlSession, completion: onImageDownloadComplete) {
                 cell.cellImageView.image = image
@@ -85,6 +126,26 @@ class ImageGridVC: UICollectionViewController {
         }
         
         return cell
+    }
+    
+    override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        let footer = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: footerReuseIdentifier, forIndexPath: indexPath) as! ImageGridFooter
+        
+        footer.footerLabel.textColor = Utils.color().labelText
+        footer.footerLabel.text = isLoadingImages == true ? "Loading" : images.count == 0 ? "" : "Loading More"
+        
+        if shouldLoadMoreImage {
+            loadMoreImages() {
+                error, isEndOfResults in
+                if error == nil {
+                    if isEndOfResults {
+                        footer.footerLabel.text = "End of Results"
+                    }
+                }
+            }
+        }
+        
+        return footer
     }
     
     func onImageDownloadComplete(dbImage: DBImage, error: ErrorType?) {
@@ -126,6 +187,11 @@ class ImageGridVC: UICollectionViewController {
         return imageIndexToIndexPath(index)
     }
     
+    func clearImageGrid() {
+        derpibooru.clearImages()
+        collectionView?.reloadData()
+    }
+    
     
     //FlowLayout
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
@@ -162,21 +228,33 @@ extension ImageGridVC: UICollectionViewDelegateFlowLayout {
     
 }
 
-class ImageGridCellVC: UICollectionViewCell {
+class ImageGridCell: UICollectionViewCell {
     
+    @IBOutlet weak var stackViewBackgroundView: UIView!
+    @IBOutlet weak var favIcon: UILabel!
     @IBOutlet weak var favLabel: UILabel!
+    @IBOutlet weak var upvIcon: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
+    @IBOutlet weak var dnvIcon: UILabel!
+    @IBOutlet weak var commentIcon: UILabel!
     @IBOutlet weak var commentLabel: UILabel!
     
     @IBOutlet weak var cellImageView: UIImageView!
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        
         cellImageView.image = nil
     }
     
     override func preferredLayoutAttributesFittingAttributes(layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
         return layoutAttributes
     }
+    
+}
+
+class ImageGridFooter: UICollectionReusableView {
+    
+    @IBOutlet weak var footerLabel: UILabel!
     
 }

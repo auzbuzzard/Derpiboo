@@ -21,6 +21,8 @@ class HomeRootVC: UIViewController {
         
         addChildViewController(imageGrid)
         view.addSubview(imageGrid.view)
+        
+        imageGrid.loadNewImages()
 
         // Do any additional setup after loading the view.
     }
