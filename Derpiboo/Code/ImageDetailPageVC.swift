@@ -5,15 +5,30 @@
 //  Created by Austin Chau on 6/18/16.
 //  Copyright © 2016 Austin Chau. All rights reserved.
 //
-
 import UIKit
+import SafariServices
 
-class ImageDetailPageVC: UIPageViewController {
+class ImageDetailPageVC: UIPageViewController, SFSafariViewControllerDelegate {
     
     var derpibooru: Derpibooru!
     
     var imageIndexFromSegue: Int!
     var currentImageIndex: Int!
+    
+    @IBAction func openInSafari(sender: UIBarButtonItem) {
+        let url = NSURL(string: "https://derpibooru.org/\(derpibooru.images[currentImageIndex].id_number)")
+        let svc = SFSafariViewController(URL: url!, entersReaderIfAvailable: true)
+        svc.delegate = self
+        self.presentViewController(svc, animated: true, completion: nil)
+    }
+    
+    
+    //SFSafariView
+    
+    func safariViewControllerDidFinish(controller: SFSafariViewController)
+    {
+        controller.dismissViewControllerAnimated(true, completion: nil)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
