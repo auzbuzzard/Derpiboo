@@ -73,15 +73,26 @@ class ImageGridVC: UICollectionViewController {
         }
     }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "showImageDetail" {
+            guard let indexPath = collectionView?.indexPathsForSelectedItems()?[0] else { return }
+            guard let index = indexPathToImageIndex(indexPath) else { return }
+            
+            let vc = segue.destinationViewController as! ImageDetailPageVC
+            
+            vc.derpibooru = derpibooru
+            vc.imageIndexFromSegue = index
+            
+            vc.hidesBottomBarWhenPushed = true
+            //print("swipe: \(navigationController?.hidesBarsOnSwipe), tap: \(navigationController?.hidesBarsOnTap)")
+            navigationController?.hidesBarsOnSwipe = false
+        }
     }
-    */
+    
 
     // MARK: UICollectionViewDataSource
 
@@ -203,19 +214,31 @@ class ImageGridVC: UICollectionViewController {
 extension ImageGridVC: UICollectionViewDelegateFlowLayout {
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        
-        let collectionWidth = CGRectGetWidth(collectionView.bounds)
-        
-        let targetSizeMax: CGFloat = UI_USER_INTERFACE_IDIOM() == .Pad ? 160 : 120
-        
-        var rowSize: CGFloat = 1
-        while collectionWidth / rowSize > targetSizeMax {
-            rowSize += 1
+        //target rows: iPAD: 4 or 6, iPhone 3 or 5
+
+        let collectionWidth = collectionView.bounds.width
+        var itemWidth: CGFloat = 60
+        let orientation = UIApplication.sharedApplication().statusBarOrientation
+        if UI_USER_INTERFACE_IDIOM() == .Pad {
+            itemWidth = orientation == .Portrait ? collectionWidth / 4 : collectionWidth / 6
+        } else if UI_USER_INTERFACE_IDIOM() == .Phone {
+            itemWidth = orientation == .Portrait ? collectionWidth / 3 : collectionWidth / 5
         }
         
-        let itemWidth = collectionWidth / (rowSize - 1)
+        return CGSize(width: itemWidth - 2, height: itemWidth + 20)
         
-        return CGSizeMake(itemWidth - 2, itemWidth + 20)
+//        let collectionWidth = CGRectGetWidth(collectionView.bounds)
+//        
+//        let targetSizeMax: CGFloat = UI_USER_INTERFACE_IDIOM() == .Pad ? 160 : 120
+//        
+//        var rowSize: CGFloat = 1
+//        while collectionWidth / rowSize > targetSizeMax {
+//            rowSize += 1
+//        }
+//        
+//        let itemWidth = collectionWidth / (rowSize - 1)
+//        
+//        return CGSizeMake(itemWidth - 2, itemWidth + 20)
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {

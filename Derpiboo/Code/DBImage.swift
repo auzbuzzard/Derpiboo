@@ -80,7 +80,7 @@ class DBImage {
         if let image = getImageOfSizeType(ofSizeType) {
             return image
         } else {
-            downloadImage(ofSizeType, urlSession: urlSession) {
+            downloadImage(ofSizeType: ofSizeType, urlSession: urlSession) {
                 image, error in
                 completion(image: image, error: error)
             }
@@ -96,7 +96,7 @@ class DBImage {
         }
     }
     
-    private func setImageOfSizeType(ofSizeType: ImageSizeType, image: UIImage) {
+    func setImageOfSizeType(ofSizeType: ImageSizeType, image: UIImage) {
         switch ofSizeType {
         case .thumb: thumbImage = image
         case.large: largeImage = image
@@ -112,8 +112,17 @@ class DBImage {
         }
     }
     
-    func downloadImage(ofSizeType: ImageSizeType, urlSession: NSURLSession, completion: (image: DBImage, error: ErrorType?) -> Void) {
-        guard let u = getImageURLOfSizeType(ofSizeType) else { print("download thumbnail url error, \(getImageOfSizeType(ofSizeType))"); return }
+    func downloadImage(ofSizeType sizeType: ImageSizeType, urlSession: NSURLSession) {
+        guard let u = getImageURLOfSizeType(sizeType) else { print("download thumbnail url error, \(getImageOfSizeType(sizeType))"); return }
+        guard let url = NSURL(string: "https:\(u)") else { print("download thumbnail url error, url: \(u)"); return }
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        
+        let dataTask = urlSession.dataTaskWithURL(url)
+        dataTask.resume()
+    }
+    
+    func downloadImage(ofSizeType sizeType: ImageSizeType, urlSession: NSURLSession, completion: (image: DBImage, error: ErrorType?) -> Void) {
+        guard let u = getImageURLOfSizeType(sizeType) else { print("download thumbnail url error, \(getImageOfSizeType(sizeType))"); return }
         guard let url = NSURL(string: "https:\(u)") else { print("download thumbnail url error, url: \(u)"); return }
         
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
@@ -130,9 +139,13 @@ class DBImage {
             } else if let HTTPResponse = response as? NSHTTPURLResponse {
                 if HTTPResponse.statusCode == 200 {
                     guard let data = data else { return completion(image: self, error: error) }
-                    guard let image = UIImage(data: data) else { print("data to image error"); return completion(image: self, error: error) }
-                    self.setImageOfSizeType(ofSizeType, image: image)
-                    completion(image: self, error: nil)
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+                        guard let image = UIImage(data: data) else { print("data to image error"); return completion(image: self, error: error) }
+                        self.setImageOfSizeType(sizeType, image: image)
+                        dispatch_async(dispatch_get_main_queue()) {
+                            completion(image: self, error: nil)
+                        }
+                    }
                     
                 } else {
                     print("HTTP Error (\(HTTPResponse.statusCode)")
