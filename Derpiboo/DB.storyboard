@@ -4,7 +4,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Segues with Peek and Pop" minToolsVersion="7.1"/>
     </dependencies>
     <scenes>
         <!--Tab BarVC-->
@@ -77,7 +76,7 @@
             </objects>
             <point key="canvasLocation" x="22" y="1152"/>
         </scene>
-        <!--Title-->
+        <!--Account-->
         <scene sceneID="YPZ-dd-i99">
             <objects>
                 <tableViewController id="yd1-7n-IHs" customClass="AccountRootVC" customModule="Derpiboo" customModuleProvider="target" sceneMemberID="viewController">
@@ -253,7 +252,7 @@
                             <outlet property="delegate" destination="yd1-7n-IHs" id="sj7-gT-RmH"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Title" id="vfh-o1-4SQ">
+                    <navigationItem key="navigationItem" title="Account" id="vfh-o1-4SQ">
                         <barButtonItem key="rightBarButtonItem" image="SettingsIcon" id="aN7-Pf-r3d">
                             <connections>
                                 <segue destination="oX0-FS-bJS" kind="show" id="Dhz-k5-DaZ"/>
@@ -291,7 +290,7 @@
                                                         <action selector="usernameFieldEnter:" destination="oX0-FS-bJS" eventType="editingDidEnd" id="V2L-ml-8yP"/>
                                                     </connections>
                                                 </textField>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Usernname" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p49-mr-END">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p49-mr-END">
                                                     <rect key="frame" x="8" y="11" width="92" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="92" id="ohQ-V3-yKZ"/>
@@ -351,7 +350,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aWI-2L-BDz">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use login credentials" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aWI-2L-BDz">
                                                     <rect key="frame" x="8" y="11" width="527" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -450,7 +449,7 @@
             </objects>
             <point key="canvasLocation" x="22" y="1843"/>
         </scene>
-        <!--Lists RootVC-->
+        <!--Lists-->
         <scene sceneID="kaW-qc-Ltl">
             <objects>
                 <viewController id="SM9-HD-QPo" customClass="ListsRootVC" customModule="Derpiboo" customModuleProvider="target" sceneMemberID="viewController">
@@ -463,7 +462,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="ANN-cH-qky"/>
+                    <navigationItem key="navigationItem" title="Lists" id="ANN-cH-qky"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O4d-91-owX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -635,7 +634,7 @@
             </objects>
             <point key="canvasLocation" x="1360" y="1152"/>
         </scene>
-        <!--Search RootVC-->
+        <!--Search-->
         <scene sceneID="92f-cB-Ph5">
             <objects>
                 <viewController id="SxE-rl-1az" customClass="SearchRootVC" customModule="Derpiboo" customModuleProvider="target" sceneMemberID="viewController">
@@ -648,13 +647,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="kta-Aw-mck"/>
+                    <navigationItem key="navigationItem" title="Search" id="kta-Aw-mck"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cR9-UA-FVQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="715" y="474"/>
         </scene>
-        <!--Home RootVC-->
+        <!--Home-->
         <scene sceneID="V8Y-OZ-Nrq">
             <objects>
                 <viewController id="LEt-9k-ONK" customClass="HomeRootVC" customModule="Derpiboo" customModuleProvider="target" sceneMemberID="viewController">
@@ -667,7 +666,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="AOm-Q9-7qB"/>
+                    <navigationItem key="navigationItem" title="Home" id="AOm-Q9-7qB"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ciZ-1o-BzA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -783,10 +782,7 @@
                                     <outlet property="scoreLabel" destination="TWg-sH-bxM" id="kPK-C3-K3P"/>
                                     <outlet property="stackViewBackgroundView" destination="iD8-Sw-oWT" id="E2F-gU-ugh"/>
                                     <outlet property="upvIcon" destination="kCs-pc-seW" id="w79-hS-eW1"/>
-                                    <segue destination="sx3-oR-0J2" kind="show" identifier="showImageDetail" id="2Xu-9K-5Ld">
-                                        <segue key="commit" inheritsFrom="parent" id="eiX-yw-Ggy"/>
-                                        <segue key="preview" inheritsFrom="commit" id="fZo-dx-79m"/>
-                                    </segue>
+                                    <segue destination="lpz-k3-CvM" kind="show" identifier="showImageDetail" id="cTF-ev-zKa"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -829,12 +825,51 @@
             <point key="canvasLocation" x="1305" y="-873"/>
         </scene>
         <!--Image Detail PageVC-->
-        <scene sceneID="nc5-N7-pqL">
+        <scene sceneID="Vf5-mu-j2Y">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" pageSpacing="10" navigationOrientation="horizontal" spineLocation="none" id="sx3-oR-0J2" customClass="ImageDetailPageVC" customModule="Derpiboo" customModuleProvider="target" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bq0-Dt-3LG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="lpz-k3-CvM" customClass="ImageDetailPageVC" customModule="Derpiboo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Z9u-1a-AC1"/>
+                        <viewControllerLayoutGuide type="bottom" id="DHm-Qk-vfa"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Nrb-7z-4az">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems>
+                        <barButtonItem systemItem="action" id="jPy-Sk-Foa"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="o24-kT-3IK"/>
+                        <barButtonItem title="Details" id="oex-IG-VLx">
+                            <connections>
+                                <segue destination="ufk-HE-bU0" kind="presentation" identifier="imageDetailModal" id="3L6-xZ-sqp"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="j23-9G-acu"/>
+                        <barButtonItem title="♥︎" id="mSL-Fp-wA6"/>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" id="fOw-m8-wnA">
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="W5h-Kz-YRm">
+                            <connections>
+                                <action selector="openInSafari:" destination="lpz-k3-CvM" id="F0M-An-7qc"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="singleTapGR" destination="yQ2-ok-0Xz" id="f0j-Z4-fgp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ey4-wb-8Hl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="yQ2-ok-0Xz">
+                    <connections>
+                        <action selector="singleTapDetected:" destination="lpz-k3-CvM" id="RVm-Y7-XKY"/>
+                        <outlet property="delegate" destination="Nrb-7z-4az" id="d9A-XS-NRY"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1958" y="-873"/>
+            <point key="canvasLocation" x="1954" y="-873"/>
         </scene>
         <!--Image DetailVC-->
         <scene sceneID="lzA-ou-VKE">
@@ -848,9 +883,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="nZs-i7-BJN">
-                                <rect key="frame" x="160" y="299" width="280" height="2"/>
-                            </progressView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="6" translatesAutoresizingMaskIntoConstraints="NO" id="HMp-pb-9d9">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
@@ -874,6 +906,9 @@
                                     <outlet property="delegate" destination="AY3-dT-CGn" id="Djc-Fs-yLo"/>
                                 </connections>
                             </scrollView>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="nZs-i7-BJN">
+                                <rect key="frame" x="160" y="299" width="280" height="2"/>
+                            </progressView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -903,7 +938,155 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2598" y="-873"/>
+            <point key="canvasLocation" x="1954" y="-1540"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="ICF-hx-b9H">
+            <objects>
+                <navigationController id="ufk-HE-bU0" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="CRe-9b-lSd">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="G7O-hk-Jxg" kind="relationship" relationship="rootViewController" id="JoV-Kn-Dwm"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EQY-5T-IAU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2643" y="-873"/>
+        </scene>
+        <!--Info Pane RootVC-->
+        <scene sceneID="Fbu-na-oXX">
+            <objects>
+                <viewController id="G7O-hk-Jxg" customClass="InfoPaneRootVC" customModule="Derpiboo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ctr-XZ-tDg"/>
+                        <viewControllerLayoutGuide type="bottom" id="lWd-sc-gIH"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="3jU-K4-dVJ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="qqo-jx-6CI">
+                        <nil key="title"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="ABn-Ls-Vop">
+                            <rect key="frame" x="180" y="7" width="240" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="Details"/>
+                                <segment title="Comments"/>
+                            </segments>
+                            <connections>
+                                <action selector="infoPaneTabValueChanged:" destination="G7O-hk-Jxg" eventType="valueChanged" id="RzJ-Rh-bqT"/>
+                            </connections>
+                        </segmentedControl>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="Oq9-tP-eXU">
+                            <connections>
+                                <segue destination="b81-ZN-5jE" kind="unwind" unwindAction="returnToImageDetailPageVC:" id="5Pi-hu-ybb"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NgZ-LP-F1p" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="b81-ZN-5jE" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="3291" y="-873"/>
+        </scene>
+        <!--Info Pane DetailsVC-->
+        <scene sceneID="YAd-Kq-4Yj">
+            <objects>
+                <tableViewController storyboardIdentifier="InfoPaneDetailsVC" id="DYk-bd-dVP" customClass="InfoPaneDetailsVC" customModule="Derpiboo" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="190" sectionHeaderHeight="28" sectionFooterHeight="28" id="CPG-8C-Plb">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="infoPaneDetailsCell" id="zMb-mG-0sb" customClass="InfoPaneDetailsCell" customModule="Derpiboo" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="600" height="190"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zMb-mG-0sb" id="qtM-To-LX7">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="189.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Mdp-bi-GQ5">
+                                            <rect key="frame" x="8" y="8" width="584" height="174"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CRo-sd-NTU">
+                                                    <rect key="frame" x="0.0" y="0.0" width="584" height="30"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="uCI-An-ESV">
+                                                    <rect key="frame" x="0.0" y="30" width="584" height="144"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="144" placeholder="YES" id="X3R-8n-nh7"/>
+                                                    </constraints>
+                                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no"/>
+                                                    <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                                                </textView>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottomMargin" secondItem="Mdp-bi-GQ5" secondAttribute="bottom" id="0Nb-MH-zxC"/>
+                                        <constraint firstItem="Mdp-bi-GQ5" firstAttribute="top" secondItem="qtM-To-LX7" secondAttribute="topMargin" id="LXn-m4-WPT"/>
+                                        <constraint firstItem="Mdp-bi-GQ5" firstAttribute="trailing" secondItem="qtM-To-LX7" secondAttribute="trailingMargin" id="Rzd-Qy-iTL"/>
+                                        <constraint firstItem="Mdp-bi-GQ5" firstAttribute="leading" secondItem="qtM-To-LX7" secondAttribute="leadingMargin" id="zzv-jA-5Pr"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <edgeInsets key="layoutMargins" top="8" left="0.0" bottom="8" right="8"/>
+                                <connections>
+                                    <outlet property="contentField" destination="uCI-An-ESV" id="Fyx-yy-i6l"/>
+                                    <outlet property="stackView" destination="Mdp-bi-GQ5" id="4IH-QT-4Yi"/>
+                                    <outlet property="titleLabel" destination="CRo-sd-NTU" id="0aZ-Fe-McU"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="DYk-bd-dVP" id="4Gr-S7-S7H"/>
+                            <outlet property="delegate" destination="DYk-bd-dVP" id="ofC-oE-BLd"/>
+                        </connections>
+                    </tableView>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="M8B-4s-Y4q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3957" y="-1357"/>
+        </scene>
+        <!--Info Pane CommentsVC-->
+        <scene sceneID="bBU-BL-DpC">
+            <objects>
+                <tableViewController storyboardIdentifier="InfoPaneCommentsVC" id="FMc-7C-av8" customClass="InfoPaneCommentsVC" customModule="Derpiboo" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="nB1-N6-IbV">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="infoPaneCommentsCell" id="I8f-Pw-wQ4" customClass="InfoPaneCommentsCell" customModule="Derpiboo" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="I8f-Pw-wQ4" id="SoF-L5-atC">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="FMc-7C-av8" id="VNc-gG-Aad"/>
+                            <outlet property="delegate" destination="FMc-7C-av8" id="GyO-DC-xCi"/>
+                        </connections>
+                    </tableView>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xbq-cP-Mqt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3957" y="-663"/>
         </scene>
     </scenes>
     <resources>
@@ -911,7 +1094,4 @@
         <image name="HomeIcon" width="25" height="25"/>
         <image name="SettingsIcon" width="25" height="25"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="2Xu-9K-5Ld"/>
-    </inferredMetricsTieBreakers>
 </document>

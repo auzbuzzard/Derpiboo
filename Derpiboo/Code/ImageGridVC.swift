@@ -10,8 +10,12 @@ import UIKit
 
 class ImageGridVC: UICollectionViewController {
     
+    //--- TableViewRID ---//
+    
     private let cellReuseIdentifier = "gridCell"
     private let footerReuseIdentifier = "gridFooter"
+    
+    //--- Data and Objects ---//
     
     var derpibooru: Derpibooru!
     var images: [DBImage] { get { return derpibooru.images } }
@@ -20,12 +24,16 @@ class ImageGridVC: UICollectionViewController {
     
     let urlSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
     
+    //--- Useful Properties ---//
+    
     var isLoadingImages: Bool = false {
         didSet {
             shouldLoadMoreImage = !isLoadingImages
         }
     }
     var shouldLoadMoreImage: Bool = false
+    
+    //--- View Cycles ---//
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +49,8 @@ class ImageGridVC: UICollectionViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    //--- Loading Images ---//
     
     func loadNewImages() {
         pullToRefresh()
@@ -74,9 +84,8 @@ class ImageGridVC: UICollectionViewController {
     }
 
     
-    // MARK: - Navigation
+    //--- Segues ---//
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showImageDetail" {
             guard let indexPath = collectionView?.indexPathsForSelectedItems()?[0] else { return }
@@ -88,14 +97,13 @@ class ImageGridVC: UICollectionViewController {
             vc.imageIndexFromSegue = index
             
             vc.hidesBottomBarWhenPushed = true
-            //print("swipe: \(navigationController?.hidesBarsOnSwipe), tap: \(navigationController?.hidesBarsOnTap)")
             navigationController?.hidesBarsOnSwipe = false
         }
     }
     
 
-    // MARK: UICollectionViewDataSource
-
+    //--- UICollectionViewDataSource ---//
+    
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -174,7 +182,7 @@ class ImageGridVC: UICollectionViewController {
         
     }
     
-    //Convenience
+    //--- Convenience Methods ---//
     
     func indexPathToImageIndex(indexPath: NSIndexPath) -> Int? {
         if indexPath.row < images.count {
@@ -204,9 +212,32 @@ class ImageGridVC: UICollectionViewController {
     }
     
     
-    //FlowLayout
+    //--- Orientation Change ---//
+    
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         collectionView?.collectionViewLayout.invalidateLayout()
+    }
+    
+    //--- ScrollView ---//
+    
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
+        if let tabbar = tabBarController?.tabBar {
+            if navigationController?.navigationBar.hidden == true {
+                UIView.animateWithDuration(0.5, delay: 0.0, options: [.BeginFromCurrentState, .CurveEaseOut, .AllowAnimatedContent], animations: {
+                    tabbar.frame.origin.y += tabbar.frame.size.height
+                    }, completion: {
+                        bool in
+                        
+                })
+            } else {
+                UIView.animateWithDuration(0.5, delay: 0.0, options: [.BeginFromCurrentState, .CurveEaseOut, .AllowAnimatedContent], animations: {
+                    tabbar.frame.origin.y -= tabbar.frame.size.height
+                    }, completion: {
+                        bool in
+                        
+                })
+            }
+        }
     }
 
 }

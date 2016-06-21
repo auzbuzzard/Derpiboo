@@ -43,6 +43,9 @@
 		D9A88C991C302A5500E14671 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88C981C302A5500E14671 /* ProfileVC.swift */; };
 		D9A88C9B1C30E90300E14671 /* SettingTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88C9A1C30E90300E14671 /* SettingTableVC.swift */; };
 		D9F6F5B81D151A440027D122 /* SearchRootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F6F5B71D151A440027D122 /* SearchRootVC.swift */; };
+		D9F866A01D18C53800FBE9B5 /* InfoPaneRootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F8669F1D18C53800FBE9B5 /* InfoPaneRootVC.swift */; };
+		D9F866A21D18C55300FBE9B5 /* InfoPaneDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F866A11D18C55300FBE9B5 /* InfoPaneDetailsVC.swift */; };
+		D9F866A41D18C56300FBE9B5 /* InfoPaneCommentsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F866A31D18C56300FBE9B5 /* InfoPaneCommentsVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +108,9 @@
 		D9A88C981C302A5500E14671 /* ProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileVC.swift; path = Code/ProfileVC.swift; sourceTree = "<group>"; };
 		D9A88C9A1C30E90300E14671 /* SettingTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingTableVC.swift; path = Code/SettingTableVC.swift; sourceTree = "<group>"; };
 		D9F6F5B71D151A440027D122 /* SearchRootVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchRootVC.swift; path = Code/SearchRootVC.swift; sourceTree = "<group>"; };
+		D9F8669F1D18C53800FBE9B5 /* InfoPaneRootVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InfoPaneRootVC.swift; path = Code/InfoPaneRootVC.swift; sourceTree = "<group>"; };
+		D9F866A11D18C55300FBE9B5 /* InfoPaneDetailsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InfoPaneDetailsVC.swift; path = Code/InfoPaneDetailsVC.swift; sourceTree = "<group>"; };
+		D9F866A31D18C56300FBE9B5 /* InfoPaneCommentsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InfoPaneCommentsVC.swift; path = Code/InfoPaneCommentsVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,6 +223,7 @@
 		D96F8FCB1D1622BF002D3F48 /* Results */ = {
 			isa = PBXGroup;
 			children = (
+				D9F8669E1D18C51C00FBE9B5 /* InfoPane */,
 				D9872A771D1545CB001822A1 /* ImageDetail */,
 				D90B9A231D0BF35F0042817B /* ImageGrid */,
 				D96F8FC21D161D59002D3F48 /* ImageGroup */,
@@ -358,6 +365,16 @@
 			name = Search;
 			sourceTree = "<group>";
 		};
+		D9F8669E1D18C51C00FBE9B5 /* InfoPane */ = {
+			isa = PBXGroup;
+			children = (
+				D9F8669F1D18C53800FBE9B5 /* InfoPaneRootVC.swift */,
+				D9F866A11D18C55300FBE9B5 /* InfoPaneDetailsVC.swift */,
+				D9F866A31D18C56300FBE9B5 /* InfoPaneCommentsVC.swift */,
+			);
+			name = InfoPane;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -492,6 +509,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D90B9A201D0BF2D90042817B /* HomeRootVC.swift in Sources */,
+				D9F866A21D18C55300FBE9B5 /* InfoPaneDetailsVC.swift in Sources */,
 				D9216B801C5C370A008008ED /* FeaturedVC.swift in Sources */,
 				D9A88C991C302A5500E14671 /* ProfileVC.swift in Sources */,
 				D9729E631D16932500EE45D6 /* AccountSettingsVC.swift in Sources */,
@@ -501,8 +519,10 @@
 				D90B9A1D1D0BF2720042817B /* TabBarVC.swift in Sources */,
 				D98CB9381C299C140029A6F7 /* ResultsCollectionVC.swift in Sources */,
 				D9872A7B1D154743001822A1 /* ImageDetailVC.swift in Sources */,
+				D9F866A41D18C56300FBE9B5 /* InfoPaneCommentsVC.swift in Sources */,
 				D9768D161D0C174F00E871C7 /* Utils.swift in Sources */,
 				D96F8FCF1D1624E8002D3F48 /* ImageGroupTableVC.swift in Sources */,
+				D9F866A01D18C53800FBE9B5 /* InfoPaneRootVC.swift in Sources */,
 				D9A0823E1CCAF2CA006F481D /* ResultsCollectionFooterVC.swift in Sources */,
 				D98CB9351C29996F0029A6F7 /* TabVC.swift in Sources */,
 				D9729E611D16779B00EE45D6 /* AccountRootVC.swift in Sources */,

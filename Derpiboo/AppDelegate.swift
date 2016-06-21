@@ -20,6 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UILabel.appearance().textColor = Utils.color().labelText
         UITextField.appearance().tintColor = Utils.color().highlight2
+        //UITextView.appearance().tintColor = Utils.color().highlight
+        
+        UITableView.appearance().backgroundColor = Utils.color().background
+        UITableViewCell.appearance().backgroundColor = Utils.color().background2
         
 //        UITabBar.appearance().barTintColor = UIColor.blackColor()
 //        UITabBar.appearance().tintColor = UIColor.orangeColor()

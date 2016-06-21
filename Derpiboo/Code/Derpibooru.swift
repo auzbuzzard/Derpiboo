@@ -288,7 +288,7 @@ class Derpibooru {
             let comment_count = image["comment_count"] as? Int
             dbImage.comment_count = comment_count
             
-            let tags = image["created_at"] as? String
+            let tags = image["tags"] as? String
             dbImage.tags = tags
             let tag_ids = image["tag_ids"] as? [Int]
             dbImage.tag_ids = tag_ids

@@ -28,14 +28,6 @@ class AccountRootVC: UITableViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 160
         tableView.tableFooterView = UIView()
-        
-        view.backgroundColor = Utils.color().background
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -46,12 +38,10 @@ class AccountRootVC: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return 2
     }
 
@@ -64,7 +54,6 @@ class AccountRootVC: UITableViewController {
             
             cell.imageView?.layer.cornerRadius = (cell.imageView?.frame.size.width)! / 2
             cell.imageView?.clipsToBounds = true
-            cell.backgroundColor = Utils.color().background2
             
             var profile = derpibooru.profile
             
@@ -103,8 +92,6 @@ class AccountRootVC: UITableViewController {
             
         } else if indexPath.row == 1 { //badge
             let cell = tableView.dequeueReusableCellWithIdentifier(badgesReuseIdentifier, forIndexPath: indexPath) as! BadgesTableCell
-            
-            cell.backgroundColor = Utils.color().background2
             
             return cell
         } else {
