@@ -22,7 +22,7 @@ It's a Derpibooru client. It communicates with the site using its API and wrap t
   * wrapping tags in their own clickable button
   * allowing tokens in the search field
   
-## But isn't these apps rejected form the stores?
+## But don't these apps get rejected from the stores?
 It's seemed so. I know that the latest known Android version for derpibooru is rejected from the Play Store. I haven't submitted this to the App Store yet since, it is not finished, but I hope that it would allow the app to be on the store.
 Currently, the app has a "foal safe" feature that prevents anyone who is not logged in (via the more involved approach of copying API) to see anything more than "safe". A hard-coded search is built in to return only images tagged with "safe" if the user is not logged in. It would be hard for users to stumble on suggestive content given that they: must create the account on their own on the site; log into the app; and manually adjust the filter settings on the site itself.
 As for copyright issues, I hope the app could exists on the same terms as the site. I would have to look into this, or hopefully someone could advice me on how to solve this issue.
