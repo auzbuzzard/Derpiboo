@@ -10,11 +10,13 @@ It's a Derpibooru client. It communicates with the site using its API and wrap t
 ### Currently it can:
 * View the /images results. Basically the homepage of derpibooru
 * Search for images. Just type in the search term as you would on the site
+* Viewing details of an image.
 * view your own profile. If you're "logged in", you can view your own avatar, username and description.
 * Logging in. Derpibooru allows injection of your account's API key to fetch results taylored to your account. The most notible effect of this is that the filter you set on the site will be applied. Because it's an API key, not an actual authorization, the user would have to log in via Safari (as an embedded view in the settings menu) to copy their API key from the site. They should also type in their account name to have the profile view working. 
 ### Planned features
 * viewing lists. Especially the default ones
 * user's watch list
+* Viewing comments
 * many bug fixes
 * Way in the future
   * wrapping tags in their own clickable button
