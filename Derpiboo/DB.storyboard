@@ -282,8 +282,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jqo-ZZ-UPw">
-                                                    <rect key="frame" x="108" y="8" width="484" height="30"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jqo-ZZ-UPw">
+                                                    <rect key="frame" x="108" y="8" width="484" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                     <connections>
@@ -301,11 +301,13 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="jqo-ZZ-UPw" firstAttribute="top" secondItem="aSK-Ip-HOu" secondAttribute="topMargin" id="3NX-zO-rQS"/>
+                                                <constraint firstItem="jqo-ZZ-UPw" firstAttribute="top" secondItem="aSK-Ip-HOu" secondAttribute="topMargin" placeholder="YES" id="3NX-zO-rQS"/>
+                                                <constraint firstItem="p49-mr-END" firstAttribute="top" secondItem="aSK-Ip-HOu" secondAttribute="topMargin" constant="3" id="4cg-nk-DK7"/>
                                                 <constraint firstItem="p49-mr-END" firstAttribute="baseline" secondItem="jqo-ZZ-UPw" secondAttribute="baseline" id="9Q2-zO-7lh"/>
                                                 <constraint firstItem="p49-mr-END" firstAttribute="leading" secondItem="aSK-Ip-HOu" secondAttribute="leadingMargin" id="TbK-TN-utX"/>
                                                 <constraint firstItem="jqo-ZZ-UPw" firstAttribute="leading" secondItem="p49-mr-END" secondAttribute="trailing" constant="8" symbolic="YES" id="Z9Q-BX-WnU"/>
                                                 <constraint firstItem="jqo-ZZ-UPw" firstAttribute="trailing" secondItem="aSK-Ip-HOu" secondAttribute="trailingMargin" id="eIw-GG-Vtu"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="p49-mr-END" secondAttribute="bottom" constant="3" id="eaK-dA-rUC"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -316,8 +318,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tq8-n3-eKQ">
-                                                    <rect key="frame" x="108" y="8" width="484" height="30"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tq8-n3-eKQ">
+                                                    <rect key="frame" x="108" y="8" width="484" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                     <connections>
@@ -335,10 +337,12 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="ARj-x8-Avx" firstAttribute="top" secondItem="te7-hX-gT2" secondAttribute="topMargin" constant="3" id="DkA-dF-iS0"/>
                                                 <constraint firstItem="ARj-x8-Avx" firstAttribute="baseline" secondItem="tq8-n3-eKQ" secondAttribute="baseline" id="H9G-dQ-DSr"/>
-                                                <constraint firstItem="tq8-n3-eKQ" firstAttribute="top" secondItem="te7-hX-gT2" secondAttribute="topMargin" id="R5x-x8-OWm"/>
+                                                <constraint firstItem="tq8-n3-eKQ" firstAttribute="top" secondItem="te7-hX-gT2" secondAttribute="topMargin" placeholder="YES" id="R5x-x8-OWm"/>
                                                 <constraint firstItem="ARj-x8-Avx" firstAttribute="leading" secondItem="te7-hX-gT2" secondAttribute="leadingMargin" id="W5s-x8-itK"/>
                                                 <constraint firstItem="tq8-n3-eKQ" firstAttribute="trailing" secondItem="te7-hX-gT2" secondAttribute="trailingMargin" id="g7U-Vt-NPM"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="ARj-x8-Avx" secondAttribute="bottom" constant="3" id="sHv-dI-neS"/>
                                                 <constraint firstItem="tq8-n3-eKQ" firstAttribute="leading" secondItem="ARj-x8-Avx" secondAttribute="trailing" constant="8" symbolic="YES" id="srk-98-Ig8"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -838,7 +842,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems>
-                        <barButtonItem systemItem="action" id="jPy-Sk-Foa"/>
+                        <barButtonItem systemItem="action" id="jPy-Sk-Foa">
+                            <connections>
+                                <action selector="optionsButtonClicked:" destination="lpz-k3-CvM" id="JOx-2L-age"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="o24-kT-3IK"/>
                         <barButtonItem title="Details" id="oex-IG-VLx">
                             <connections>
@@ -907,18 +915,18 @@
                                 </connections>
                             </scrollView>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="nZs-i7-BJN">
-                                <rect key="frame" x="160" y="299" width="280" height="2"/>
+                                <rect key="frame" x="68" y="299" width="464" height="2"/>
                             </progressView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="nZs-i7-BJN" secondAttribute="trailing" constant="48" id="CHu-8D-Cod"/>
+                            <constraint firstItem="nZs-i7-BJN" firstAttribute="leading" secondItem="y9S-hx-czS" secondAttribute="leadingMargin" constant="48" id="F9l-mB-OZy"/>
                             <constraint firstItem="nZs-i7-BJN" firstAttribute="centerX" secondItem="y9S-hx-czS" secondAttribute="centerX" id="McR-st-pnU"/>
                             <constraint firstItem="HMp-pb-9d9" firstAttribute="top" secondItem="y9S-hx-czS" secondAttribute="top" id="RR2-wT-RN2"/>
                             <constraint firstAttribute="bottom" secondItem="HMp-pb-9d9" secondAttribute="bottom" id="Ui9-Rs-etj"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="nZs-i7-BJN" secondAttribute="trailing" constant="140" id="VIV-J3-WDS"/>
                             <constraint firstItem="nZs-i7-BJN" firstAttribute="centerY" secondItem="y9S-hx-czS" secondAttribute="centerY" id="kHG-6Y-d59"/>
                             <constraint firstItem="HMp-pb-9d9" firstAttribute="leading" secondItem="y9S-hx-czS" secondAttribute="leading" id="rLR-2r-7HQ"/>
-                            <constraint firstItem="nZs-i7-BJN" firstAttribute="leading" secondItem="y9S-hx-czS" secondAttribute="leadingMargin" constant="140" id="xz8-2N-Xk0"/>
                             <constraint firstAttribute="trailing" secondItem="HMp-pb-9d9" secondAttribute="trailing" id="yd0-HI-zPb"/>
                         </constraints>
                         <connections>

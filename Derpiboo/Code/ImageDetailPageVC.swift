@@ -32,6 +32,8 @@ class ImageDetailPageVC: UIViewController, SFSafariViewControllerDelegate {
             }
         }
     }
+    @IBAction func optionsButtonClicked(sender: UIBarButtonItem) {
+    }
     
     @IBAction func openInSafari(sender: UIBarButtonItem) {
         let url = NSURL(string: "https://derpibooru.org/\(derpibooru.images[currentImageIndex].id_number)")
@@ -70,6 +72,10 @@ class ImageDetailPageVC: UIViewController, SFSafariViewControllerDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        navigationController?.hidesBarsOnSwipe = false
+        navigationController?.hidesBarsOnTap = true
+        
         if navigationController?.navigationBar.hidden == false {
             navigationController?.setToolbarHidden(false, animated: true)
         }
@@ -78,12 +84,15 @@ class ImageDetailPageVC: UIViewController, SFSafariViewControllerDelegate {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         //print("page swipe: \(navigationController?.hidesBarsOnSwipe), tap: \(navigationController?.hidesBarsOnTap)")
-        navigationController?.hidesBarsOnSwipe = true
-        navigationController?.hidesBarsOnTap = false
+        
         
         if navigationController?.toolbar.hidden == false {
             navigationController?.setToolbarHidden(true, animated: true)
         }
+        
+        navigationController?.hidesBarsOnTap = false
+        navigationController?.hidesBarsOnSwipe = true
+        navigationController?.setToolbarHidden(true, animated: true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -154,8 +163,10 @@ extension ImageDetailPageVC: UIPageViewControllerDelegate {
 extension ImageDetailPageVC: UIGestureRecognizerDelegate {
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer === singleTapGR && otherGestureRecognizer == navigationController?.barHideOnTapGestureRecognizer {
+            print("true")
             return true
         } else {
+            print("false")
             return false
         }
     }

@@ -38,7 +38,9 @@ class ImageGridVC: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.hidesBarsOnSwipe = true
+        
+        
+        tabBarOriginalFrame = tabBarController?.tabBar.frame
 
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(pullToRefresh), forControlEvents: .ValueChanged)
@@ -48,6 +50,12 @@ class ImageGridVC: UICollectionViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.hidesBarsOnSwipe = true
+        
     }
     
     //--- Loading Images ---//
@@ -97,7 +105,6 @@ class ImageGridVC: UICollectionViewController {
             vc.imageIndexFromSegue = index
             
             vc.hidesBottomBarWhenPushed = true
-            navigationController?.hidesBarsOnSwipe = false
         }
     }
     
@@ -220,25 +227,54 @@ class ImageGridVC: UICollectionViewController {
     
     //--- ScrollView ---//
     
+    var tabBarOriginalFrame: CGRect!
+
     override func scrollViewDidScroll(scrollView: UIScrollView) {
-        if let tabbar = tabBarController?.tabBar {
-            if navigationController?.navigationBar.hidden == true {
-                UIView.animateWithDuration(0.5, delay: 0.0, options: [.BeginFromCurrentState, .CurveEaseOut, .AllowAnimatedContent], animations: {
-                    tabbar.frame.origin.y += tabbar.frame.size.height
-                    }, completion: {
-                        bool in
-                        
-                })
-            } else {
-                UIView.animateWithDuration(0.5, delay: 0.0, options: [.BeginFromCurrentState, .CurveEaseOut, .AllowAnimatedContent], animations: {
-                    tabbar.frame.origin.y -= tabbar.frame.size.height
-                    }, completion: {
-                        bool in
-                        
-                })
-            }
+        print("toolbarHidden: \(navigationController?.toolbarHidden), hideBarOnSwipe: \(navigationController?.hidesBarsOnSwipe), hidesBottomBarWhenPushed: \(hidesBottomBarWhenPushed)")
+        
+        
+        var yOffset = scrollView.contentOffset.y
+        let yPanGesture = scrollView.panGestureRecognizer.translationInView(view).y
+        
+        guard let tabBar = tabBarController?.tabBar else { return }
+        
+        let tabBarHeight = tabBar.frame.size.height
+        
+        let tabBarOriginY = tabBar.frame.origin.y
+        let frameHeight = view.frame.size.height
+        
+        if yOffset >= tabBarHeight {
+            yOffset = tabBarHeight
         }
+        
+        //up
+        if yPanGesture >= 0 && yPanGesture < tabBarHeight && tabBarOriginY > frameHeight - tabBarHeight {
+            yOffset = tabBarHeight - fabs(yPanGesture)
+        } else if yPanGesture >= 0 && yPanGesture < tabBarHeight && tabBarOriginY <= frameHeight - tabBarHeight {
+            yOffset = 0
+        }
+            //down
+        else if yPanGesture < 0 && tabBarOriginY < frameHeight {
+            yOffset = fabs(yPanGesture)
+        } else if yPanGesture < 0 && tabBarOriginY >= frameHeight {
+            yOffset = tabBarHeight
+        } else {
+            yOffset = 0
+        }
+        
+        if yOffset > 0 {
+            tabBar.frame = CGRect(x: tabBar.frame.origin.x, y: tabBarOriginalFrame.origin.y + yOffset, width: tabBar.frame.size.width, height: tabBar.frame.size.height)
+        } else if yOffset <= 0 {
+            tabBar.frame = self.tabBarOriginalFrame
+        }
+
     }
+    
+//    override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+//        if scrollView.panGestureRecognizer.translationInView(view).y >= 0 {
+//            navigationController?.toolbarHidden = true
+//        }
+//    }
 
 }
 

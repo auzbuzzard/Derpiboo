@@ -15,8 +15,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        UINavigationBar.appearance().tintColor = Utils.color().highlight
-        UITabBar.appearance().tintColor = Utils.color().highlight
+        //Utils.colorTheme = Utils.ColorTheme.Light
+        
+        if Utils.colorTheme == Utils.ColorTheme.Dark {
+            UINavigationBar.appearance().barStyle = UIBarStyle.Black
+            UIApplication.sharedApplication().statusBarStyle = .LightContent
+        }
+        
+        UINavigationBar.appearance().barTintColor = Utils.color().highlight2
+        UINavigationBar.appearance().tintColor = Utils.color().labelText
+        UITabBar.appearance().barTintColor = Utils.color().highlight2
+        UITabBar.appearance().tintColor = Utils.color().labelText
+        UIToolbar.appearance().barTintColor = Utils.color().highlight2
+        UIToolbar.appearance().tintColor = Utils.color().labelText
         
         UILabel.appearance().textColor = Utils.color().labelText
         UITextField.appearance().tintColor = Utils.color().highlight2
@@ -24,6 +35,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UITableView.appearance().backgroundColor = Utils.color().background
         UITableViewCell.appearance().backgroundColor = Utils.color().background2
+        
+        UISwitch.appearance().tintColor = Utils.color().highlight
         
 //        UITabBar.appearance().barTintColor = UIColor.blackColor()
 //        UITabBar.appearance().tintColor = UIColor.orangeColor()
