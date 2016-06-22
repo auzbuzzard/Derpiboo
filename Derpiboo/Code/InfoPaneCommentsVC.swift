@@ -12,44 +12,107 @@ class InfoPaneCommentsVC: UITableViewController {
     
     private let cellReuseIdentifier = "infoPaneCommentsCell"
     
+    let urlSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    
+    var derpibooru: Derpibooru!
     var dbImage: DBImage!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        print("viewdidload")
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 190.0
+        tableView.tableFooterView = UIView()
+        
+        derpibooru.loadComments(dbImage.id_number) {
+            comments, error in
+            
+            if let error = error { print(error); return }
+            self.dbImage.comments = comments
+            print("Comments: \(self.dbImage.comments?.count)")
+            self.tableView.reloadData()
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        //print("scrollviewinset: \(tableView.contentInset)")
     }
 
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        if let comment = dbImage.comments {
+            return comment.count
+        } else {
+            return 0
+        }
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier, forIndexPath: indexPath)
-
-        // Configure the cell...
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier, forIndexPath: indexPath) as! InfoPaneCommentsCell
+        
+        cell.contentField.textColor = Utils.color().labelText
+        
+        if let comments = dbImage.comments {
+            let comment = comments[indexPath.row]
+            cell.titleLabel.text = comment.author ?? "NO_NAME"
+            cell.contentField.text = comment.body ?? "NO_COMMENT"
+            
+            if var profile = comment.authorProfile {
+                if let avatar = profile.avatar {
+                    cell.avatarImageView.image = avatar
+                } else {
+                    profile.downloadAvatar(urlSession) {
+                        image, error in
+                        if let error = error { print(error); return }
+                        cell.avatarImageView.image = image.avatar
+                    }
+                }
+            } else {
+                let name = comment.author?.stringByReplacingOccurrencesOfString(" ", withString: "+").stringByReplacingOccurrencesOfString("-", withString: "-dash-")
+                derpibooru.loadProfile(returnWithCompletion: name!) {
+                    profile, error in
+                    print("ok for \(indexPath.row)")
+                    if let error = error { print(error); return }
+                    
+                    if var profile = profile {
+                        if let avatar = profile.avatar {
+                            cell.avatarImageView.image = avatar
+                        } else {
+                            profile.downloadAvatar(self.urlSession) {
+                                image, error in
+                                if let error = error { print(error); return }
+                                cell.avatarImageView.image = image.avatar
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }
+        
+        let fixedWidth = cell.contentField.frame.size.width
+        let newSize = cell.contentField.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.max))
+        cell.contentField.frame.size = CGSize(width: max(newSize.width, fixedWidth), height: newSize.height)
 
         return cell
     }
     
+    private func loadComments() {
+        
+    }
 
     /*
     // Override to support conditional editing of the table view.
@@ -100,7 +163,10 @@ class InfoPaneCommentsVC: UITableViewController {
 
 class InfoPaneCommentsCell: UITableViewCell {
     
-    
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var contentField: UITextView!
+    @IBOutlet weak var stackView: UIStackView!
+    @IBOutlet weak var avatarImageView: UIImageView!
     
 }
 

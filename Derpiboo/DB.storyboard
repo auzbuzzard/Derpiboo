@@ -1002,7 +1002,7 @@
             </objects>
             <point key="canvasLocation" x="3291" y="-873"/>
         </scene>
-        <!--Info Pane DetailsVC-->
+        <!--Title-->
         <scene sceneID="YAd-Kq-4Yj">
             <objects>
                 <tableViewController storyboardIdentifier="InfoPaneDetailsVC" id="DYk-bd-dVP" customClass="InfoPaneDetailsVC" customModule="Derpiboo" customModuleProvider="target" sceneMemberID="viewController">
@@ -1027,6 +1027,9 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
+                                                    <variation key="widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="0.0" y="0.0" width="384" height="30"/>
+                                                    </variation>
                                                 </label>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="uCI-An-ESV">
                                                     <rect key="frame" x="0.0" y="30" width="584" height="144"/>
@@ -1037,8 +1040,14 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no"/>
                                                     <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                                                    <variation key="widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="0.0" y="30" width="384" height="144"/>
+                                                    </variation>
                                                 </textView>
                                             </subviews>
+                                            <variation key="widthClass=compact" misplaced="YES">
+                                                <rect key="frame" x="8" y="8" width="384" height="174"/>
+                                            </variation>
                                         </stackView>
                                     </subviews>
                                     <constraints>
@@ -1061,28 +1070,94 @@
                             <outlet property="delegate" destination="DYk-bd-dVP" id="ofC-oE-BLd"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Title" id="6Jn-xF-lGZ"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M8B-4s-Y4q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3957" y="-1357"/>
+            <point key="canvasLocation" x="3945" y="-1220"/>
         </scene>
-        <!--Info Pane CommentsVC-->
+        <!--Title-->
         <scene sceneID="bBU-BL-DpC">
             <objects>
                 <tableViewController storyboardIdentifier="InfoPaneCommentsVC" id="FMc-7C-av8" customClass="InfoPaneCommentsVC" customModule="Derpiboo" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="nB1-N6-IbV">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="190" sectionHeaderHeight="28" sectionFooterHeight="28" id="nB1-N6-IbV">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="infoPaneCommentsCell" id="I8f-Pw-wQ4" customClass="InfoPaneCommentsCell" customModule="Derpiboo" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="infoPaneCommentsCell" id="Mpv-ji-HdX" customClass="InfoPaneCommentsCell" customModule="Derpiboo" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="600" height="190"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="I8f-Pw-wQ4" id="SoF-L5-atC">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Mpv-ji-HdX" id="iqa-DG-dcH">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="189.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="1zn-rm-3UU">
+                                            <rect key="frame" x="116" y="8" width="476" height="174"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2LI-QH-uBA">
+                                                    <rect key="frame" x="0.0" y="0.0" width="476" height="30"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <variation key="widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="0.0" y="0.0" width="324" height="30"/>
+                                                    </variation>
+                                                </label>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="dsM-Aq-qqo">
+                                                    <rect key="frame" x="0.0" y="30" width="476" height="144"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="144" placeholder="YES" id="is7-o2-rNm"/>
+                                                    </constraints>
+                                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no"/>
+                                                    <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                                                    <variation key="widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="0.0" y="30" width="324" height="144"/>
+                                                    </variation>
+                                                </textView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="dsM-Aq-qqo" firstAttribute="leading" secondItem="1zn-rm-3UU" secondAttribute="leading" id="giH-mD-qQY"/>
+                                            </constraints>
+                                            <variation key="widthClass=compact" misplaced="YES">
+                                                <rect key="frame" x="68" y="8" width="324" height="174"/>
+                                            </variation>
+                                        </stackView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="no_avatar" translatesAutoresizingMaskIntoConstraints="NO" id="y2Q-fp-JtA">
+                                            <rect key="frame" x="8" y="8" width="100" height="100"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="100" id="E0g-QG-vCD"/>
+                                                <constraint firstAttribute="width" secondItem="y2Q-fp-JtA" secondAttribute="height" multiplier="1:1" id="W5u-bc-ZxV"/>
+                                            </constraints>
+                                        </imageView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="1zn-rm-3UU" firstAttribute="leading" secondItem="y2Q-fp-JtA" secondAttribute="trailing" constant="8" symbolic="YES" id="4DD-jb-X3V"/>
+                                        <constraint firstItem="y2Q-fp-JtA" firstAttribute="top" secondItem="iqa-DG-dcH" secondAttribute="topMargin" id="50f-Vf-SUN"/>
+                                        <constraint firstItem="1zn-rm-3UU" firstAttribute="leading" secondItem="iqa-DG-dcH" secondAttribute="leadingMargin" constant="120" id="7xO-NE-kkv"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="1zn-rm-3UU" secondAttribute="bottom" id="f6q-ms-L1Z"/>
+                                        <constraint firstItem="1zn-rm-3UU" firstAttribute="top" secondItem="iqa-DG-dcH" secondAttribute="topMargin" id="fSX-UC-0Sk"/>
+                                        <constraint firstItem="1zn-rm-3UU" firstAttribute="trailing" secondItem="iqa-DG-dcH" secondAttribute="trailingMargin" id="mr0-P8-Yng"/>
+                                        <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="y2Q-fp-JtA" secondAttribute="bottom" id="qaK-uB-TwA"/>
+                                        <constraint firstItem="y2Q-fp-JtA" firstAttribute="leading" secondItem="iqa-DG-dcH" secondAttribute="leadingMargin" id="rcm-ZU-S2r"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="7xO-NE-kkv"/>
+                                        </mask>
+                                    </variation>
                                 </tableViewCellContentView>
+                                <edgeInsets key="layoutMargins" top="8" left="0.0" bottom="8" right="8"/>
+                                <connections>
+                                    <outlet property="avatarImageView" destination="y2Q-fp-JtA" id="ypg-Yd-qJW"/>
+                                    <outlet property="contentField" destination="dsM-Aq-qqo" id="mgm-Kg-liB"/>
+                                    <outlet property="stackView" destination="1zn-rm-3UU" id="GJn-6i-ID0"/>
+                                    <outlet property="titleLabel" destination="2LI-QH-uBA" id="QfZ-oW-Iti"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -1090,16 +1165,18 @@
                             <outlet property="delegate" destination="FMc-7C-av8" id="GyO-DC-xCi"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Title" id="G4t-Py-c1P"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xbq-cP-Mqt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3957" y="-663"/>
+            <point key="canvasLocation" x="3945" y="-526"/>
         </scene>
     </scenes>
     <resources>
         <image name="AccountIcon" width="25" height="25"/>
         <image name="HomeIcon" width="25" height="25"/>
         <image name="SettingsIcon" width="25" height="25"/>
+        <image name="no_avatar" width="1024" height="1024"/>
     </resources>
 </document>

@@ -10,10 +10,13 @@ import UIKit
 
 class InfoPaneRootVC: UIViewController {
     
+    var derpibooru: Derpibooru!
     var dbImage: DBImage!
     
     var detailsVC: InfoPaneDetailsVC!
     var commentsVC: InfoPaneCommentsVC!
+    
+    var contentInset: UIEdgeInsets!
 
     @IBAction func infoPaneTabValueChanged(sender: UISegmentedControl) {
         
@@ -22,6 +25,7 @@ class InfoPaneRootVC: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        //print("layoutguide: \(topLayoutGuide.length)")
         
         getInfoPaneChildView(0)
 
@@ -53,27 +57,41 @@ class InfoPaneRootVC: UIViewController {
                 detailsVC = storyboard?.instantiateViewControllerWithIdentifier("InfoPaneDetailsVC") as! InfoPaneDetailsVC
                 detailsVC.dbImage = dbImage
             }
+            if commentsVC != nil {
+                commentsVC.view.removeFromSuperview()
+                commentsVC.removeFromParentViewController()
+            }
             
             //detailsVC.tableView.contentInset = UIEdgeInsets(top: topLayoutGuide.length, left: 0, bottom: bottomLayoutGuide.length, right: 0)
             
-            detailsVC.automaticallyAdjustsScrollViewInsets = true
+            //detailsVC.automaticallyAdjustsScrollViewInsets = true
             
-            view.addSubview(detailsVC.view)
             addChildViewController(detailsVC)
             detailsVC.didMoveToParentViewController(self)
+            view.addSubview(detailsVC.view)
+            view.layoutSubviews()
+            
+            //print("contentInset: \(contentInset)")
             
         } else if index == 1 { //comments
             
             if commentsVC == nil {
                 commentsVC = storyboard?.instantiateViewControllerWithIdentifier("InfoPaneCommentsVC") as! InfoPaneCommentsVC
+                commentsVC.derpibooru = derpibooru
                 commentsVC.dbImage = dbImage
             }
+            if detailsVC != nil {
+                detailsVC.view.removeFromSuperview()
+                detailsVC.removeFromParentViewController()
+            }
             
-            commentsVC.automaticallyAdjustsScrollViewInsets = true
+            //commentsVC.automaticallyAdjustsScrollViewInsets = true
+            commentsVC.tableView.contentInset = contentInset
             
-            view.addSubview(commentsVC.view)
             addChildViewController(commentsVC)
             commentsVC.didMoveToParentViewController(self)
+            view.addSubview(commentsVC.view)
+            view.layoutSubviews()
             
         }
     }

@@ -30,8 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIToolbar.appearance().tintColor = Utils.color().labelText
         
         UILabel.appearance().textColor = Utils.color().labelText
-        UITextField.appearance().tintColor = Utils.color().highlight2
-        //UITextView.appearance().tintColor = Utils.color().highlight
+        UITextField.appearance().tintColor = Utils.color().labelLink
+        UITextView.appearance().tintColor = Utils.color().labelLink
         
         UITableView.appearance().backgroundColor = Utils.color().background
         UITableViewCell.appearance().backgroundColor = Utils.color().background2

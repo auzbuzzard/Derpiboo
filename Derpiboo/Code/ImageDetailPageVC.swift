@@ -33,6 +33,20 @@ class ImageDetailPageVC: UIViewController, SFSafariViewControllerDelegate {
         }
     }
     @IBAction func optionsButtonClicked(sender: UIBarButtonItem) {
+        let alertC = UIAlertController(title: "Options", message: nil, preferredStyle: .ActionSheet)
+        alertC.addAction(UIAlertAction(title: "Share Image", style: .Default, handler: {
+            alert in
+            self.shareImageViaActivityView()
+        }))
+        alertC.addAction(UIAlertAction(title: "Share Derpibooru Link", style: .Default, handler: {
+            alert in
+            self.shareLinkViaActivityView()
+        }))
+        alertC.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: {
+            alert in
+            alertC.dismissViewControllerAnimated(true, completion: nil)
+        }))
+        presentViewController(alertC, animated: true, completion: nil)
     }
     
     @IBAction func openInSafari(sender: UIBarButtonItem) {
@@ -73,7 +87,7 @@ class ImageDetailPageVC: UIViewController, SFSafariViewControllerDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationController?.hidesBarsOnSwipe = false
+        //navigationController?.hidesBarsOnSwipe = false
         navigationController?.hidesBarsOnTap = true
         
         if navigationController?.navigationBar.hidden == false {
@@ -91,7 +105,7 @@ class ImageDetailPageVC: UIViewController, SFSafariViewControllerDelegate {
         }
         
         navigationController?.hidesBarsOnTap = false
-        navigationController?.hidesBarsOnSwipe = true
+        //navigationController?.hidesBarsOnSwipe = true
         navigationController?.setToolbarHidden(true, animated: true)
     }
 
@@ -116,6 +130,7 @@ class ImageDetailPageVC: UIViewController, SFSafariViewControllerDelegate {
             let navVC = segue.destinationViewController as! UINavigationController
             let vc = navVC.viewControllers.first as! InfoPaneRootVC
             
+            vc.derpibooru = derpibooru
             vc.dbImage = derpibooru.images[currentImageIndex]
         }
         
@@ -133,6 +148,22 @@ class ImageDetailPageVC: UIViewController, SFSafariViewControllerDelegate {
             return vc
         } else {
             return nil
+        }
+    }
+    
+    private func shareImageViaActivityView() {
+        if let image = derpibooru.images[currentImageIndex].largeImage {
+            print("ok")
+            let activity = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            presentViewController(activity, animated: true, completion: nil)
+        }
+    }
+    
+    private func shareLinkViaActivityView() {
+        if let url = NSURL(string: "https://derpibooru.org/\(derpibooru.images[currentImageIndex].id_number)") {
+            print("ok")
+            let activity = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+            presentViewController(activity, animated: true, completion: nil)
         }
     }
 }

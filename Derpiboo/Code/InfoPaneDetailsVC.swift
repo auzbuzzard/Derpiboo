@@ -20,11 +20,20 @@ class InfoPaneDetailsVC: UITableViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 190.0
         tableView.tableFooterView = UIView()
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        //print("scrollviewinset: \(tableView.contentInset)")
+        
+        let vc = parentViewController as! InfoPaneRootVC
+        vc.contentInset = tableView.contentInset
     }
 
     // MARK: - Table view data source

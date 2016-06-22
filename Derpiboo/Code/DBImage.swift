@@ -61,6 +61,8 @@ class DBImage {
     var is_rendered: Bool?
     var is_optimized: Bool?
     
+    var comments: [DBImageComments]?
+    
     var thumbImage: UIImage?
     var largeImage: UIImage?
     var fullImage: UIImage?
@@ -156,3 +158,24 @@ class DBImage {
     }
     
 }
+
+class DBImageComments {
+    var id: Int?
+    var body: String?
+    var author: String?
+    var image_id: Int?
+    var posted_at: String?
+    var deleted: Bool?
+    
+    var authorProfile: DBProfile?
+}
+
+
+
+
+
+
+
+
+
+
