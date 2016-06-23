@@ -60,25 +60,25 @@ class ImageGroupVC: UICollectionViewController {
         cell.layer.rasterizationScale = UIScreen.mainScreen().scale
         
         cell.contentView.layer.borderWidth = 1
-        cell.contentView.layer.borderColor = Utils.color().background2.CGColor
+        cell.contentView.layer.borderColor = Theme.current().background2.CGColor
         
-        cell.backgroundColor = Utils.color().background
-        cell.stackViewBackgroundView.backgroundColor = Utils.color().background2
+        cell.backgroundColor = Theme.current().background
+        cell.stackViewBackgroundView.backgroundColor = Theme.current().background2
         
-        cell.favIcon.textColor = Utils.color().fav
-        cell.favLabel.textColor = Utils.color().fav
-        cell.upvIcon.textColor = Utils.color().upv
-        cell.scoreLabel.textColor = Utils.color().labelText
-        cell.dnvIcon.textColor = Utils.color().dnv
-        cell.commentIcon.textColor = Utils.color().comment
-        cell.commentLabel.textColor = Utils.color().comment
+        cell.favIcon.textColor = Theme.current().fav
+        cell.favLabel.textColor = Theme.current().fav
+        cell.upvIcon.textColor = Theme.current().upv
+        cell.scoreLabel.textColor = Theme.current().labelText
+        cell.dnvIcon.textColor = Theme.current().dnv
+        cell.commentIcon.textColor = Theme.current().comment
+        cell.commentLabel.textColor = Theme.current().comment
         
         if let dbImage = dbImageFromIndexPath(indexPath) {
             cell.favLabel.text = "\(dbImage.faves ?? 0)"
             cell.scoreLabel.text = "\(dbImage.score ?? 0)"
             cell.commentLabel.text = "\(dbImage.comment_count ?? 0)"
             
-            if let image = dbImage.getImage(DBImage.ImageSizeType.thumb, urlSession: urlSession, completion: onImageDownloadComplete) {
+            if let image = dbImage.getImage(ofSizeType: DBImage.ImageSizeType.thumb, urlSession: urlSession, completion: onImageDownloadComplete) {
                 cell.cellImageView.image = image
             }
         }
@@ -89,20 +89,21 @@ class ImageGroupVC: UICollectionViewController {
     override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         let headerCell = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: headerReuseIdentifier, forIndexPath: indexPath) as! ImageGroupHeader
         
-        headerCell.headerLabel.text = derpibooru.getListNameReadable()
+        headerCell.headerLabel.text = derpibooru.getListNameReadable(nil)
         
         return headerCell
     }
     
-    func onImageDownloadComplete(dbImage: DBImage, error: ErrorType?) {
+    func onImageDownloadComplete(image dbImage: DBImage?) {
         dispatch_async(dispatch_get_main_queue()) {
-            if error != nil { print(error); return }
-            guard let indexPath = self.indexPathFromDBImage(dbImage) else { return }
-            
-            for cell in (self.collectionView?.visibleCells())! {
-                if self.collectionView?.indexPathForCell(cell) == indexPath {
-                    self.collectionView?.reloadItemsAtIndexPaths([indexPath])
-                    return
+            if let dbImage = dbImage {
+                guard let indexPath = self.indexPathFromDBImage(dbImage) else { return }
+                
+                for cell in (self.collectionView?.visibleCells())! {
+                    if self.collectionView?.indexPathForCell(cell) == indexPath {
+                        self.collectionView?.reloadItemsAtIndexPaths([indexPath])
+                        return
+                    }
                 }
             }
         }

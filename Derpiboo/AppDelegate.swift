@@ -17,26 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         //Utils.colorTheme = Utils.ColorTheme.Light
         
-        if Utils.colorTheme == Utils.ColorTheme.Dark {
-            UINavigationBar.appearance().barStyle = UIBarStyle.Black
-            UIApplication.sharedApplication().statusBarStyle = .LightContent
-        }
-        
-        UINavigationBar.appearance().barTintColor = Utils.color().highlight2
-        UINavigationBar.appearance().tintColor = Utils.color().labelText
-        UITabBar.appearance().barTintColor = Utils.color().highlight2
-        UITabBar.appearance().tintColor = Utils.color().labelText
-        UIToolbar.appearance().barTintColor = Utils.color().highlight2
-        UIToolbar.appearance().tintColor = Utils.color().labelText
-        
-        UILabel.appearance().textColor = Utils.color().labelText
-        UITextField.appearance().tintColor = Utils.color().labelLink
-        UITextView.appearance().tintColor = Utils.color().labelLink
-        
-        UITableView.appearance().backgroundColor = Utils.color().background
-        UITableViewCell.appearance().backgroundColor = Utils.color().background2
-        
-        UISwitch.appearance().tintColor = Utils.color().highlight
+        Theme.apply(Theme: .Dark)
+
         
 //        UITabBar.appearance().barTintColor = UIColor.blackColor()
 //        UITabBar.appearance().tintColor = UIColor.orangeColor()

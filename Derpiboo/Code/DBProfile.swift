@@ -25,37 +25,21 @@ struct DBProfile {
     
     var avatar: UIImage?
     
-    mutating func downloadAvatar(urlSession: NSURLSession, completion: (image: DBProfile, error: ErrorType?) -> Void) {
-        guard let url = NSURL(string: "https:\(avatar_url)") else { print("download avatar url error, url: \(avatar_url)"); return }
+    mutating func downloadAvatar(urlSession: NSURLSession?, completion: ((profile: DBProfile?) -> Void)?) {
         
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        guard let url = "https:\(avatar_url)".toURL() else { print("download avatar url error, url: \(avatar_url)"); return }
         
-        let dataTask = urlSession.dataTaskWithURL(url) {
-            data, response, error in
+        NetworkManager.loadData(url, urlSession: urlSession, completion: { data in
             
-            dispatch_async(dispatch_get_main_queue()) {
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            }
-            
-            if let error = error {
-                print(error.localizedDescription)
-            } else if let HTTPResponse = response as? NSHTTPURLResponse {
-                if HTTPResponse.statusCode == 200 {
-                    guard let data = data else { return completion(image: self, error: error) }
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
-                        guard let image = UIImage(data: data) else { print("data to image error"); return completion(image: self, error: error) }
-                        self.avatar = image
-                        dispatch_async(dispatch_get_main_queue()) {
-                            completion(image: self, error: nil)
-                        }
-                    }
-                    
-                } else {
-                    print("HTTP Error (\(HTTPResponse.statusCode)")
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+                
+                guard let image = UIImage(data: data) else { print("data to image error");completion?(profile: nil) ; return }
+                self.avatar = image
+                dispatch_async(dispatch_get_main_queue()) {
+                    completion?(profile: self)
                 }
             }
-        }
-        dataTask.resume()
+        })
     }
     
 }

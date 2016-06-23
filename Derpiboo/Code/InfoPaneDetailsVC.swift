@@ -52,7 +52,7 @@ class InfoPaneDetailsVC: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier, forIndexPath: indexPath) as! InfoPaneDetailsCell
         
-        cell.contentField.textColor = Utils.color().labelText
+        cell.contentField.textColor = Theme.current().labelText
 
         if indexPath.row == 0 { //tag
             cell.titleLabel.text = "Tags"

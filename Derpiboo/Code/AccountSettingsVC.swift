@@ -29,7 +29,7 @@ class AccountSettingsVC: UITableViewController, SFSafariViewControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = Utils.color().background
+        view.backgroundColor = Theme.current().background
 
         if let username = defaults.stringForKey("username") {
             usernameField.text = username
@@ -59,8 +59,8 @@ class AccountSettingsVC: UITableViewController, SFSafariViewControllerDelegate {
     // MARK: - Table view data source
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        cell.backgroundColor = Utils.color().background2
-        cell.tintColor = Utils.color().labelText
+        cell.backgroundColor = Theme.current().background2
+        cell.tintColor = Theme.current().labelText
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

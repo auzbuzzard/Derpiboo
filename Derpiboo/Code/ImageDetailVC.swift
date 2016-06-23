@@ -62,7 +62,7 @@ class ImageDetailVC: UIViewController {
         scrollView.decelerationRate = UIScrollViewDecelerationRateFast
 
         if dbImage.largeImage == nil {
-            dbImage.downloadImage(ofSizeType: imageSizeType, urlSession: urlSession)
+            dbImage.downloadImage(ofSizeType: imageSizeType, urlSession: urlSession, useCustomDelegate: true, completion: nil)
             updateImageView(dbImage.thumbImage)
         } else {
             updateImageView(dbImage.largeImage)
@@ -147,9 +147,9 @@ extension ImageDetailVC: NSURLSessionDelegate, NSURLSessionDataDelegate {
         progressView.progress = 1.0
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             guard let image = UIImage(data: self.buffer) else { print("data to image error"); return }
-            self.dbImage.setImageOfSizeType(self.imageSizeType, image: image)
+            self.dbImage.setImage(ofSizeType: self.imageSizeType, image: image)
             dispatch_async(dispatch_get_main_queue()) {
-                self.updateImageView(self.dbImage.getImageOfSizeType(self.imageSizeType))
+                self.updateImageView(self.dbImage.getImage(ofSizeType: self.imageSizeType))
                 self.scrollViewDidZoom(self.scrollView)
             }
         }
@@ -160,7 +160,6 @@ extension ImageDetailVC: NSURLSessionDelegate, NSURLSessionDataDelegate {
         progressView.hidden = true
     }
     func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveResponse response: NSURLResponse, completionHandler: (NSURLSessionResponseDisposition) -> Void) {
-        
         expectedContentLength = Int(response.expectedContentLength)
         completionHandler(NSURLSessionResponseDisposition.Allow)
     }

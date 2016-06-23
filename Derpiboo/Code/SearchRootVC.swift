@@ -59,7 +59,8 @@ class SearchRootVC: UIViewController {
 extension SearchRootVC: UISearchBarDelegate {
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         if let text = searchBar.text {
-            imageGrid.derpibooru.setSearchTerm(text)
+            imageGrid.derpibooru.searchTerm = text
+            print(imageGrid.derpibooru.searchTerm)
             imageGrid.clearImageGrid()
             imageGrid.loadNewImages()
         }

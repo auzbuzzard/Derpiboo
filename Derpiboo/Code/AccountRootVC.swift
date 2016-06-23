@@ -28,6 +28,14 @@ class AccountRootVC: UITableViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 160
         tableView.tableFooterView = UIView()
+        
+        if let username = derpibooru.usernameFromDefaults {
+            derpibooru.loadProfile(username, preloadAvatar: true, urlSession: urlSession, copyToClass: true, handler: { profile in
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.tableView.reloadData()
+                }
+            })
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -52,12 +60,12 @@ class AccountRootVC: UITableViewController {
             
             let cell = tableView.dequeueReusableCellWithIdentifier(userHeaderReuseIdentifier, forIndexPath: indexPath) as! AccountUserHeaderCell
             
-            cell.imageView?.layer.cornerRadius = (cell.imageView?.frame.size.width)! / 2
-            cell.imageView?.clipsToBounds = true
+//            cell.profileImageView.layer.cornerRadius = cell.profileImageView.frame.size.width / 2
+//            cell.profileImageView.clipsToBounds = true
             
             var profile = derpibooru.profile
             
-            if derpibooru.profileName != nil && derpibooru.profile != nil {
+            if derpibooru.profile != nil {
                 
                 cell.usernameLabel.text = profile?.name
                 cell.bioLabel.text = profile?.description
@@ -66,23 +74,27 @@ class AccountRootVC: UITableViewController {
                 if let avatar = profile?.avatar {
                     cell.profileImageView.image = avatar
                 } else {
-                    profile?.downloadAvatar(urlSession) {
-                        image, error in
-                        cell.profileImageView.image = image.avatar
-                        cell.imageView?.layer.cornerRadius = (cell.imageView?.frame.size.width)! / 2
-                        cell.imageView?.clipsToBounds = true
-                    }
+                    profile?.downloadAvatar(urlSession, completion: { profile in
+                        if let profile = profile {
+                            dispatch_async(dispatch_get_main_queue()) {
+                                cell.profileImageView.image = profile.avatar
+                            }
+                        }
+                    })
                 }
                                 
             } else {
                 if let username = derpibooru.profileName {
-                    derpibooru.loadProfile(username) {
-                        profile in
-                        if self.reloadCount < 5 {
-                            tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                            self.reloadCount += 1
+                    derpibooru.loadProfile(username, preloadAvatar: true, urlSession: urlSession, copyToClass: false, handler: { profile in
+                        if let _ = profile {
+                            dispatch_async(dispatch_get_main_queue()) {
+                                if self.reloadCount < 5 {
+                                    tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+                                    self.reloadCount += 1
+                                }
+                            }
                         }
-                    }
+                    })
                 } else {
                     
                 }

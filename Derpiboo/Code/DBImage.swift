@@ -61,7 +61,7 @@ class DBImage {
     var is_rendered: Bool?
     var is_optimized: Bool?
     
-    var comments: [DBImageComments]?
+    var comments: [DBComment]?
     
     var thumbImage: UIImage?
     var largeImage: UIImage?
@@ -78,96 +78,63 @@ class DBImage {
         self.id_number = id_number
     }
     
-    func getImage(ofSizeType: ImageSizeType, urlSession: NSURLSession, completion: (image: DBImage, error: ErrorType?) -> Void) -> UIImage? {
-        if let image = getImageOfSizeType(ofSizeType) {
+    func getImage(ofSizeType sizeType: ImageSizeType, urlSession: NSURLSession?, completion: (image: DBImage?) -> Void) -> UIImage? {
+        if let image = getImage(ofSizeType: sizeType) {
             return image
         } else {
-            downloadImage(ofSizeType: ofSizeType, urlSession: urlSession) {
-                image, error in
-                completion(image: image, error: error)
-            }
+            downloadImage(ofSizeType: sizeType, urlSession: urlSession, completion: completion)
             return nil
         }
     }
     
-    func getImageOfSizeType(ofSizeType: ImageSizeType) -> UIImage? {
-        switch ofSizeType {
+    func getImage(ofSizeType sizeType: ImageSizeType) -> UIImage? {
+        switch sizeType {
         case .thumb: return thumbImage
         case.large: return largeImage
         case.full: return fullImage
         }
     }
     
-    func setImageOfSizeType(ofSizeType: ImageSizeType, image: UIImage) {
-        switch ofSizeType {
+    func setImage(ofSizeType sizeType: ImageSizeType, image: UIImage) {
+        switch sizeType {
         case .thumb: thumbImage = image
         case.large: largeImage = image
         case.full: fullImage = image
         }
     }
     
-    private func getImageURLOfSizeType(ofSizeType: ImageSizeType) -> String? {
-        switch ofSizeType {
+    private func getImageURL(ofSizeType sizeType: ImageSizeType) -> String? {
+        switch sizeType {
         case .thumb: return thumb
         case .large: return large
         case .full: return image
         }
     }
     
-    func downloadImage(ofSizeType sizeType: ImageSizeType, urlSession: NSURLSession) {
-        guard let u = getImageURLOfSizeType(sizeType) else { print("download thumbnail url error, \(getImageOfSizeType(sizeType))"); return }
-        guard let url = NSURL(string: "https:\(u)") else { print("download thumbnail url error, url: \(u)"); return }
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        
-        let dataTask = urlSession.dataTaskWithURL(url)
-        dataTask.resume()
+    func downloadImage(ofSizeType sizeType: ImageSizeType, urlSession: NSURLSession?, completion: ((image: DBImage?) -> Void)?) {
+        downloadImage(ofSizeType: sizeType, urlSession: urlSession, useCustomDelegate: false, completion: completion)
     }
     
-    func downloadImage(ofSizeType sizeType: ImageSizeType, urlSession: NSURLSession, completion: (image: DBImage, error: ErrorType?) -> Void) {
-        guard let u = getImageURLOfSizeType(sizeType) else { print("download thumbnail url error, \(getImageOfSizeType(sizeType))"); return }
-        guard let url = NSURL(string: "https:\(u)") else { print("download thumbnail url error, url: \(u)"); return }
+    func downloadImage(ofSizeType sizeType: ImageSizeType, urlSession: NSURLSession?, useCustomDelegate: Bool, completion: ((image: DBImage?) -> Void)?) {
+        guard let u = getImageURL(ofSizeType: sizeType) else { print("getImageURL() error at DBImage"); return }
+        guard let url = "https:\(u)".toURL() else { print("DBImage downloadImage() url error, for dbImage: \(id_number), for url: \(getImageURL(ofSizeType: sizeType))"); return }
         
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        
-        let dataTask = urlSession.dataTaskWithURL(url) {
-            data, response, error in
-            
-            dispatch_async(dispatch_get_main_queue()) {
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            }
-            
-            if let error = error {
-                print(error.localizedDescription)
-            } else if let HTTPResponse = response as? NSHTTPURLResponse {
-                if HTTPResponse.statusCode == 200 {
-                    guard let data = data else { return completion(image: self, error: error) }
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
-                        guard let image = UIImage(data: data) else { print("data to image error"); return completion(image: self, error: error) }
-                        self.setImageOfSizeType(sizeType, image: image)
-                        dispatch_async(dispatch_get_main_queue()) {
-                            completion(image: self, error: nil)
-                        }
-                    }
+        if useCustomDelegate {
+            NetworkManager.loadData(url, urlSession: urlSession)
+        } else {
+            NetworkManager.loadData(url, urlSession: urlSession, completion: { data in
+                
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
                     
-                } else {
-                    print("HTTP Error (\(HTTPResponse.statusCode)")
+                    guard let image = UIImage(data: data) else { print("data to image error");completion?(image: nil) ; return }
+                    self.setImage(ofSizeType: sizeType, image: image)
+                    
+                    completion?(image: self)
                 }
-            }
+            })
         }
-        dataTask.resume()
+        
     }
-    
-}
-
-class DBImageComments {
-    var id: Int?
-    var body: String?
-    var author: String?
-    var image_id: Int?
-    var posted_at: String?
-    var deleted: Bool?
-    
-    var authorProfile: DBProfile?
 }
 
 

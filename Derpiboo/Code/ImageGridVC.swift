@@ -24,6 +24,10 @@ class ImageGridVC: UICollectionViewController {
     
     let urlSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
     
+    //--- Class Vars for Methods ---//
+    
+    let preloadThumbImage = true
+    
     //--- Useful Properties ---//
     
     var isLoadingImages: Bool = false {
@@ -45,7 +49,7 @@ class ImageGridVC: UICollectionViewController {
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(pullToRefresh), forControlEvents: .ValueChanged)
         collectionView?.addSubview(refreshControl)
-        collectionView?.backgroundColor = Utils.color().background
+        collectionView?.backgroundColor = Theme.current().background
     }
 
     override func didReceiveMemoryWarning() {
@@ -66,29 +70,26 @@ class ImageGridVC: UICollectionViewController {
     
     @objc private func pullToRefresh() {
         isLoadingImages = true
-        derpibooru.loadNewImages() {
-            error in
+        derpibooru.loadImages(ofType: DBClientImages.ImageResultsType.Default, asNewResults: true, preloadThumbImage: preloadThumbImage, urlSession: urlSession, copyToClass: true, completion: { _ in
             dispatch_async(dispatch_get_main_queue()) {
                 self.isLoadingImages = false
                 self.refreshControl.endRefreshing()
                 self.collectionView?.reloadData()
             }
-        }
+        })
     }
     
-    private func loadMoreImages(completion: (error: ErrorType?, isEndOfResults: Bool) -> Void) {
+    private func loadMoreImages(completion: (isEndOfResults: Bool) -> Void) {
         isLoadingImages = true
         let currentImagesCount = images.count
-        derpibooru.loadMoreImages() {
-            error in
-            self.isLoadingImages = false
-            if let error = error { completion(error: error, isEndOfResults: false); return }
+        derpibooru.loadImages(ofType: DBClientImages.ImageResultsType.Default, asNewResults: false, preloadThumbImage: preloadThumbImage, urlSession: urlSession, copyToClass: true, completion: { _ in
             let bool = currentImagesCount == self.images.count
             dispatch_async(dispatch_get_main_queue()) {
-                completion(error: nil, isEndOfResults: bool)
+                self.isLoadingImages = false
+                completion(isEndOfResults: bool)
                 self.collectionView?.reloadData()
             }
-        }
+        })
     }
 
     
@@ -128,25 +129,25 @@ class ImageGridVC: UICollectionViewController {
         cell.layer.rasterizationScale = UIScreen.mainScreen().scale
         
         cell.contentView.layer.borderWidth = 1
-        cell.contentView.layer.borderColor = Utils.color().background2.CGColor
+        cell.contentView.layer.borderColor = Theme.current().background2.CGColor
         
-        cell.backgroundColor = Utils.color().background
-        cell.stackViewBackgroundView.backgroundColor = Utils.color().background2
+        cell.backgroundColor = Theme.current().background
+        cell.stackViewBackgroundView.backgroundColor = Theme.current().background2
         
-        cell.favIcon.textColor = Utils.color().fav
-        cell.favLabel.textColor = Utils.color().fav
-        cell.upvIcon.textColor = Utils.color().upv
-        cell.scoreLabel.textColor = Utils.color().labelText
-        cell.dnvIcon.textColor = Utils.color().dnv
-        cell.commentIcon.textColor = Utils.color().comment
-        cell.commentLabel.textColor = Utils.color().comment
+        cell.favIcon.textColor = Theme.current().fav
+        cell.favLabel.textColor = Theme.current().fav
+        cell.upvIcon.textColor = Theme.current().upv
+        cell.scoreLabel.textColor = Theme.current().labelText
+        cell.dnvIcon.textColor = Theme.current().dnv
+        cell.commentIcon.textColor = Theme.current().comment
+        cell.commentLabel.textColor = Theme.current().comment
         
         if let dbImage = dbImageFromIndexPath(indexPath) {
             cell.favLabel.text = "\(dbImage.faves ?? 0)"
             cell.scoreLabel.text = "\(dbImage.score ?? 0)"
             cell.commentLabel.text = "\(dbImage.comment_count ?? 0)"
             
-            if let image = dbImage.getImage(DBImage.ImageSizeType.thumb, urlSession: urlSession, completion: onImageDownloadComplete) {
+            if let image = dbImage.getImage(ofSizeType: DBImage.ImageSizeType.thumb, urlSession: urlSession, completion: onImageDownloadComplete) {
                 cell.cellImageView.image = image
             }
         }
@@ -157,32 +158,29 @@ class ImageGridVC: UICollectionViewController {
     override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         let footer = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: footerReuseIdentifier, forIndexPath: indexPath) as! ImageGridFooter
         
-        footer.footerLabel.textColor = Utils.color().labelText
+        footer.footerLabel.textColor = Theme.current().labelText
         footer.footerLabel.text = isLoadingImages == true ? "Loading" : images.count == 0 ? "" : "Loading More"
-        
         if shouldLoadMoreImage {
-            loadMoreImages() {
-                error, isEndOfResults in
-                if error == nil {
-                    if isEndOfResults {
-                        footer.footerLabel.text = "End of Results"
-                    }
+            loadMoreImages({ isEndOfResults in
+                if isEndOfResults {
+                    footer.footerLabel.text = "End of Results"
                 }
-            }
+            })
         }
         
         return footer
     }
     
-    func onImageDownloadComplete(dbImage: DBImage, error: ErrorType?) {
+    func onImageDownloadComplete(dbImage: DBImage?) {
         dispatch_async(dispatch_get_main_queue()) {
-            if error != nil { print(error); return }
-            guard let indexPath = self.indexPathFromDBImage(dbImage) else { return }
-            
-            for cell in (self.collectionView?.visibleCells())! {
-                if self.collectionView?.indexPathForCell(cell) == indexPath {
-                    self.collectionView?.reloadItemsAtIndexPaths([indexPath])
-                    return
+            if let dbImage = dbImage {
+                guard let indexPath = self.indexPathFromDBImage(dbImage) else { return }
+                
+                for cell in (self.collectionView?.visibleCells())! {
+                    if self.collectionView?.indexPathForCell(cell) == indexPath {
+                        self.collectionView?.reloadItemsAtIndexPaths([indexPath])
+                        return
+                    }
                 }
             }
         }

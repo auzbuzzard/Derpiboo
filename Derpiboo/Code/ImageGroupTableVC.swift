@@ -17,7 +17,7 @@ class ImageGroupTableVC: UITableViewController {
         
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
         
-        tableView.backgroundColor = Utils.color().background
+        tableView.backgroundColor = Theme.current().background
     }
     
     override func didReceiveMemoryWarning() {
@@ -40,7 +40,7 @@ class ImageGroupTableVC: UITableViewController {
         let derpibooru = Derpibooru()
         let index = indexPath.row
         let listName = index == 0 ? "top_scoring" : index == 1 ? "top_commented" : "all_time_top_scoring"
-        derpibooru.setDBToLoadingList(listName)
+        //derpibooru.setDBToLoadingList(listName)
         
         let groupVC = storyboard?.instantiateViewControllerWithIdentifier("ImageGroupVC") as! ImageGroupVC
         

@@ -19,20 +19,15 @@ class InfoPaneCommentsVC: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("viewdidload")
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 190.0
         tableView.tableFooterView = UIView()
         
-        derpibooru.loadComments(dbImage.id_number) {
-            comments, error in
-            
-            if let error = error { print(error); return }
+        derpibooru.loadComments(image_id_number: dbImage.id_number, preloadProfile: true, preloadAvatar: true, urlSession: urlSession, copyToClass: false, handler: { comments in
             self.dbImage.comments = comments
-            print("Comments: \(self.dbImage.comments?.count)")
             self.tableView.reloadData()
-        }
+        })
         
     }
 
@@ -63,7 +58,7 @@ class InfoPaneCommentsVC: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier, forIndexPath: indexPath) as! InfoPaneCommentsCell
         
-        cell.contentField.textColor = Utils.color().labelText
+        cell.contentField.textColor = Theme.current().labelText
         
         if let comments = dbImage.comments {
             let comment = comments[indexPath.row]
@@ -74,31 +69,24 @@ class InfoPaneCommentsVC: UITableViewController {
                 if let avatar = profile.avatar {
                     cell.avatarImageView.image = avatar
                 } else {
-                    profile.downloadAvatar(urlSession) {
-                        image, error in
-                        if let error = error { print(error); return }
-                        cell.avatarImageView.image = image.avatar
-                    }
+                    profile.downloadAvatar(urlSession, completion: { profile in
+                        cell.avatarImageView.image = profile?.avatar
+                    })
                 }
             } else {
-                let name = comment.author?.stringByReplacingOccurrencesOfString(" ", withString: "+").stringByReplacingOccurrencesOfString("-", withString: "-dash-")
-                derpibooru.loadProfile(returnWithCompletion: name!) {
-                    profile, error in
-                    print("ok for \(indexPath.row)")
-                    if let error = error { print(error); return }
-                    
+                let name = comment.author.stringByReplacingOccurrencesOfString(" ", withString: "+").stringByReplacingOccurrencesOfString("-", withString: "-dash-")
+                derpibooru.loadProfile(name, preloadAvatar: true, urlSession: urlSession, copyToClass: false, handler: { profile in
+                    //print("ok for \(indexPath.row)")
                     if var profile = profile {
                         if let avatar = profile.avatar {
                             cell.avatarImageView.image = avatar
                         } else {
-                            profile.downloadAvatar(self.urlSession) {
-                                image, error in
-                                if let error = error { print(error); return }
-                                cell.avatarImageView.image = image.avatar
-                            }
+                            profile.downloadAvatar(self.urlSession, completion: { profile in
+                                cell.avatarImageView.image = profile?.avatar
+                            })
                         }
                     }
-                }
+                })
             }
             
         }
