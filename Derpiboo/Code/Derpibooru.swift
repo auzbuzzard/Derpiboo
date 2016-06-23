@@ -424,6 +424,8 @@ class Derpibooru {
              let is_optimized = image["is_optimized"] as? Bool
             dbImage.is_optimized = is_optimized
             
+            dbImage.downloadImage(ofSizeType: .thumb, urlSession: defaultSession)
+            
             //array
             images.append(dbImage)
         }
