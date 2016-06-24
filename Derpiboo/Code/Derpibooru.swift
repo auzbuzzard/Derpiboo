@@ -23,6 +23,9 @@ class Derpibooru: DBClientImagesProtocol, DBClientProfileProtocol, DBClientComme
     var images: [DBImage] { get { return clientImages.images } }
     var searchTerm: String { get { return clientImages.searchTerm } set { clientImages.searchTerm = newValue } }
     
+    var listName: String! { get { return clientImages.listName } set { clientImages.listName = newValue } }
+    var mainList: [[Derpiboo.DBImage]] { get { return clientImages.mainList } }
+    
     func getListNameReadable(listName: String?) -> String {
         return clientImages.getListNameReadable(listName)
     }
@@ -35,6 +38,10 @@ class Derpibooru: DBClientImagesProtocol, DBClientProfileProtocol, DBClientComme
     }
     func loadImages(ofType resultsType: DBClientImages.ImageResultsType, asNewResults: Bool, listName: String?, preloadThumbImage: Bool, urlSession: NSURLSession?, copyToClass: Bool, completion: ((images: [DBImage]?) -> Void)?) {
         clientImages.loadImages(ofType: resultsType, asNewResults: asNewResults, listName: listName, preloadThumbImage: preloadThumbImage, urlSession: urlSession, copyToClass: copyToClass, completion: completion)
+    }
+    
+    func loadMainList(urlSession: NSURLSession?, copyToClass: Bool, completion: ((listNames: [[DBImage]]?) -> Void)?) {
+        clientImages.loadMainList(urlSession, copyToClass: copyToClass, completion: completion)
     }
     
     //--- DBClientProfileProtocol ---//

@@ -34,6 +34,7 @@ class DBClientProfile: DBClient, DBClientProfileProtocol {
     }
     
     func loadProfile(profileName: String, preloadAvatar: Bool, urlSession: NSURLSession?, copyToClass: Bool, handler: ((profile: DBProfile?) -> Void)?) {
+        if profileName.containsString("Background+Pony+#") || profileName.containsString("Background Pony #"){ return }
         guard let url = assembleURL(profileName).toURL() else { print("loadProfile() error, url: \(assembleURL(profileName))"); return }
         
         NetworkManager.loadData(url, urlSession: urlSession ?? clientSession, completion: { data in
@@ -85,8 +86,8 @@ class DBClientProfile: DBClient, DBClientProfileProtocol {
         guard let name = result["name"] as? String else { print("Error parsing name"); return }
         guard let slug = result["slug"] as? String else { print("Error parsing slug"); return }
         guard let role = result["role"] as? String else { print("Error parsing role"); return }
-        guard let description = result["description"] as? String else { print("Error parsing description"); return }
-        guard let avatar_url = result["avatar_url"] as? String else { print("Error parsing avatar_url"); return }
+        let description = result["description"] as? String// else { print("Error parsing description") }
+        let avatar_url = result["avatar_url"] as? String// else { print("Error parsing avatar_url"); return }
         guard let created_at = result["created_at"] as? String else { print("Error parsing created_at"); return }
         
         guard let comment_count = result["comment_count"] as? Int else { print("Error parsing comment_count"); return }
@@ -106,7 +107,7 @@ class DBClientProfile: DBClient, DBClientProfileProtocol {
             profileAwards.append(dbProfileAwards)
         }
         
-        var p = DBProfile(id: id, name: name, slug: slug, role: role, description: description, avatar_url: avatar_url, created_at: created_at, comment_count: comment_count, uploads_count: uploads_count, post_count: post_count, topic_count: topic_count, awards: profileAwards, avatar: nil)
+        let p = DBProfile(id: id, name: name, slug: slug, role: role, description: description, avatar_url: avatar_url, created_at: created_at, comment_count: comment_count, uploads_count: uploads_count, post_count: post_count, topic_count: topic_count, awards: profileAwards, avatar: nil)
         
         if preloadAvatar {
             p.downloadAvatar(urlSession, completion: nil)

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D90B86381D1D2CED00FE7B1D /* ListsSelectedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90B86371D1D2CED00FE7B1D /* ListsSelectedVC.swift */; };
 		D90B9A161D0AAED50042817B /* Derpibooru.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90B9A151D0AAED50042817B /* Derpibooru.swift */; };
 		D90B9A1A1D0BF0BA0042817B /* DB.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D90B9A191D0BF0BA0042817B /* DB.storyboard */; };
 		D90B9A1D1D0BF2720042817B /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90B9A1C1D0BF2720042817B /* TabBarVC.swift */; };
@@ -75,6 +76,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D90B86371D1D2CED00FE7B1D /* ListsSelectedVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListsSelectedVC.swift; path = Code/ListsSelectedVC.swift; sourceTree = "<group>"; };
 		D90B9A151D0AAED50042817B /* Derpibooru.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Derpibooru.swift; path = Code/Derpibooru.swift; sourceTree = "<group>"; };
 		D90B9A191D0BF0BA0042817B /* DB.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DB.storyboard; sourceTree = "<group>"; };
 		D90B9A1C1D0BF2720042817B /* TabBarVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TabBarVC.swift; path = Code/TabBarVC.swift; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 			isa = PBXGroup;
 			children = (
 				D96F8FD31D162F1C002D3F48 /* ListsRootVC.swift */,
+				D90B86371D1D2CED00FE7B1D /* ListsSelectedVC.swift */,
 			);
 			name = Lists;
 			sourceTree = "<group>";
@@ -504,6 +507,9 @@
 		D98CB8F81C2998100029A6F7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				KnownAssetTags = (
+					no_avatar,
+				);
 				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Austin Chau";
@@ -578,6 +584,7 @@
 				D9BAB86A1D1B6CBD005395C8 /* NetworkManager.swift in Sources */,
 				D90B9A201D0BF2D90042817B /* HomeRootVC.swift in Sources */,
 				D9BAB86D1D1BD954005395C8 /* DBClientImages.swift in Sources */,
+				D90B86381D1D2CED00FE7B1D /* ListsSelectedVC.swift in Sources */,
 				D9F866A21D18C55300FBE9B5 /* InfoPaneDetailsVC.swift in Sources */,
 				D9216B801C5C370A008008ED /* FeaturedVC.swift in Sources */,
 				D9A88C991C302A5500E14671 /* ProfileVC.swift in Sources */,

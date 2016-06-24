@@ -17,6 +17,8 @@ class ListsRootVC: UIViewController {
         
         imageGroupTable = storyboard?.instantiateViewControllerWithIdentifier("ImageGroupTableVC") as! ImageGroupTableVC
         
+        imageGroupTable.derpibooru = Derpibooru()
+        
         addChildViewController(imageGroupTable)
         view.addSubview(imageGroupTable.view)
         

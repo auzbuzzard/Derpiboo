@@ -63,7 +63,7 @@ class AccountRootVC: UITableViewController {
 //            cell.profileImageView.layer.cornerRadius = cell.profileImageView.frame.size.width / 2
 //            cell.profileImageView.clipsToBounds = true
             
-            var profile = derpibooru.profile
+            let profile = derpibooru.profile
             
             if derpibooru.profile != nil {
                 

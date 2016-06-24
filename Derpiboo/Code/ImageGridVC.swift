@@ -20,6 +20,9 @@ class ImageGridVC: UICollectionViewController {
     var derpibooru: Derpibooru!
     var images: [DBImage] { get { return derpibooru.images } }
     
+    var imageResultsType: DBClientImages.ImageResultsType!
+    var listName: String?
+    
     var refreshControl: UIRefreshControl!
     
     let urlSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
@@ -70,7 +73,7 @@ class ImageGridVC: UICollectionViewController {
     
     @objc private func pullToRefresh() {
         isLoadingImages = true
-        derpibooru.loadImages(ofType: DBClientImages.ImageResultsType.Default, asNewResults: true, preloadThumbImage: preloadThumbImage, urlSession: urlSession, copyToClass: true, completion: { _ in
+        derpibooru.loadImages(ofType: imageResultsType, asNewResults: true, listName: listName, preloadThumbImage: true, urlSession: urlSession, copyToClass: true, completion: { _ in
             dispatch_async(dispatch_get_main_queue()) {
                 self.isLoadingImages = false
                 self.refreshControl.endRefreshing()
@@ -82,7 +85,7 @@ class ImageGridVC: UICollectionViewController {
     private func loadMoreImages(completion: (isEndOfResults: Bool) -> Void) {
         isLoadingImages = true
         let currentImagesCount = images.count
-        derpibooru.loadImages(ofType: DBClientImages.ImageResultsType.Default, asNewResults: false, preloadThumbImage: preloadThumbImage, urlSession: urlSession, copyToClass: true, completion: { _ in
+        derpibooru.loadImages(ofType: imageResultsType, asNewResults: true, listName: listName, preloadThumbImage: true, urlSession: urlSession, copyToClass: true, completion: { _ in
             let bool = currentImagesCount == self.images.count
             dispatch_async(dispatch_get_main_queue()) {
                 self.isLoadingImages = false

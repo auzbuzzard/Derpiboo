@@ -20,6 +20,7 @@ class SearchRootVC: UIViewController {
         imageGrid = storyboard?.instantiateViewControllerWithIdentifier("ImageGridVC") as! ImageGridVC
         
         imageGrid.derpibooru = Derpibooru()
+        imageGrid.imageResultsType = DBClientImages.ImageResultsType.Search
         
         addChildViewController(imageGrid)
         view.addSubview(imageGrid.view)

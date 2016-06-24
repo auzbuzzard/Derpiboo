@@ -18,6 +18,7 @@
                     <connections>
                         <segue destination="ofg-5T-aRu" kind="relationship" relationship="viewControllers" id="M0F-J5-heh"/>
                         <segue destination="lmn-HD-FbP" kind="relationship" relationship="viewControllers" id="Uxw-UK-faQ"/>
+                        <segue destination="QRV-44-6pp" kind="relationship" relationship="viewControllers" id="qkL-jm-It4"/>
                         <segue destination="5PQ-bp-zWT" kind="relationship" relationship="viewControllers" id="UXU-bk-NVl"/>
                     </connections>
                 </tabBarController>
@@ -63,7 +64,7 @@
         <scene sceneID="aip-1F-I4k">
             <objects>
                 <navigationController id="QRV-44-6pp" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Lists" id="RPo-VK-U7h"/>
+                    <tabBarItem key="tabBarItem" title="Lists" image="ListIcon" id="RPo-VK-U7h"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="BvP-J1-xW1">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -476,12 +477,12 @@
         <scene sceneID="esi-RF-qcE">
             <objects>
                 <tableViewController storyboardIdentifier="ImageGroupTableVC" id="vZ0-Bj-sKu" customClass="ImageGroupTableVC" customModule="Derpiboo" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Zq0-pE-n4i">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="190" sectionHeaderHeight="28" sectionFooterHeight="28" id="Zq0-pE-n4i">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="groupTableCell" rowHeight="190" id="ztK-C5-eKk">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="groupTableCell" id="ztK-C5-eKk" customClass="ImageGroupTableCell" customModule="Derpiboo" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="600" height="190"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ztK-C5-eKk" id="fDf-NG-Yzb">
@@ -489,16 +490,16 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="dcu-W2-vqI">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="190"/>
-                                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="3Aj-xz-3XU">
+                                            <rect key="frame" x="0.0" y="50" width="600" height="139.5"/>
+                                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="3Aj-xz-3XU">
                                                 <size key="itemSize" width="118" height="140"/>
-                                                <size key="headerReferenceSize" width="50" height="50"/>
+                                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                 <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                             </collectionViewFlowLayout>
                                             <cells>
                                                 <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="groupCell" id="xMl-Qj-Q6I" customClass="ImageGridCell" customModule="Derpiboo" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="50" width="118" height="140"/>
+                                                    <rect key="frame" x="0.0" y="-0.5" width="118" height="140"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                         <rect key="frame" x="0.0" y="0.0" width="118" height="140"/>
@@ -596,36 +597,30 @@
                                                     </connections>
                                                 </collectionViewCell>
                                             </cells>
-                                            <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="groupHeader" id="g8E-1j-YYX" customClass="ImageGroupHeader" customModule="Derpiboo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xfk-ij-ASf">
-                                                        <rect key="frame" x="8" y="11" width="584" height="28"/>
-                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstItem="Xfk-ij-ASf" firstAttribute="trailing" secondItem="g8E-1j-YYX" secondAttribute="trailingMargin" id="Fb3-NV-uMh"/>
-                                                    <constraint firstItem="Xfk-ij-ASf" firstAttribute="leading" secondItem="g8E-1j-YYX" secondAttribute="leadingMargin" id="aH6-Oa-79B"/>
-                                                    <constraint firstItem="Xfk-ij-ASf" firstAttribute="top" secondItem="g8E-1j-YYX" secondAttribute="topMargin" constant="3" id="dVF-NL-oxR"/>
-                                                    <constraint firstAttribute="bottomMargin" secondItem="Xfk-ij-ASf" secondAttribute="bottom" constant="3" id="vp9-Mj-fpQ"/>
-                                                </constraints>
-                                                <connections>
-                                                    <outlet property="headerLabel" destination="Xfk-ij-ASf" id="Kde-qu-LdB"/>
-                                                </connections>
-                                            </collectionReusableView>
                                         </collectionView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9mL-pI-QGx">
+                                            <rect key="frame" x="8" y="8" width="584" height="34"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="bottom" secondItem="dcu-W2-vqI" secondAttribute="bottom" id="2uH-FG-P8S"/>
-                                        <constraint firstItem="dcu-W2-vqI" firstAttribute="top" secondItem="fDf-NG-Yzb" secondAttribute="top" id="IH4-cQ-GUN"/>
+                                        <constraint firstItem="dcu-W2-vqI" firstAttribute="top" secondItem="9mL-pI-QGx" secondAttribute="bottom" constant="8" id="IT6-WM-bP9"/>
+                                        <constraint firstItem="9mL-pI-QGx" firstAttribute="trailing" secondItem="fDf-NG-Yzb" secondAttribute="trailingMargin" id="MGG-VF-NVN"/>
                                         <constraint firstAttribute="trailing" secondItem="dcu-W2-vqI" secondAttribute="trailing" id="NOq-IX-dez"/>
+                                        <constraint firstItem="9mL-pI-QGx" firstAttribute="top" secondItem="fDf-NG-Yzb" secondAttribute="topMargin" id="Svq-oQ-b0Z"/>
                                         <constraint firstItem="dcu-W2-vqI" firstAttribute="leading" secondItem="fDf-NG-Yzb" secondAttribute="leading" id="bj0-ek-gHR"/>
+                                        <constraint firstItem="dcu-W2-vqI" firstAttribute="top" secondItem="9mL-pI-QGx" secondAttribute="bottom" constant="8" id="pSv-po-D7D"/>
+                                        <constraint firstItem="9mL-pI-QGx" firstAttribute="leading" secondItem="fDf-NG-Yzb" secondAttribute="leadingMargin" id="xeZ-EF-0aA"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="tableCollectionView" destination="dcu-W2-vqI" id="O4s-bu-AFE"/>
+                                    <outlet property="titleLabel" destination="9mL-pI-QGx" id="nsv-j1-7gY"/>
+                                    <segue destination="Q9X-Cp-mGa" kind="show" identifier="selectedImageGroupTableCell" id="DsH-iq-arO"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -637,6 +632,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Tq-pa-Gfd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1360" y="1152"/>
+        </scene>
+        <!--Lists SelectedVC-->
+        <scene sceneID="ibr-Xz-44h">
+            <objects>
+                <viewController id="Q9X-Cp-mGa" customClass="ListsSelectedVC" customModule="Derpiboo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="EkL-C1-WIS"/>
+                        <viewControllerLayoutGuide type="bottom" id="902-gW-l6r"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ti8-oq-hHj">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="U4k-gO-IWM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2012" y="1152"/>
         </scene>
         <!--Search-->
         <scene sceneID="92f-cB-Ph5">
@@ -1176,6 +1189,7 @@
     <resources>
         <image name="AccountIcon" width="25" height="25"/>
         <image name="HomeIcon" width="25" height="25"/>
+        <image name="ListIcon" width="25" height="25"/>
         <image name="SettingsIcon" width="25" height="25"/>
         <image name="no_avatar" width="1024" height="1024"/>
     </resources>

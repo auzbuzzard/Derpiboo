@@ -64,7 +64,7 @@ class DBClientComments: DBClient {
             guard let posted_at = comment["posted_at"] as? String else { print("Error parsing"); return }
             guard let deleted = comment["deleted"] as? Bool else { print("Error parsing"); return }
             
-            var c = DBComment(id: id, body: body, author: author, image_id: image_id, posted_at: posted_at, deleted: deleted, authorProfile: nil)
+            let c = DBComment(id: id, body: body, author: author, image_id: image_id, posted_at: posted_at, deleted: deleted, authorProfile: nil)
             
             if preloadProfile {
                 c.downloadProfile(nil, preloadAvatar: preloadAvatar, urlSession: urlSession, copyToClass: false, completion: nil)

@@ -24,8 +24,8 @@ class InfoPaneCommentsVC: UITableViewController {
         tableView.estimatedRowHeight = 190.0
         tableView.tableFooterView = UIView()
         
-        derpibooru.loadComments(image_id_number: dbImage.id_number, preloadProfile: true, preloadAvatar: true, urlSession: urlSession, copyToClass: false, handler: { comments in
-            self.dbImage.comments = comments
+        derpibooru.loadComments(image_id_number: dbImage.id_number, preloadProfile: false, preloadAvatar: false, urlSession: urlSession, copyToClass: false, handler: { comments in
+            self.dbImage.comments = comments.reverse()
             self.tableView.reloadData()
         })
         
@@ -65,7 +65,7 @@ class InfoPaneCommentsVC: UITableViewController {
             cell.titleLabel.text = comment.author ?? "NO_NAME"
             cell.contentField.text = comment.body ?? "NO_COMMENT"
             
-            if var profile = comment.authorProfile {
+            if let profile = comment.authorProfile {
                 if let avatar = profile.avatar {
                     cell.avatarImageView.image = avatar
                 } else {
@@ -75,9 +75,11 @@ class InfoPaneCommentsVC: UITableViewController {
                 }
             } else {
                 let name = comment.author.stringByReplacingOccurrencesOfString(" ", withString: "+").stringByReplacingOccurrencesOfString("-", withString: "-dash-")
-                derpibooru.loadProfile(name, preloadAvatar: true, urlSession: urlSession, copyToClass: false, handler: { profile in
+                derpibooru.loadProfile(name, preloadAvatar: true, urlSession: urlSession, copyToClass: true, handler: { profile in
                     //print("ok for \(indexPath.row)")
-                    if var profile = profile {
+                    comment.authorProfile = profile
+                    
+                    if let profile = profile {
                         if let avatar = profile.avatar {
                             cell.avatarImageView.image = avatar
                         } else {
@@ -156,6 +158,10 @@ class InfoPaneCommentsCell: UITableViewCell {
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var avatarImageView: UIImageView!
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        avatarImageView.image = UIImage(named: "no_avatar")
+    }
 }
 
 
