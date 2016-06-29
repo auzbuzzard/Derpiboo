@@ -37,7 +37,9 @@ class Derpibooru: DBClientImagesProtocol, DBClientProfileProtocol, DBClientComme
         clientImages.loadImages(ofType: resultsType, asNewResults: asNewResults, preloadThumbImage: preloadThumbImage, urlSession: urlSession, copyToClass: copyToClass, completion: completion)
     }
     func loadImages(ofType resultsType: DBClientImages.ImageResultsType, asNewResults: Bool, listName: String?, preloadThumbImage: Bool, urlSession: NSURLSession?, copyToClass: Bool, completion: ((images: [DBImage]?) -> Void)?) {
-        clientImages.loadImages(ofType: resultsType, asNewResults: asNewResults, listName: listName, preloadThumbImage: preloadThumbImage, urlSession: urlSession, copyToClass: copyToClass, completion: completion)
+        dispatch_async(dispatch_get_main_queue()) {
+            self.clientImages.loadImages(ofType: resultsType, asNewResults: asNewResults, listName: listName, preloadThumbImage: preloadThumbImage, urlSession: urlSession, copyToClass: copyToClass, completion: completion)
+        }
     }
     
     func loadMainList(urlSession: NSURLSession?, copyToClass: Bool, completion: ((listNames: [[DBImage]]?) -> Void)?) {
@@ -63,8 +65,8 @@ class Derpibooru: DBClientImagesProtocol, DBClientProfileProtocol, DBClientComme
     func clearComments() {
         clientComments.clearComments()
     }
-    func loadComments(image_id_number id_number: Int, preloadProfile: Bool, preloadAvatar: Bool, urlSession: NSURLSession?, copyToClass: Bool, handler: ((comments: [DBComment]) -> Void)?) {
-        clientComments.loadComments(image_id_number: id_number, preloadProfile: preloadProfile, preloadAvatar: preloadAvatar, urlSession: urlSession, copyToClass: copyToClass, handler: handler)
+    func loadComments(image_id id: String, preloadProfile: Bool, preloadAvatar: Bool, urlSession: NSURLSession?, copyToClass: Bool, handler: ((comments: [DBComment]) -> Void)?) {
+        clientComments.loadComments(image_id: id, preloadProfile: preloadProfile, preloadAvatar: preloadAvatar, urlSession: urlSession, copyToClass: copyToClass, handler: handler)
     }
 }
 

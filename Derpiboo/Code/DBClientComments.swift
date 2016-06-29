@@ -11,7 +11,7 @@ import UIKit
 protocol DBClientCommentsProtocol {
     var comments: [DBComment] { get }
     func clearComments()
-    func loadComments(image_id_number id_number: Int, preloadProfile: Bool, preloadAvatar: Bool, urlSession: NSURLSession?, copyToClass: Bool, handler: ((comments: [DBComment]) -> Void)?)
+    func loadComments(image_id id: String, preloadProfile: Bool, preloadAvatar: Bool, urlSession: NSURLSession?, copyToClass: Bool, handler: ((comments: [DBComment]) -> Void)?)
 }
 
 class DBClientComments: DBClient {
@@ -29,9 +29,9 @@ class DBClientComments: DBClient {
         comments.removeAll()
     }
     
-    func loadComments(image_id_number id_number: Int, preloadProfile: Bool, preloadAvatar: Bool, urlSession: NSURLSession?, copyToClass: Bool, handler: ((comments: [DBComment]) -> Void)?) {
+    func loadComments(image_id id: String, preloadProfile: Bool, preloadAvatar: Bool, urlSession: NSURLSession?, copyToClass: Bool, handler: ((comments: [DBComment]) -> Void)?) {
         
-        guard let url = "https://www.derpibooru.org/\(id_number).json?comments=true".toURL() else { print("loadComments() error: cannot assemble valid url for image_id_number: \(id_number)"); return }
+        guard let url = "https://www.derpibooru.org/\(id).json?comments=true".toURL() else { print("loadComments() error: cannot assemble valid url for image_id_number: \(id)"); return }
         
         NetworkManager.loadData(url, urlSession: urlSession ?? clientSession, completion: { data in
             do {

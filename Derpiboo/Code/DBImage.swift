@@ -12,7 +12,7 @@ class DBImage {
     
     //Data
     let id: String
-    let id_number: Int
+    //let id_number: Int //doesn't exist anymore after jun 28
     
     var created_at: String?
     var updated_at: String?
@@ -73,9 +73,8 @@ class DBImage {
         case full
     }
     
-    init(id: String, id_number: Int) {
+    init(id: String) {
         self.id = id
-        self.id_number = id_number
     }
     
     func getImage(ofSizeType sizeType: ImageSizeType, urlSession: NSURLSession?, completion: (image: DBImage?) -> Void) -> UIImage? {
@@ -117,7 +116,7 @@ class DBImage {
     
     func downloadImage(ofSizeType sizeType: ImageSizeType, urlSession: NSURLSession?, useCustomDelegate: Bool, completion: ((image: DBImage?) -> Void)?) {
         guard let u = getImageURL(ofSizeType: sizeType) else { print("getImageURL() error at DBImage"); return }
-        guard let url = "https:\(u)".toURL() else { print("DBImage downloadImage() url error, for dbImage: \(id_number), for url: \(getImageURL(ofSizeType: sizeType))"); return }
+        guard let url = "https:\(u)".toURL() else { print("DBImage downloadImage() url error, for dbImage: \(id), for url: \(getImageURL(ofSizeType: sizeType))"); return }
         
         if useCustomDelegate {
             NetworkManager.loadData(url, urlSession: urlSession)

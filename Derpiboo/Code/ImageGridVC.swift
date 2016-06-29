@@ -85,7 +85,7 @@ class ImageGridVC: UICollectionViewController {
     private func loadMoreImages(completion: (isEndOfResults: Bool) -> Void) {
         isLoadingImages = true
         let currentImagesCount = images.count
-        derpibooru.loadImages(ofType: imageResultsType, asNewResults: true, listName: listName, preloadThumbImage: true, urlSession: urlSession, copyToClass: true, completion: { _ in
+        derpibooru.loadImages(ofType: imageResultsType, asNewResults: false, listName: listName, preloadThumbImage: true, urlSession: urlSession, copyToClass: true, completion: { _ in
             let bool = currentImagesCount == self.images.count
             dispatch_async(dispatch_get_main_queue()) {
                 self.isLoadingImages = false

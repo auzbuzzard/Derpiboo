@@ -50,7 +50,7 @@ class ImageDetailPageVC: UIViewController, SFSafariViewControllerDelegate {
     }
     
     @IBAction func openInSafari(sender: UIBarButtonItem) {
-        let url = NSURL(string: "https://derpibooru.org/\(derpibooru.images[currentImageIndex].id_number)")
+        let url = NSURL(string: "https://derpibooru.org/\(derpibooru.images[currentImageIndex].id)")
         let svc = SFSafariViewController(URL: url!, entersReaderIfAvailable: true)
         svc.delegate = self
         self.presentViewController(svc, animated: true, completion: nil)
@@ -160,12 +160,15 @@ class ImageDetailPageVC: UIViewController, SFSafariViewControllerDelegate {
     }
     
     private func shareLinkViaActivityView() {
-        if let url = NSURL(string: "https://derpibooru.org/\(derpibooru.images[currentImageIndex].id_number)") {
+        if let url = NSURL(string: "https://derpibooru.org/\(derpibooru.images[currentImageIndex].id)") {
             print("ok")
             let activity = UIActivityViewController(activityItems: [url], applicationActivities: nil)
             presentViewController(activity, animated: true, completion: nil)
         }
     }
+    
+    // Cleaning
+    
 }
 
 extension ImageDetailPageVC: UIPageViewControllerDataSource {

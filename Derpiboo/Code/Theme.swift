@@ -131,6 +131,8 @@ struct Theme {
         UITableView.appearance().backgroundColor = theme.background
         UITableViewCell.appearance().backgroundColor = theme.background2
         
+        UICollectionView.appearance().backgroundColor = theme.background
+        
         UISwitch.appearance().tintColor = theme.highlight
     }
 }

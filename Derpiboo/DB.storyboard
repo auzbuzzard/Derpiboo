@@ -94,7 +94,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="159.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="sei-bx-gMC">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" image="no_avatar" translatesAutoresizingMaskIntoConstraints="NO" id="sei-bx-gMC">
                                             <rect key="frame" x="20" y="16" width="128" height="128"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="sei-bx-gMC" secondAttribute="height" multiplier="1:1" id="166-ne-myH"/>
@@ -142,12 +142,14 @@
                                         <constraint firstItem="BNg-gt-Z1q" firstAttribute="leading" secondItem="4rL-X2-hkJ" secondAttribute="leading" id="8Mc-S8-sRo"/>
                                         <constraint firstItem="sei-bx-gMC" firstAttribute="centerY" secondItem="Bqq-j3-n24" secondAttribute="centerY" id="IzI-R6-RuK"/>
                                         <constraint firstItem="sei-bx-gMC" firstAttribute="bottom" secondItem="jNY-cU-c1x" secondAttribute="bottom" id="NUx-eI-hM9"/>
+                                        <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="sei-bx-gMC" secondAttribute="bottom" constant="8" id="Rd0-q5-bH0"/>
                                         <constraint firstItem="4rL-X2-hkJ" firstAttribute="top" secondItem="BNg-gt-Z1q" secondAttribute="bottom" constant="8" symbolic="YES" id="Srr-Mc-I2q"/>
                                         <constraint firstItem="sei-bx-gMC" firstAttribute="leading" secondItem="Bqq-j3-n24" secondAttribute="leadingMargin" constant="12" id="Wy8-AQ-SPl"/>
                                         <constraint firstItem="BNg-gt-Z1q" firstAttribute="top" secondItem="Bqq-j3-n24" secondAttribute="topMargin" constant="8" id="XcO-Yd-B6e"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="BNg-gt-Z1q" secondAttribute="trailing" constant="12" id="apb-gq-YXa"/>
                                         <constraint firstItem="4rL-X2-hkJ" firstAttribute="leading" secondItem="jNY-cU-c1x" secondAttribute="leading" id="etO-jj-hYx"/>
                                         <constraint firstItem="BNg-gt-Z1q" firstAttribute="leading" secondItem="sei-bx-gMC" secondAttribute="trailing" constant="8" symbolic="YES" id="g3s-xZ-434"/>
+                                        <constraint firstItem="sei-bx-gMC" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Bqq-j3-n24" secondAttribute="topMargin" constant="8" id="lsd-06-m4r"/>
                                         <constraint firstItem="sei-bx-gMC" firstAttribute="top" secondItem="Bqq-j3-n24" secondAttribute="topMargin" constant="8" id="qbC-GV-BJZ"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="jNY-cU-c1x" secondAttribute="bottom" constant="7.5" id="qij-ll-hkP"/>
                                         <constraint firstItem="BNg-gt-Z1q" firstAttribute="trailing" secondItem="jNY-cU-c1x" secondAttribute="trailing" id="wRA-Kb-Anx"/>

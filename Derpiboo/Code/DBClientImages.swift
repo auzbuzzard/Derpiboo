@@ -195,9 +195,9 @@ class DBClientImages: DBClient, DBClientImagesProtocol {
         for image in results {
             
             guard let id = image["id"] as? String else { print("Error parsing"); continue }
-            guard let id_number = image["id_number"] as? Int else { print("Error parsing"); continue }
+            //guard let id_number = image["id_number"] as? Int else { print("Error parsing"); continue } //doesn't seem to exists anymore after jun28
             
-            var dbImage = DBImage(id: id, id_number: id_number)
+            var dbImage = DBImage(id: id)
             
             dictToDBImage(dictionary: image, dbImage: &dbImage)
             
@@ -229,9 +229,9 @@ class DBClientImages: DBClient, DBClientImagesProtocol {
             
             for image in topScoring {
                 guard let id = image["id"] as? String else { print("Error parsing"); continue }
-                guard let id_number = image["id_number"] as? Int else { print("Error parsing"); continue }
+                //guard let id_number = image["id_number"] as? Int else { print("Error parsing"); continue }
                 
-                var dbImage = DBImage(id: id, id_number: id_number)
+                var dbImage = DBImage(id: id)
                 
                 dictToDBImage(dictionary: image, dbImage: &dbImage)
                 

@@ -43,7 +43,7 @@ class NetworkManager {
     
     static func loadData(url: NSURL, urlSession: NSURLSession?, completion: ((data: NSData) -> Void)) {
         
-        //print(url)
+        print(url)
         
         let session = urlSession ?? defaultURLSession
         

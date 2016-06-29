@@ -24,7 +24,7 @@ class InfoPaneCommentsVC: UITableViewController {
         tableView.estimatedRowHeight = 190.0
         tableView.tableFooterView = UIView()
         
-        derpibooru.loadComments(image_id_number: dbImage.id_number, preloadProfile: false, preloadAvatar: false, urlSession: urlSession, copyToClass: false, handler: { comments in
+        derpibooru.loadComments(image_id: dbImage.id, preloadProfile: false, preloadAvatar: false, urlSession: urlSession, copyToClass: false, handler: { comments in
             self.dbImage.comments = comments.reverse()
             self.tableView.reloadData()
         })
