@@ -74,6 +74,7 @@ class ImageGroupTableVC: UITableViewController {
             let vc = segue.destinationViewController as! ListsSelectedVC
             vc.selectedTableIndex = tableView.indexPathForSelectedRow?.row
             vc.selectedListName = getListName(fromIndex: (tableView.indexPathForSelectedRow?.row)!)
+            vc.navigationItem.title = derpibooru.getListNameReadable(vc.selectedListName)
         }
     }
     

@@ -18,6 +18,7 @@ class InfoPaneRootVC: UIViewController {
     
     var contentInset: UIEdgeInsets!
 
+    @IBOutlet weak var infoPaneTab: UISegmentedControl!
     @IBAction func infoPaneTabValueChanged(sender: UISegmentedControl) {
         
         getInfoPaneChildView(sender.selectedSegmentIndex)
@@ -26,6 +27,9 @@ class InfoPaneRootVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //print("layoutguide: \(topLayoutGuide.length)")
+        if let commentCount = dbImage.comment_count {
+            infoPaneTab.setTitle("\(commentCount) \(commentCount == 1 ? "Comment" : "Comments")", forSegmentAtIndex: 1)
+        }
         
         getInfoPaneChildView(0)
 
