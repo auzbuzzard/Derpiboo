@@ -130,35 +130,32 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bio" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jNY-cU-c1x">
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="User bio here:" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Gke-6Z-AGt">
                                             <rect key="frame" x="156" y="80" width="424" height="64"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        </textView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="jNY-cU-c1x" firstAttribute="top" secondItem="4rL-X2-hkJ" secondAttribute="bottom" constant="8" symbolic="YES" id="4Hr-S4-jxr"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="Gke-6Z-AGt" secondAttribute="trailing" constant="12" id="1yS-yY-NfM"/>
                                         <constraint firstItem="BNg-gt-Z1q" firstAttribute="leading" secondItem="4rL-X2-hkJ" secondAttribute="leading" id="8Mc-S8-sRo"/>
+                                        <constraint firstItem="Gke-6Z-AGt" firstAttribute="top" secondItem="4rL-X2-hkJ" secondAttribute="bottom" constant="8" id="DSd-g8-RIS"/>
                                         <constraint firstItem="sei-bx-gMC" firstAttribute="centerY" secondItem="Bqq-j3-n24" secondAttribute="centerY" id="IzI-R6-RuK"/>
-                                        <constraint firstItem="sei-bx-gMC" firstAttribute="bottom" secondItem="jNY-cU-c1x" secondAttribute="bottom" id="NUx-eI-hM9"/>
+                                        <constraint firstItem="Gke-6Z-AGt" firstAttribute="leading" secondItem="sei-bx-gMC" secondAttribute="trailing" constant="8" id="QRa-Ux-IzB"/>
                                         <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="sei-bx-gMC" secondAttribute="bottom" constant="8" id="Rd0-q5-bH0"/>
                                         <constraint firstItem="4rL-X2-hkJ" firstAttribute="top" secondItem="BNg-gt-Z1q" secondAttribute="bottom" constant="8" symbolic="YES" id="Srr-Mc-I2q"/>
                                         <constraint firstItem="sei-bx-gMC" firstAttribute="leading" secondItem="Bqq-j3-n24" secondAttribute="leadingMargin" constant="12" id="Wy8-AQ-SPl"/>
                                         <constraint firstItem="BNg-gt-Z1q" firstAttribute="top" secondItem="Bqq-j3-n24" secondAttribute="topMargin" constant="8" id="XcO-Yd-B6e"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="BNg-gt-Z1q" secondAttribute="trailing" constant="12" id="apb-gq-YXa"/>
-                                        <constraint firstItem="4rL-X2-hkJ" firstAttribute="leading" secondItem="jNY-cU-c1x" secondAttribute="leading" id="etO-jj-hYx"/>
                                         <constraint firstItem="BNg-gt-Z1q" firstAttribute="leading" secondItem="sei-bx-gMC" secondAttribute="trailing" constant="8" symbolic="YES" id="g3s-xZ-434"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="Gke-6Z-AGt" secondAttribute="bottom" constant="8" id="gIa-e3-fmK"/>
                                         <constraint firstItem="sei-bx-gMC" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Bqq-j3-n24" secondAttribute="topMargin" constant="8" id="lsd-06-m4r"/>
                                         <constraint firstItem="sei-bx-gMC" firstAttribute="top" secondItem="Bqq-j3-n24" secondAttribute="topMargin" constant="8" id="qbC-GV-BJZ"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="jNY-cU-c1x" secondAttribute="bottom" constant="7.5" id="qij-ll-hkP"/>
-                                        <constraint firstItem="BNg-gt-Z1q" firstAttribute="trailing" secondItem="jNY-cU-c1x" secondAttribute="trailing" id="wRA-Kb-Anx"/>
                                         <constraint firstItem="sei-bx-gMC" firstAttribute="trailing" secondItem="BNg-gt-Z1q" secondAttribute="trailing" id="y3F-E9-aYs"/>
                                         <constraint firstItem="sei-bx-gMC" firstAttribute="top" secondItem="BNg-gt-Z1q" secondAttribute="top" id="yV8-fW-2t8"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
-                                            <exclude reference="NUx-eI-hM9"/>
                                             <exclude reference="qbC-GV-BJZ"/>
                                             <exclude reference="y3F-E9-aYs"/>
                                             <exclude reference="yV8-fW-2t8"/>
@@ -167,7 +164,7 @@
                                 </tableViewCellContentView>
                                 <edgeInsets key="layoutMargins" top="8" left="0.0" bottom="8" right="8"/>
                                 <connections>
-                                    <outlet property="bioLabel" destination="jNY-cU-c1x" id="OcX-xH-Md5"/>
+                                    <outlet property="bioTextView" destination="Gke-6Z-AGt" id="BdE-F2-LB9"/>
                                     <outlet property="descriptionLabel" destination="4rL-X2-hkJ" id="hRh-Hl-uYW"/>
                                     <outlet property="profileImageView" destination="sei-bx-gMC" id="a2z-7R-EdI"/>
                                     <outlet property="usernameLabel" destination="BNg-gt-Z1q" id="DDa-4L-ueE"/>

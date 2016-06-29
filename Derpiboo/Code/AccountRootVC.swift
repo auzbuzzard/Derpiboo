@@ -60,6 +60,8 @@ class AccountRootVC: UITableViewController {
             
             let cell = tableView.dequeueReusableCellWithIdentifier(userHeaderReuseIdentifier, forIndexPath: indexPath) as! AccountUserHeaderCell
             
+            cell.bioTextView.textColor = Theme.current().labelText
+            
 //            cell.profileImageView.layer.cornerRadius = cell.profileImageView.frame.size.width / 2
 //            cell.profileImageView.clipsToBounds = true
             
@@ -68,7 +70,7 @@ class AccountRootVC: UITableViewController {
             if derpibooru.profile != nil {
                 
                 cell.usernameLabel.text = profile?.name
-                cell.bioLabel.text = profile?.description
+                cell.bioTextView.text = profile?.description
                 cell.profileImageView.image = profile?.avatar
                 
                 if let avatar = profile?.avatar {
@@ -164,7 +166,7 @@ class AccountUserHeaderCell: UITableViewCell {
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var bioLabel: UILabel!
+    @IBOutlet weak var bioTextView: UITextView!
     
 }
 
