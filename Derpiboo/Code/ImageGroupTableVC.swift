@@ -26,7 +26,7 @@ class ImageGroupTableVC: UITableViewController {
         tableView.estimatedRowHeight = 190.0
         tableView.tableFooterView = UIView()
         
-        imageGroupVC = ImageGroupVC()
+        //imageGroupVC = ImageGroupVC()
         
         derpibooru.loadMainList(urlSession, copyToClass: true, completion: {_ in
             self.tableView.reloadData()

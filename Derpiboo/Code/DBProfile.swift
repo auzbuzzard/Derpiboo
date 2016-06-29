@@ -58,13 +58,40 @@ class DBProfile {
         })
     }
     
+    func downloadAwardImage(award: DBProfileAwards, urlSession: NSURLSession?, completion: ((image: UIImage?) -> Void)?) {
+        guard let url = "https:\(award.image_url)".toURL() else { print("downloadAwardImage() url error, url: \(award.image_url)"); return }
+        
+        NetworkManager.loadData(url, urlSession: urlSession, completion: { data in
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+                
+                guard let image = UIImage(data: data) else { print("data to image error for award image"); completion?(image: nil); return }
+                dispatch_async(dispatch_get_main_queue()) {
+                    award.image = image
+                    completion?(image: image)
+                }
+                
+            }
+            
+        })
+    }
+    
 }
 
-struct DBProfileAwards {
+class DBProfileAwards {
     let image_url: String
     let title: String
     let id: Int
     let awarded_on: String
+    
+    init(image_url: String, title: String, id: Int, awarded_on: String) {
+        self.image_url = image_url
+        self.title = title
+        self.id = id
+        self.awarded_on = awarded_on
+    }
+    
+    var image: UIImage?
 }
 
 

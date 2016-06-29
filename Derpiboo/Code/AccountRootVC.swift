@@ -17,6 +17,26 @@ class AccountRootVC: UITableViewController {
     let urlSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
     
     var derpibooru: Derpibooru!
+    var userProfile: DBProfile? { get { return derpibooru.profile } }
+    
+    private func getProfileName(completion: String -> Void) {
+        if let username = derpibooru.profileName {
+            return completion(username)
+        }
+    }
+    private func getProfile(completion: DBProfile -> Void) {
+        
+        if let profile = derpibooru.profile {
+            return completion(profile)
+        } else {
+            getProfileName({ username in
+                self.derpibooru.loadProfile(username, preloadAvatar: true, urlSession: self.urlSession, copyToClass: true, handler: { profile in
+                    return profile
+                })
+            })
+        }
+        
+    }
     
     var reloadCount = 0
 
@@ -25,7 +45,7 @@ class AccountRootVC: UITableViewController {
         
         derpibooru = Derpibooru()
         
-        tableView.rowHeight = UITableViewAutomaticDimension
+        //tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 160
         tableView.tableFooterView = UIView()
         
@@ -65,18 +85,15 @@ class AccountRootVC: UITableViewController {
 //            cell.profileImageView.layer.cornerRadius = cell.profileImageView.frame.size.width / 2
 //            cell.profileImageView.clipsToBounds = true
             
-            let profile = derpibooru.profile
-            
-            if derpibooru.profile != nil {
+            getProfile({ profile in
+                cell.usernameLabel.text = profile.name
+                cell.bioTextView.text = profile.description
+                cell.profileImageView.image = profile.avatar
                 
-                cell.usernameLabel.text = profile?.name
-                cell.bioTextView.text = profile?.description
-                cell.profileImageView.image = profile?.avatar
-                
-                if let avatar = profile?.avatar {
+                if let avatar = profile.avatar {
                     cell.profileImageView.image = avatar
                 } else {
-                    profile?.downloadAvatar(urlSession, completion: { profile in
+                    profile.downloadAvatar(self.urlSession, completion: { profile in
                         if let profile = profile {
                             dispatch_async(dispatch_get_main_queue()) {
                                 cell.profileImageView.image = profile.avatar
@@ -84,32 +101,24 @@ class AccountRootVC: UITableViewController {
                         }
                     })
                 }
-                                
-            } else {
-                if let username = derpibooru.profileName {
-                    derpibooru.loadProfile(username, preloadAvatar: true, urlSession: urlSession, copyToClass: false, handler: { profile in
-                        if let _ = profile {
-                            dispatch_async(dispatch_get_main_queue()) {
-                                if self.reloadCount < 5 {
-                                    tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
-                                    self.reloadCount += 1
-                                }
-                            }
-                        }
-                    })
-                } else {
-                    
-                }
-            }
+                
+            })
             
             return cell
             
         } else if indexPath.row == 1 { //badge
             let cell = tableView.dequeueReusableCellWithIdentifier(badgesReuseIdentifier, forIndexPath: indexPath) as! BadgesTableCell
-            
             return cell
         } else {
             return UITableViewCell()
+        }
+    }
+    
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath == NSIndexPath(forRow: 1, inSection: 0) {
+            if let badgeCell = cell as? BadgesTableCell {
+                badgeCell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
+            }
         }
     }
     
@@ -161,6 +170,61 @@ class AccountRootVC: UITableViewController {
 
 }
 
+extension AccountRootVC: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("count\(derpibooru.profile?.awards.count)")
+        //return derpibooru.profile?.awards.count ?? 1
+        return userProfile?.awards.count ?? 0
+    }
+    
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(badgesCollectionViewCellReuseIdentifier, forIndexPath: indexPath) as! BadgesCollectionViewCell
+        
+        if let profile = userProfile {
+            if indexPath.row < profile.awards.count {
+                let award = profile.awards[indexPath.row]
+                cell.badgeLabel.text = award.title
+                
+                if let image = award.image {
+                    cell.badgeIconView.image = image
+                } else {
+                    profile.downloadAwardImage(award, urlSession: self.urlSession, completion: { image in
+                        cell.badgeIconView.image = image
+                        collectionView.reloadItemsAtIndexPaths([indexPath])
+                    })
+                }
+            }
+        }
+        
+//        getProfile({ profile in
+//            if indexPath.row >= profile.awards.count {
+//                let award = profile.awards[indexPath.row]
+//                cell.badgeLabel.text = award.title
+//                if let image = award.image {
+//                    cell.badgeIconView.image = image
+//                } else {
+//                    profile.downloadAwardImage(award, urlSession: self.urlSession, completion: { image in
+//                        cell.badgeIconView.image = image
+//                        collectionView.reloadData()
+//                    })
+//                }
+//                
+//            }
+//                
+//            
+//        })
+//        collectionView.reloadData()
+        
+        return cell
+    }
+}
+
 class AccountUserHeaderCell: UITableViewCell {
     
     @IBOutlet weak var profileImageView: UIImageView!
@@ -175,6 +239,15 @@ class BadgesTableCell: UITableViewCell {
     @IBOutlet weak var badgesLabel: UILabel!
     @IBOutlet weak var badgeCollectionView: UICollectionView!
     
+    func setCollectionViewDataSourceDelegate
+        <D: protocol<UICollectionViewDataSource, UICollectionViewDelegate>>
+        (dataSourceDelegate: D, forRow row: Int) {
+        
+        badgeCollectionView.delegate = dataSourceDelegate
+        badgeCollectionView.dataSource = dataSourceDelegate
+        //badgeCollectionView.tag = row
+        badgeCollectionView.reloadData()
+    }
     
 }
 
