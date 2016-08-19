@@ -24,10 +24,9 @@ class InfoPaneCommentsVC: UITableViewController {
         tableView.estimatedRowHeight = 190.0
         tableView.tableFooterView = UIView()
         
-        derpibooru.loadComments(image_id: dbImage.id, preloadProfile: false, preloadAvatar: false, urlSession: urlSession, copyToClass: false, handler: { comments in
-            self.dbImage.comments = comments.reverse()
-            self.tableView.reloadData()
-        })
+        refreshControl?.addTarget(self, action: #selector(InfoPaneCommentsVC.handleRefresh), forControlEvents: UIControlEvents.ValueChanged)
+        
+        loadComments(false)
         
     }
 
@@ -38,6 +37,20 @@ class InfoPaneCommentsVC: UITableViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         //print("scrollviewinset: \(tableView.contentInset)")
+    }
+    
+    private func loadComments(stopRefresh: Bool) {
+        derpibooru.loadComments(image_id: dbImage.id, preloadProfile: false, preloadAvatar: false, urlSession: urlSession, copyToClass: false, handler: { comments in
+            self.dbImage.comments = comments.reverse()
+            self.tableView.reloadData()
+            if stopRefresh {
+                self.refreshControl?.endRefreshing()
+            }
+        })
+    }
+    
+    func handleRefresh() {
+        loadComments(true)
     }
 
     // MARK: - Table view data source
@@ -98,10 +111,6 @@ class InfoPaneCommentsVC: UITableViewController {
         cell.contentField.frame.size = CGSize(width: max(newSize.width, fixedWidth), height: newSize.height)
 
         return cell
-    }
-    
-    private func loadComments() {
-        
     }
 
     /*

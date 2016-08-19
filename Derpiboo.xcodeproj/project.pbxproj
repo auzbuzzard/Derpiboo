@@ -56,6 +56,7 @@
 		D9F866A01D18C53800FBE9B5 /* InfoPaneRootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F8669F1D18C53800FBE9B5 /* InfoPaneRootVC.swift */; };
 		D9F866A21D18C55300FBE9B5 /* InfoPaneDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F866A11D18C55300FBE9B5 /* InfoPaneDetailsVC.swift */; };
 		D9F866A41D18C56300FBE9B5 /* InfoPaneCommentsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F866A31D18C56300FBE9B5 /* InfoPaneCommentsVC.swift */; };
+		D9FE5BB31D2609B500F8FB4B /* ProfileViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FE5BB21D2609B500F8FB4B /* ProfileViewVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -131,6 +132,7 @@
 		D9F8669F1D18C53800FBE9B5 /* InfoPaneRootVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InfoPaneRootVC.swift; path = Code/InfoPaneRootVC.swift; sourceTree = "<group>"; };
 		D9F866A11D18C55300FBE9B5 /* InfoPaneDetailsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InfoPaneDetailsVC.swift; path = Code/InfoPaneDetailsVC.swift; sourceTree = "<group>"; };
 		D9F866A31D18C56300FBE9B5 /* InfoPaneCommentsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InfoPaneCommentsVC.swift; path = Code/InfoPaneCommentsVC.swift; sourceTree = "<group>"; };
+		D9FE5BB21D2609B500F8FB4B /* ProfileViewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewVC.swift; path = Code/ProfileViewVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -244,6 +246,7 @@
 		D96F8FCB1D1622BF002D3F48 /* Results */ = {
 			isa = PBXGroup;
 			children = (
+				D9FE5BB41D2609C100F8FB4B /* ProfileView */,
 				D9F8669E1D18C51C00FBE9B5 /* InfoPane */,
 				D9872A771D1545CB001822A1 /* ImageDetail */,
 				D90B9A231D0BF35F0042817B /* ImageGrid */,
@@ -445,6 +448,14 @@
 			name = InfoPane;
 			sourceTree = "<group>";
 		};
+		D9FE5BB41D2609C100F8FB4B /* ProfileView */ = {
+			isa = PBXGroup;
+			children = (
+				D9FE5BB21D2609B500F8FB4B /* ProfileViewVC.swift */,
+			);
+			name = ProfileView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -624,6 +635,7 @@
 				D98CB93F1C2BA7160029A6F7 /* ResultsCollectionCellVC.swift in Sources */,
 				D9F6F5B81D151A440027D122 /* SearchRootVC.swift in Sources */,
 				D98CB9461C2D8ADC0029A6F7 /* ImageDetailPageVC_old.swift in Sources */,
+				D9FE5BB31D2609B500F8FB4B /* ProfileViewVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

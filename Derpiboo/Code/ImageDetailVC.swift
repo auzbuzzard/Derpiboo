@@ -34,9 +34,11 @@ class ImageDetailVC: UIViewController {
         navigationController?.barHideOnTapGestureRecognizer.requireGestureRecognizerToFail(sender)
 
         if (scrollView.zoomScale > scrollView.minimumZoomScale) {
-            scrollView.setZoomScale(scrollView.minimumZoomScale, animated: true)
+            scrollView.zoomToPoint(sender.locationOfTouch(0, inView: view), withScale: scrollView.minimumZoomScale, animated: true)
+            //scrollView.setZoomScale(scrollView.minimumZoomScale, animated: true)
         } else {
-            scrollView.setZoomScale(scrollView.minimumZoomScale * 3, animated: true)
+            scrollView.zoomToPoint(sender.locationOfTouch(0, inView: view), withScale: scrollView.minimumZoomScale * 3, animated: true)
+            //scrollView.setZoomScale(scrollView.minimumZoomScale * 3, animated: true)
         }
     }
 
@@ -171,4 +173,28 @@ extension ImageDetailVC: NSURLSessionDelegate, NSURLSessionDataDelegate {
         let percentageDownloaded = Float(buffer.length) / Float(expectedContentLength)
         progressView.progress =  percentageDownloaded
     }
+}
+
+extension UIScrollView {
+    
+    func zoomToPoint(zoomPoint: CGPoint, withScale scale: CGFloat, animated: Bool) {
+        //Normalize current content size back to content scale of 1.0f
+        let contentSize = CGSize(width: (self.contentSize.width / self.zoomScale), height: (self.contentSize.height / self.zoomScale))
+        
+        //translate the zoom point to relative to the content rect
+        let newZoomPoint = CGPoint(x: (zoomPoint.x / self.bounds.size.width) * contentSize.width, y: (zoomPoint.y / self.bounds.size.height) * contentSize.height)
+        
+        //derive the size of the region to zoom to
+        let zoomSize = CGSize(width: self.bounds.size.width / scale, height: self.bounds.size.height / scale)
+        
+        //offset the zoom rect so the actual zoom point is in the middle of the rectangle
+        let zoomRect = CGRect(x: newZoomPoint.x - zoomSize.width / 2.0,
+                              y: newZoomPoint.y - zoomSize.height / 2.0,
+                              width: zoomSize.width,
+                              height: zoomSize.height)
+        
+        //apply the resize
+        self.zoomToRect(zoomRect, animated: animated)
+    }
+    
 }
