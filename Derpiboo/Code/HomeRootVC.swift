@@ -15,7 +15,7 @@ class HomeRootVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        imageGrid = storyboard?.instantiateViewControllerWithIdentifier("ImageGridVC") as! ImageGridVC
+        imageGrid = storyboard?.instantiateViewController(withIdentifier: "ImageGridVC") as! ImageGridVC
         
         imageGrid.derpibooru = Derpibooru()
         imageGrid.imageResultsType = DBClientImages.ImageResultsType.Home

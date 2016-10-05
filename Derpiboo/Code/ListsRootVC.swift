@@ -15,7 +15,7 @@ class ListsRootVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        imageGroupTable = storyboard?.instantiateViewControllerWithIdentifier("ImageGroupTableVC") as! ImageGroupTableVC
+        imageGroupTable = storyboard?.instantiateViewController(withIdentifier: "ImageGroupTableVC") as! ImageGroupTableVC
         
         imageGroupTable.derpibooru = Derpibooru()
         

@@ -10,13 +10,13 @@ import UIKit
 
 class ImageGroupVC: UICollectionViewController {
     
-    private let cellReuseIdentifier = "groupCell"
-    private let headerReuseIdentifier = "groupHeader"
+    fileprivate let cellReuseIdentifier = "groupCell"
+    fileprivate let headerReuseIdentifier = "groupHeader"
     
     var derpibooru: Derpibooru!
     var images: [DBImage] { get { return derpibooru.images } }
     
-    let urlSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    let urlSession = URLSession(configuration: URLSessionConfiguration.default)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,25 +42,25 @@ class ImageGroupVC: UICollectionViewController {
 
     // MARK: UICollectionViewDataSource
 
-    override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
 
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
         return images.count
     }
 
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellReuseIdentifier, forIndexPath: indexPath) as! ImageGridCell
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellReuseIdentifier, for: indexPath) as! ImageGridCell
         
         cell.layer.shouldRasterize = true
-        cell.layer.rasterizationScale = UIScreen.mainScreen().scale
+        cell.layer.rasterizationScale = UIScreen.main.scale
         
         cell.contentView.layer.borderWidth = 1
-        cell.contentView.layer.borderColor = Theme.current().background2.CGColor
+        cell.contentView.layer.borderColor = Theme.current().background2.cgColor
         
         cell.backgroundColor = Theme.current().background
         cell.stackViewBackgroundView.backgroundColor = Theme.current().background2
@@ -86,8 +86,8 @@ class ImageGroupVC: UICollectionViewController {
         return cell
     }
     
-    override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-        let headerCell = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: headerReuseIdentifier, forIndexPath: indexPath) as! ImageGroupHeader
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let headerCell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerReuseIdentifier, for: indexPath) as! ImageGroupHeader
         
         headerCell.headerLabel.text = derpibooru.getListNameReadable(nil)
         
@@ -95,13 +95,13 @@ class ImageGroupVC: UICollectionViewController {
     }
     
     func onImageDownloadComplete(image dbImage: DBImage?) {
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             if let dbImage = dbImage {
                 guard let indexPath = self.indexPathFromDBImage(dbImage) else { return }
                 
-                for cell in (self.collectionView?.visibleCells())! {
-                    if self.collectionView?.indexPathForCell(cell) == indexPath {
-                        self.collectionView?.reloadItemsAtIndexPaths([indexPath])
+                for cell in (self.collectionView?.visibleCells)! {
+                    if self.collectionView?.indexPath(for: cell) == indexPath {
+                        self.collectionView?.reloadItems(at: [indexPath])
                         return
                     }
                 }
@@ -141,25 +141,25 @@ class ImageGroupVC: UICollectionViewController {
     }
     */
     
-    func indexPathToImageIndex(indexPath: NSIndexPath) -> Int? {
-        if indexPath.row < images.count {
-            return indexPath.row
+    func indexPathToImageIndex(_ indexPath: IndexPath) -> Int? {
+        if (indexPath as NSIndexPath).row < images.count {
+            return (indexPath as NSIndexPath).row
         } else {
             return nil
         }
     }
     
-    func imageIndexToIndexPath(index: Int) -> NSIndexPath {
-        return NSIndexPath(forItem: index, inSection: 0)
+    func imageIndexToIndexPath(_ index: Int) -> IndexPath {
+        return IndexPath(item: index, section: 0)
     }
     
-    func dbImageFromIndexPath(indexPath: NSIndexPath) -> DBImage? {
+    func dbImageFromIndexPath(_ indexPath: IndexPath) -> DBImage? {
         guard let index = indexPathToImageIndex(indexPath) else { return nil }
         return images[index]
     }
     
-    func indexPathFromDBImage(dbImage: DBImage) -> NSIndexPath? {
-        guard let index = images.indexOf({$0 === dbImage}) else { return nil }
+    func indexPathFromDBImage(_ dbImage: DBImage) -> IndexPath? {
+        guard let index = images.index(where: {$0 === dbImage}) else { return nil }
         return imageIndexToIndexPath(index)
     }
     

@@ -18,14 +18,14 @@ class SettingTableVC: UITableViewController, SFSafariViewControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let api = defaults.stringForKey("userAPIKey") {
+        if let api = defaults.string(forKey: "userAPIKey") {
             userAPIKeyField.text = api
         }
-        if defaults.objectForKey("userAPIKeySwitch") != nil {
-            userAPIKeySwitch.on = defaults.boolForKey("userAPIKeySwitch")
+        if defaults.object(forKey: "userAPIKeySwitch") != nil {
+            userAPIKeySwitch.isOn = defaults.bool(forKey: "userAPIKeySwitch")
         } else {
-            defaults.setBool(true, forKey: "userAPIKeySwitch")
-            userAPIKeySwitch.on = defaults.boolForKey("userAPIKeySwitch")
+            defaults.set(true, forKey: "userAPIKeySwitch")
+            userAPIKeySwitch.isOn = defaults.bool(forKey: "userAPIKeySwitch")
         }
 
     }
@@ -39,7 +39,7 @@ class SettingTableVC: UITableViewController, SFSafariViewControllerDelegate {
     // MARK: Variables / Stores
     // ------------------------------------
     
-    let defaults = NSUserDefaults.standardUserDefaults()
+    let defaults = UserDefaults.standard
     
     // ------------------------------------
     // MARK: IBAction / IBOutlet
@@ -48,28 +48,28 @@ class SettingTableVC: UITableViewController, SFSafariViewControllerDelegate {
     @IBOutlet var userAPIKeyField: UITextField!
     @IBOutlet var userAPIKeySwitch: UISwitch!
     
-    @IBAction func userAPIKeyEnter(sender: UITextField) {
+    @IBAction func userAPIKeyEnter(_ sender: UITextField) {
         defaults.setValue(sender.text!, forKey: "userAPIKey")
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {   //delegate method
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {   //delegate method
         textField.resignFirstResponder()
         return true
     }
     
-    @IBAction func useAPIKeyToggle(sender: UISwitch) {
-        defaults.setBool(sender.on, forKey: "userAPIKeySwitch")
+    @IBAction func useAPIKeyToggle(_ sender: UISwitch) {
+        defaults.set(sender.isOn, forKey: "userAPIKeySwitch")
     }
     
     // ------------------------------------
     // MARK: TableViewVC
     // ------------------------------------
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == 1 && indexPath.row == 0 {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 0 {
             getAPIKeyFromDB()
         }
-        if indexPath.section == 2 && indexPath.row == 0 {
+        if (indexPath as NSIndexPath).section == 2 && (indexPath as NSIndexPath).row == 0 {
             getFilterSettingsFromDB()
         }
     }
@@ -80,16 +80,16 @@ class SettingTableVC: UITableViewController, SFSafariViewControllerDelegate {
     // ------------------------------------
     
     func getAPIKeyFromDB() {
-        let url = NSURL(string: "https://derpibooru.org/users/edit")
-        let svc = SFSafariViewController(URL: url!, entersReaderIfAvailable: false)
+        let url = URL(string: "https://derpibooru.org/users/edit")
+        let svc = SFSafariViewController(url: url!, entersReaderIfAvailable: false)
         svc.delegate = self
-        self.presentViewController(svc, animated: true, completion: nil)
+        self.present(svc, animated: true, completion: nil)
     }
     
     func getFilterSettingsFromDB() {
-        let url = NSURL(string: "https://derpibooru.org/filters")
-        let svc = SFSafariViewController(URL: url!, entersReaderIfAvailable: false)
+        let url = URL(string: "https://derpibooru.org/filters")
+        let svc = SFSafariViewController(url: url!, entersReaderIfAvailable: false)
         svc.delegate = self
-        self.presentViewController(svc, animated: true, completion: nil)
+        self.present(svc, animated: true, completion: nil)
     }
 }

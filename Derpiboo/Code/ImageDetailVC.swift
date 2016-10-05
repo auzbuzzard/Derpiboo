@@ -9,60 +9,60 @@
 import UIKit
 
 class ImageDetailVC: UIViewController {
-
+    
     // ------------------------------------
     // MARK: Variables / Stores
     // ------------------------------------
-
+    
     var imageIndex: Int!
     var dbImage: DBImage { get { return derpibooru.images[imageIndex] } }
     
-    var urlSession: NSURLSession!
+    var urlSession: Foundation.URLSession!
     var expectedContentLength = 0
     var buffer:NSMutableData = NSMutableData()
     
     let imageSizeType: DBImage.ImageSizeType = .large
-
+    
     // ------------------------------------
     // MARK: IBAction / IBOutlet
     // ------------------------------------
-
+    
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var progressView: UIProgressView!
-    @IBAction func scrollViewDoubleTapped(sender: UITapGestureRecognizer) {
-        navigationController?.barHideOnTapGestureRecognizer.requireGestureRecognizerToFail(sender)
-
+    @IBAction func scrollViewDoubleTapped(_ sender: UITapGestureRecognizer) {
+        navigationController?.barHideOnTapGestureRecognizer.require(toFail: sender)
+        
         if (scrollView.zoomScale > scrollView.minimumZoomScale) {
-            scrollView.zoomToPoint(sender.locationOfTouch(0, inView: view), withScale: scrollView.minimumZoomScale, animated: true)
+            scrollView.zoomToPoint(sender.location(ofTouch: 0, in: view), withScale: scrollView.minimumZoomScale, animated: true)
             //scrollView.setZoomScale(scrollView.minimumZoomScale, animated: true)
         } else {
-            scrollView.zoomToPoint(sender.locationOfTouch(0, inView: view), withScale: scrollView.minimumZoomScale * 3, animated: true)
+            scrollView.zoomToPoint(sender.location(ofTouch: 0, in: view), withScale: scrollView.minimumZoomScale * 3, animated: true)
             //scrollView.setZoomScale(scrollView.minimumZoomScale * 3, animated: true)
         }
     }
-
+    
     // ------------------------------------
     // MARK: DerpibooruDataSource
     // ------------------------------------
-
+    
     var derpibooru: Derpibooru!
-
+    
     // ------------------------------------
     // MARK: ViewController Life Cycle
     // ------------------------------------
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        urlSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: self, delegateQueue: NSOperationQueue.mainQueue())
+        urlSession = Foundation.URLSession(configuration: URLSessionConfiguration.default, delegate: self, delegateQueue: OperationQueue.main)
         
-        progressView.hidden = true
+        progressView.isHidden = true
         
         navigationController?.hidesBarsOnTap = true
         
         scrollView.decelerationRate = UIScrollViewDecelerationRateFast
-
+        
         if dbImage.largeImage == nil {
             dbImage.downloadImage(ofSizeType: imageSizeType, urlSession: urlSession, useCustomDelegate: true, completion: nil)
             updateImageView(dbImage.thumbImage)
@@ -71,17 +71,17 @@ class ImageDetailVC: UIViewController {
             scrollViewDidZoom(scrollView)
         }
     }
-
-    override func viewWillAppear(animated: Bool) {
+    
+    override func viewWillAppear(_ animated: Bool) {
         //updateImageView(currentDBmage.thumbnail)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         setZoomScale(imageView.image)
         scrollViewDidZoom(scrollView)
     }
@@ -89,14 +89,14 @@ class ImageDetailVC: UIViewController {
     // ------------------------------------
     // MARK: - Convenience Method
     // ------------------------------------
-
-    private func updateImageView(image: UIImage?) {
-        scrollView.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
+    
+    fileprivate func updateImageView(_ image: UIImage?) {
+        scrollView.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
         imageView.image = image
         setZoomScale(imageView.image)
     }
-
-    func setZoomScale(image: UIImage?) {
+    
+    func setZoomScale(_ image: UIImage?) {
         var imageViewSize: CGSize
         if image != nil {
             let imageSize = CGSize(width: image!.size.width, height: image!.size.height)
@@ -104,71 +104,71 @@ class ImageDetailVC: UIViewController {
         } else {
             imageViewSize = imageView.bounds.size
         }
-        if imageViewSize == CGSizeZero { return }
+        if imageViewSize == CGSize.zero { return }
         
         scrollView.contentSize = imageViewSize
         let scrollViewSize = scrollView.bounds.size
         let widthScale = scrollViewSize.width / imageViewSize.width
         let heightScale = scrollViewSize.height / imageViewSize.height
-
+        
         let minimumZoomScale = min(widthScale, heightScale)
         //print(minimumZoomScale)
-
+        
         scrollView.minimumZoomScale = minimumZoomScale
         scrollView.maximumZoomScale = minimumZoomScale * 6
         scrollView.zoomScale = minimumZoomScale
-
+        
         scrollView.layoutIfNeeded()
     }
-
+    
     // ------------------------------------
     // MARK: - Scroll View Delegate
     // ------------------------------------
-
+    
     override func viewWillLayoutSubviews() {
         setZoomScale(nil)
     }
-
-    func scrollViewDidZoom(scrollView: UIScrollView) {
+    
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
         let imageViewSize = imageView.frame.size
         let scrollViewSize = scrollView.bounds.size
-
+        
         let verticalPadding = imageViewSize.height < scrollViewSize.height ? (scrollViewSize.height - imageViewSize.height) / 2 : 0
         let horizontalPadding = imageViewSize.width < scrollViewSize.width ? (scrollViewSize.width - imageViewSize.width) / 2 : 0
-
+        
         scrollView.contentInset = UIEdgeInsets(top: verticalPadding, left: horizontalPadding, bottom: verticalPadding, right: horizontalPadding)
     }
-
-    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+    
+    func viewForZoomingInScrollView(_ scrollView: UIScrollView) -> UIView? {
         return imageView
     }
 }
 
-extension ImageDetailVC: NSURLSessionDelegate, NSURLSessionDataDelegate {
-    func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
+extension ImageDetailVC: URLSessionDelegate, URLSessionDataDelegate {
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         progressView.progress = 1.0
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
-            guard let image = UIImage(data: self.buffer) else { print("data to image error"); return }
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.utility).async {
+            guard let image = UIImage(data: self.buffer as Data) else { print("data to image error"); return }
             self.dbImage.setImage(ofSizeType: self.imageSizeType, image: image)
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.updateImageView(self.dbImage.getImage(ofSizeType: self.imageSizeType))
                 self.scrollViewDidZoom(self.scrollView)
             }
         }
-
         
-        updateImageView(dbImage.largeImage)
+        
+        updateImageView(self.dbImage.largeImage)
         //scrollViewDidZoom(scrollView)
-        progressView.hidden = true
+        progressView.isHidden = true
     }
-    func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveResponse response: NSURLResponse, completionHandler: (NSURLSessionResponseDisposition) -> Void) {
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
         expectedContentLength = Int(response.expectedContentLength)
-        completionHandler(NSURLSessionResponseDisposition.Allow)
+        completionHandler(Foundation.URLSession.ResponseDisposition.allow)
     }
-    func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveData data: NSData) {
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
         
-        buffer.appendData(data)
-        progressView.hidden = false
+        buffer.append(data)
+        progressView.isHidden = false
         
         let percentageDownloaded = Float(buffer.length) / Float(expectedContentLength)
         progressView.progress =  percentageDownloaded
@@ -177,7 +177,7 @@ extension ImageDetailVC: NSURLSessionDelegate, NSURLSessionDataDelegate {
 
 extension UIScrollView {
     
-    func zoomToPoint(zoomPoint: CGPoint, withScale scale: CGFloat, animated: Bool) {
+    func zoomToPoint(_ zoomPoint: CGPoint, withScale scale: CGFloat, animated: Bool) {
         //Normalize current content size back to content scale of 1.0f
         let contentSize = CGSize(width: (self.contentSize.width / self.zoomScale), height: (self.contentSize.height / self.zoomScale))
         
@@ -194,7 +194,7 @@ extension UIScrollView {
                               height: zoomSize.height)
         
         //apply the resize
-        self.zoomToRect(zoomRect, animated: animated)
+        self.zoom(to: zoomRect, animated: animated)
     }
     
 }

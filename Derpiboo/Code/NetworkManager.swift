@@ -14,22 +14,22 @@ import UIKit
 
 class NetworkManager {
     
-    static var defaultURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    static var defaultURLSession = URLSession(configuration: URLSessionConfiguration.default)
     
     //--- Class Vars for Methods ---//
     
-    private static var dataTaskCounter: Int = 0 {
+    fileprivate static var dataTaskCounter: Int = 0 {
         didSet {
             if dataTaskCounter < 0 {
                 dataTaskCounter = 0
             }
             if dataTaskCounter > 0 {
-                dispatch_async(dispatch_get_main_queue()) {
-                    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+                DispatchQueue.main.async {
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = true
                 }
             } else {
-                dispatch_async(dispatch_get_main_queue()) {
-                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                DispatchQueue.main.async {
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 }
             }
         }
@@ -37,11 +37,11 @@ class NetworkManager {
     
     //--- Methods ---//
     
-    static func loadData(url: NSURL, urlSession: NSURLSession?) {
-        urlSession?.dataTaskWithURL(url).resume()
+    static func loadData(_ url: URL, urlSession: URLSession?) {
+        urlSession?.dataTask(with: url).resume()
     }
     
-    static func loadData(url: NSURL, urlSession: NSURLSession?, completion: ((data: NSData) -> Void)) {
+    static func loadData(_ url: URL, urlSession: URLSession?, completion: @escaping ((_ data: Data) -> Void)) {
         
         //print(url)
         
@@ -49,7 +49,7 @@ class NetworkManager {
         
         dataTaskCounter += 1
         
-        let dataTask = session.dataTaskWithURL(url) {
+        let dataTask = session.dataTask(with: url, completionHandler: {
             data, response, error in
             
             //network indicator
@@ -57,17 +57,17 @@ class NetworkManager {
             
             if let error = error {
                 print(error.localizedDescription)
-            } else if let HTTPResponse = response as? NSHTTPURLResponse {
+            } else if let HTTPResponse = response as? HTTPURLResponse {
                 if HTTPResponse.statusCode == 200 {
                     guard let data = data else { print("loadData() for url:\(url) error. Data is nil"); return }
-                    dispatch_async(dispatch_get_main_queue()) {
-                        completion(data: data)
+                    DispatchQueue.main.async {
+                        completion(data)
                     }
                 } else {
                     print("HTTP Error (\(HTTPResponse.statusCode))")
                 }
             }
-        }
+        }) 
         dataTask.resume()
     }
 }

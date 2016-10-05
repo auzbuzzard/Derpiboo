@@ -11,19 +11,19 @@ import SafariServices
 
 class AccountSettingsVC: UITableViewController, SFSafariViewControllerDelegate {
     
-    let defaults = NSUserDefaults.standardUserDefaults()
+    let defaults = UserDefaults.standard
 
     @IBOutlet weak var usernameField: UITextField!
-    @IBAction func usernameFieldEnter(sender: UITextField) {
+    @IBAction func usernameFieldEnter(_ sender: UITextField) {
         defaults.setValue(sender.text!, forKey: "username")
     }
     @IBOutlet weak var apiField: UITextField!
-    @IBAction func apiFieldEnter(sender: UITextField) {
+    @IBAction func apiFieldEnter(_ sender: UITextField) {
         defaults.setValue(sender.text!, forKey: "userAPIKey")
     }
     @IBOutlet weak var apiSwitch: UISwitch!
-    @IBAction func apiSwitchToggled(sender: UISwitch) {
-        defaults.setBool(sender.on, forKey: "userAPIKeySwitch")
+    @IBAction func apiSwitchToggled(_ sender: UISwitch) {
+        defaults.set(sender.isOn, forKey: "userAPIKeySwitch")
     }
     
     override func viewDidLoad() {
@@ -31,17 +31,17 @@ class AccountSettingsVC: UITableViewController, SFSafariViewControllerDelegate {
         
         view.backgroundColor = Theme.current().background
 
-        if let username = defaults.stringForKey("username") {
+        if let username = defaults.string(forKey: "username") {
             usernameField.text = username
         }
-        if let api = defaults.stringForKey("userAPIKey") {
+        if let api = defaults.string(forKey: "userAPIKey") {
             apiField.text = api
         }
-        if defaults.objectForKey("userAPIKeySwitch") != nil {
-            apiSwitch.on = defaults.boolForKey("userAPIKeySwitch")
+        if defaults.object(forKey: "userAPIKeySwitch") != nil {
+            apiSwitch.isOn = defaults.bool(forKey: "userAPIKeySwitch")
         } else {
-            defaults.setBool(true, forKey: "userAPIKeySwitch")
-            apiSwitch.on = defaults.boolForKey("userAPIKeySwitch")
+            defaults.set(true, forKey: "userAPIKeySwitch")
+            apiSwitch.isOn = defaults.bool(forKey: "userAPIKeySwitch")
         }
         
     }
@@ -51,38 +51,38 @@ class AccountSettingsVC: UITableViewController, SFSafariViewControllerDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {   //delegate method
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {   //delegate method
         textField.resignFirstResponder()
         return true
     }
 
     // MARK: - Table view data source
     
-    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundColor = Theme.current().background2
         cell.tintColor = Theme.current().labelText
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == 1 && indexPath.row == 0 {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 0 {
             getAPIKeyFromDB()
         }
-        if indexPath.section == 2 && indexPath.row == 0 {
+        if (indexPath as NSIndexPath).section == 2 && (indexPath as NSIndexPath).row == 0 {
             getFilterSettingsFromDB()
         }
     }
     
     func getAPIKeyFromDB() {
-        let url = NSURL(string: "https://derpibooru.org/users/edit")
-        let svc = SFSafariViewController(URL: url!, entersReaderIfAvailable: false)
+        let url = URL(string: "https://derpibooru.org/users/edit")
+        let svc = SFSafariViewController(url: url!, entersReaderIfAvailable: false)
         svc.delegate = self
-        self.presentViewController(svc, animated: true, completion: nil)
+        self.present(svc, animated: true, completion: nil)
     }
     
     func getFilterSettingsFromDB() {
-        let url = NSURL(string: "https://derpibooru.org/filters")
-        let svc = SFSafariViewController(URL: url!, entersReaderIfAvailable: false)
+        let url = URL(string: "https://derpibooru.org/filters")
+        let svc = SFSafariViewController(url: url!, entersReaderIfAvailable: false)
         svc.delegate = self
-        self.presentViewController(svc, animated: true, completion: nil)
+        self.present(svc, animated: true, completion: nil)
     }
 }

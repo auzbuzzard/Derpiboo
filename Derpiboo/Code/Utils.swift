@@ -13,7 +13,7 @@ class Utils {
     //--- Default Images ---//
     
     struct Images_URL {
-        static let no_avatar = NSURL(string: "https://derpicdn.net/assets/no_avatar-1f16e058f8de3098c829dbfded69eb028fc02f52cccb886edc659e93011545fe.svg")
+        static let no_avatar = URL(string: "https://derpicdn.net/assets/no_avatar-1f16e058f8de3098c829dbfded69eb028fc02f52cccb886edc659e93011545fe.svg")
     }
     
 //    static func getImages(url: NSURL, completion: (image: UIImage?, error: ErrorType?) -> Void)) {
@@ -52,9 +52,9 @@ class Utils {
 }
 
 extension String {
-    func toURL() -> NSURL? {
+    func toURL() -> URL? {
         //print(self)
-        guard let url = NSURL(string: self) else { print("URL Error. Cannot create NSURL from: \"\(self)\""); return nil }
+        guard let url = URL(string: self) else { print("URL Error. Cannot create NSURL from: \"\(self)\""); return nil }
         return url
     }
 }

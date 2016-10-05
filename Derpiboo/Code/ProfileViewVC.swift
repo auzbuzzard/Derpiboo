@@ -10,9 +10,9 @@ import UIKit
 
 class ProfileViewVC: UITableViewController {
     
-    private let profileBannerRID = "profileBannerRID"
-    private let profileBadgeRID = "profileBadgeRID"
-    private let profileBadgeCollectionCellRID = "profileBadgeCollectionCellRID"
+    fileprivate let profileBannerRID = "profileBannerRID"
+    fileprivate let profileBadgeRID = "profileBadgeRID"
+    fileprivate let profileBadgeCollectionCellRID = "profileBadgeCollectionCellRID"
     
     var derpibooru: Derpibooru!
     var profile: DBProfile?
@@ -40,12 +40,12 @@ class ProfileViewVC: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 2
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
             return 2
@@ -55,13 +55,13 @@ class ProfileViewVC: UITableViewController {
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        if indexPath.section == 0 {
+        if (indexPath as NSIndexPath).section == 0 {
             
-            if indexPath.row == 0 { //Banner
+            if (indexPath as NSIndexPath).row == 0 { //Banner
                 
-                let cell = tableView.dequeueReusableCellWithIdentifier(profileBannerRID, forIndexPath: indexPath) as! ProfileBannerCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: profileBannerRID, for: indexPath) as! ProfileBannerCell
                 
                 cell.profileBioTextView.textColor = Theme.current().labelText
                 
@@ -80,9 +80,9 @@ class ProfileViewVC: UITableViewController {
                 
                 return cell
                 
-            } else if indexPath.row == 1 { //Badge
+            } else if (indexPath as NSIndexPath).row == 1 { //Badge
                 
-                let cell = tableView.dequeueReusableCellWithIdentifier(profileBadgeRID, forIndexPath: indexPath) as! ProfileBadgeCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: profileBadgeRID, for: indexPath) as! ProfileBadgeCell
                 
                 return cell
                 
@@ -93,10 +93,10 @@ class ProfileViewVC: UITableViewController {
         return UITableViewCell()
     }
     
-    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath == NSIndexPath(forRow: 1, inSection: 0) {
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath == IndexPath(row: 1, section: 0) {
             if let badgeCell = cell as? ProfileBadgeCell {
-                badgeCell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
+                badgeCell.setCollectionViewDataSourceDelegate(self, forRow: (indexPath as NSIndexPath).row)
             }
         }
     }
@@ -150,21 +150,21 @@ class ProfileViewVC: UITableViewController {
 }
 
 extension ProfileViewVC: UICollectionViewDelegate, UICollectionViewDataSource {
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return profile?.awards.count ?? 0
     }
     
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(profileBadgeCollectionCellRID, forIndexPath: indexPath) as! ProfileBadgeCollectionCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: profileBadgeCollectionCellRID, for: indexPath) as! ProfileBadgeCollectionCell
         
         if let p = profile {
-            if indexPath.row < p.awards.count {
-                let award = p.awards[indexPath.row]
+            if (indexPath as NSIndexPath).row < p.awards.count {
+                let award = p.awards[(indexPath as NSIndexPath).row]
                 cell.badgeCollectionLabel.text = award.title
                 
                 if let image = award.image {
@@ -172,7 +172,7 @@ extension ProfileViewVC: UICollectionViewDelegate, UICollectionViewDataSource {
                 } else {
                     p.downloadAwardImage(award, urlSession: nil, completion: { image in
                         cell.badgeCollectionImageView.image = image
-                        collectionView.reloadItemsAtIndexPaths([indexPath])
+                        collectionView.reloadItems(at: [indexPath])
                     })
                 }
             }
@@ -194,8 +194,8 @@ class ProfileBadgeCell: UITableViewCell {
     @IBOutlet weak var badgeCollectionView: UICollectionView!
     
     func setCollectionViewDataSourceDelegate
-        <D: protocol<UICollectionViewDataSource, UICollectionViewDelegate>>
-        (dataSourceDelegate: D, forRow row: Int) {
+        <D: UICollectionViewDataSource & UICollectionViewDelegate>
+        (_ dataSourceDelegate: D, forRow row: Int) {
         
         badgeCollectionView.delegate = dataSourceDelegate
         badgeCollectionView.dataSource = dataSourceDelegate

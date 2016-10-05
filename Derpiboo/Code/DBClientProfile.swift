@@ -12,8 +12,8 @@ protocol DBClientProfileProtocol {
     var profileName: String? { get set }
     var profile: DBProfile? { get set }
     var usernameFromDefaults: String? { get set }
-    func loadProfile(preloadAvatar: Bool, urlSession: NSURLSession?, copyToClass: Bool, handler: ((profile: DBProfile?) -> Void)?)
-    func loadProfile(profileName: String, preloadAvatar: Bool, urlSession: NSURLSession?, copyToClass: Bool, handler: ((profile: DBProfile?) -> Void)?)
+    func loadProfile(_ preloadAvatar: Bool, urlSession: URLSession?, copyToClass: Bool, handler: ((_ profile: DBProfile?) -> Void)?)
+    func loadProfile(_ profileName: String, preloadAvatar: Bool, urlSession: URLSession?, copyToClass: Bool, handler: ((_ profile: DBProfile?) -> Void)?)
 }
 
 class DBClientProfile: DBClient, DBClientProfileProtocol {
@@ -25,7 +25,7 @@ class DBClientProfile: DBClient, DBClientProfileProtocol {
     
     //--- Load profile ---//
     
-    func loadProfile(preloadAvatar: Bool, urlSession: NSURLSession?, copyToClass: Bool, handler: ((profile: DBProfile?) -> Void)?) {
+    func loadProfile(_ preloadAvatar: Bool, urlSession: URLSession?, copyToClass: Bool, handler: ((_ profile: DBProfile?) -> Void)?) {
         if let profileName = profileName {
             loadProfile(profileName, preloadAvatar: preloadAvatar, urlSession: urlSession,copyToClass: copyToClass, handler: handler)
         } else {
@@ -33,8 +33,8 @@ class DBClientProfile: DBClient, DBClientProfileProtocol {
         }
     }
     
-    func loadProfile(profileName: String, preloadAvatar: Bool, urlSession: NSURLSession?, copyToClass: Bool, handler: ((profile: DBProfile?) -> Void)?) {
-        if profileName.containsString("Background+Pony+#") || profileName.containsString("Background Pony #"){ return }
+    func loadProfile(_ profileName: String, preloadAvatar: Bool, urlSession: URLSession?, copyToClass: Bool, handler: ((_ profile: DBProfile?) -> Void)?) {
+        if profileName.contains("Background+Pony+#") || profileName.contains("Background Pony #"){ return }
         guard let url = assembleURL(profileName).toURL() else { print("loadProfile() error, url: \(assembleURL(profileName))"); return }
         
         NetworkManager.loadData(url, urlSession: urlSession ?? clientSession, completion: { data in
@@ -50,9 +50,9 @@ class DBClientProfile: DBClient, DBClientProfileProtocol {
     
     //--- URLs ---//
     
-    private func assembleURL(profileName: String) -> String {
+    fileprivate func assembleURL(_ profileName: String) -> String {
         var u = "https://www.derpibooru.org/"
-        u.appendContentsOf("profiles/\(profileName).json")
+        u.append("profiles/\(profileName).json")
         
         return u
     }
@@ -61,18 +61,18 @@ class DBClientProfile: DBClient, DBClientProfileProtocol {
     
     var usernameFromDefaults: String? {
         get {
-            let defaults = NSUserDefaults.standardUserDefaults()
+            let defaults = UserDefaults.standard
             
-            if let name = defaults.stringForKey("username") {
+            if let name = defaults.string(forKey: "username") {
                 return name
             } else {
                 return nil
             }
         }
         set {
-            let defaults = NSUserDefaults.standardUserDefaults()
+            let defaults = UserDefaults.standard
             
-            if usernameFromDefaults == nil { defaults.removeObjectForKey("username") }
+            if usernameFromDefaults == nil { defaults.removeObject(forKey: "username") }
             else { defaults.setValue(usernameFromDefaults, forKey: "username") }
         }
     }
@@ -80,7 +80,7 @@ class DBClientProfile: DBClient, DBClientProfileProtocol {
     
     //--- Creating Data from Json dictionaries ---//
     
-    private func dictToDBProfile(dictionary result: NSDictionary, preloadAvatar: Bool, urlSession: NSURLSession?, copyToClass: Bool, handler: (DBProfile -> Void)?) {
+    fileprivate func dictToDBProfile(dictionary result: NSDictionary, preloadAvatar: Bool, urlSession: URLSession?, copyToClass: Bool, handler: ((DBProfile) -> Void)?) {
         
         guard let id = result["id"] as? Int else { print("Error parsing id"); return }
         guard let name = result["name"] as? String else { print("Error parsing name"); return }

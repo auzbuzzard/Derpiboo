@@ -9,7 +9,7 @@
 import UIKit
 
 class ImageGridFlowLayout: UICollectionViewFlowLayout {
-    override func shouldInvalidateLayoutForBoundsChange(newBounds: CGRect) -> Bool {
+    override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         return true
     }
 }

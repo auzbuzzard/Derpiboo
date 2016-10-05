@@ -17,7 +17,7 @@ class SearchRootVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        imageGrid = storyboard?.instantiateViewControllerWithIdentifier("ImageGridVC") as! ImageGridVC
+        imageGrid = storyboard?.instantiateViewController(withIdentifier: "ImageGridVC") as! ImageGridVC
         
         imageGrid.derpibooru = Derpibooru()
         imageGrid.imageResultsType = DBClientImages.ImageResultsType.Search
@@ -58,7 +58,7 @@ class SearchRootVC: UIViewController {
 }
 
 extension SearchRootVC: UISearchBarDelegate {
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let text = searchBar.text {
             imageGrid.derpibooru.searchTerm = text
             print(imageGrid.derpibooru.searchTerm)
@@ -67,14 +67,14 @@ extension SearchRootVC: UISearchBarDelegate {
         }
     }
     
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         imageGrid.shouldLoadMoreImage = false
         imageGrid.clearImageGrid()
     }
 }
 
 extension SearchRootVC: UISearchResultsUpdating {
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
+    func updateSearchResults(for searchController: UISearchController) {
         
     }
 }

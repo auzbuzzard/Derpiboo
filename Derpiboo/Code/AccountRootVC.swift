@@ -15,10 +15,10 @@ class AccountRootVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        profileView = storyboard?.instantiateViewControllerWithIdentifier("profileViewVC") as? ProfileViewVC
+        profileView = storyboard?.instantiateViewController(withIdentifier: "profileViewVC") as? ProfileViewVC
         
         profileView?.derpibooru = Derpibooru()
-        profileView?.profileName = NSUserDefaults.standardUserDefaults().stringForKey("username")
+        profileView?.profileName = UserDefaults.standard.string(forKey: "username")
         
         if profileView != nil {
             addChildViewController(profileView!)

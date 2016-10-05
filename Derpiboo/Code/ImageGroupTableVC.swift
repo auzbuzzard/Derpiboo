@@ -10,15 +10,15 @@ import UIKit
 
 class ImageGroupTableVC: UITableViewController {
     
-    private let tableCellReuseIdentifier = "groupTableCell"
-    private let cellReuseIdentifier = "groupCell"
+    fileprivate let tableCellReuseIdentifier = "groupTableCell"
+    fileprivate let cellReuseIdentifier = "groupCell"
     
     var derpibooru: Derpibooru!
     var mainList: [[DBImage]] { get { return derpibooru.mainList } }
     
     var imageGroupVC: ImageGroupVC!
     
-    let urlSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    let urlSession = URLSession(configuration: URLSessionConfiguration.default)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +33,7 @@ class ImageGroupTableVC: UITableViewController {
         })
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         //tableView.rowHeight = UITableViewAutomaticDimension
     }
@@ -44,36 +44,36 @@ class ImageGroupTableVC: UITableViewController {
     
     //Data Source
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return derpibooru.mainList.count
     }
     
-    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
         guard let tableViewCell = cell as? ImageGroupTableCell else { return }
         
-        tableViewCell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
+        tableViewCell.setCollectionViewDataSourceDelegate(self, forRow: (indexPath as NSIndexPath).row)
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(tableCellReuseIdentifier, forIndexPath: indexPath) as! ImageGroupTableCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: tableCellReuseIdentifier, for: indexPath) as! ImageGroupTableCell
         
-        let listName = getListName(fromIndex: indexPath.row)
+        let listName = getListName(fromIndex: (indexPath as NSIndexPath).row)
         
         cell.titleLabel.text = derpibooru.getListNameReadable(listName)
         
         return cell
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "selectedImageGroupTableCell" {
-            let vc = segue.destinationViewController as! ListsSelectedVC
-            vc.selectedTableIndex = tableView.indexPathForSelectedRow?.row
-            vc.selectedListName = getListName(fromIndex: (tableView.indexPathForSelectedRow?.row)!)
+            let vc = segue.destination as! ListsSelectedVC
+            vc.selectedTableIndex = (tableView.indexPathForSelectedRow as NSIndexPath?)?.row
+            vc.selectedListName = getListName(fromIndex: ((tableView.indexPathForSelectedRow as NSIndexPath?)?.row)!)
             vc.navigationItem.title = derpibooru.getListNameReadable(vc.selectedListName)
         }
     }
@@ -82,22 +82,22 @@ class ImageGroupTableVC: UITableViewController {
 
 extension ImageGroupTableVC: UICollectionViewDelegate, UICollectionViewDataSource {
     
-    func collectionView(collectionView: UICollectionView,
+    func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
         
         return mainList[collectionView.tag].count
     }
     
-    func collectionView(collectionView: UICollectionView,
-                        cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellReuseIdentifier, forIndexPath: indexPath) as! ImageGridCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellReuseIdentifier, for: indexPath) as! ImageGridCell
         
         cell.layer.shouldRasterize = true
-        cell.layer.rasterizationScale = UIScreen.mainScreen().scale
+        cell.layer.rasterizationScale = UIScreen.main.scale
         
         cell.contentView.layer.borderWidth = 1
-        cell.contentView.layer.borderColor = Theme.current().background2.CGColor
+        cell.contentView.layer.borderColor = Theme.current().background2.cgColor
         
         cell.backgroundColor = Theme.current().background
         cell.stackViewBackgroundView.backgroundColor = Theme.current().background2
@@ -117,13 +117,13 @@ extension ImageGroupTableVC: UICollectionViewDelegate, UICollectionViewDataSourc
             
             if let image = dbImage.getImage(ofSizeType: DBImage.ImageSizeType.thumb, urlSession: urlSession, completion: { dbImage in
                 
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     if let dbImage = dbImage {
                         guard let indexPath = self.indexPathFromDBImage(dbImage, tag: collectionView.tag) else { return }
                         
-                        for cell in (collectionView.visibleCells()) {
-                            if collectionView.indexPathForCell(cell) == indexPath {
-                                collectionView.reloadItemsAtIndexPaths([indexPath])
+                        for cell in (collectionView.visibleCells) {
+                            if collectionView.indexPath(for: cell) == indexPath {
+                                collectionView.reloadItems(at: [indexPath])
                                 return
                             }
                         }
@@ -140,25 +140,25 @@ extension ImageGroupTableVC: UICollectionViewDelegate, UICollectionViewDataSourc
     
     //--- Convenience Methods ---//
     
-    func indexPathToImageIndex(indexPath: NSIndexPath, tag: Int) -> Int? {
-        if indexPath.row < mainList[tag].count {
-            return indexPath.row
+    func indexPathToImageIndex(_ indexPath: IndexPath, tag: Int) -> Int? {
+        if (indexPath as NSIndexPath).row < mainList[tag].count {
+            return (indexPath as NSIndexPath).row
         } else {
             return nil
         }
     }
     
-    func imageIndexToIndexPath(index: Int) -> NSIndexPath {
-        return NSIndexPath(forItem: index, inSection: 0)
+    func imageIndexToIndexPath(_ index: Int) -> IndexPath {
+        return IndexPath(item: index, section: 0)
     }
     
-    func dbImageFromIndexPath(indexPath: NSIndexPath, tag: Int) -> DBImage? {
+    func dbImageFromIndexPath(_ indexPath: IndexPath, tag: Int) -> DBImage? {
         guard let index = indexPathToImageIndex(indexPath, tag: tag) else { return nil }
         return mainList[tag][index]
     }
     
-    func indexPathFromDBImage(dbImage: DBImage, tag: Int) -> NSIndexPath? {
-        guard let index = mainList[tag].indexOf({$0 === dbImage}) else { return nil }
+    func indexPathFromDBImage(_ dbImage: DBImage, tag: Int) -> IndexPath? {
+        guard let index = mainList[tag].index(where: {$0 === dbImage}) else { return nil }
         return imageIndexToIndexPath(index)
     }
     
@@ -173,8 +173,8 @@ class ImageGroupTableCell: UITableViewCell {
     @IBOutlet weak var tableCollectionView: UICollectionView!
     
     func setCollectionViewDataSourceDelegate
-        <D: protocol<UICollectionViewDataSource, UICollectionViewDelegate>>
-        (dataSourceDelegate: D, forRow row: Int) {
+        <D: UICollectionViewDataSource & UICollectionViewDelegate>
+        (_ dataSourceDelegate: D, forRow row: Int) {
         
         tableCollectionView.delegate = dataSourceDelegate
         tableCollectionView.dataSource = dataSourceDelegate

@@ -10,9 +10,9 @@ import UIKit
 
 class InfoPaneCommentsVC: UITableViewController {
     
-    private let cellReuseIdentifier = "infoPaneCommentsCell"
+    fileprivate let cellReuseIdentifier = "infoPaneCommentsCell"
     
-    let urlSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    let urlSession = URLSession(configuration: URLSessionConfiguration.default)
     
     var derpibooru: Derpibooru!
     var dbImage: DBImage!
@@ -24,7 +24,7 @@ class InfoPaneCommentsVC: UITableViewController {
         tableView.estimatedRowHeight = 190.0
         tableView.tableFooterView = UIView()
         
-        refreshControl?.addTarget(self, action: #selector(InfoPaneCommentsVC.handleRefresh), forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl?.addTarget(self, action: #selector(InfoPaneCommentsVC.handleRefresh), for: UIControlEvents.valueChanged)
         
         loadComments(false)
         
@@ -34,14 +34,14 @@ class InfoPaneCommentsVC: UITableViewController {
         super.didReceiveMemoryWarning()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         //print("scrollviewinset: \(tableView.contentInset)")
     }
     
-    private func loadComments(stopRefresh: Bool) {
+    fileprivate func loadComments(_ stopRefresh: Bool) {
         derpibooru.loadComments(image_id: dbImage.id, preloadProfile: false, preloadAvatar: false, urlSession: urlSession, copyToClass: false, handler: { comments in
-            self.dbImage.comments = comments.reverse()
+            self.dbImage.comments = comments.reversed()
             self.tableView.reloadData()
             if stopRefresh {
                 self.refreshControl?.endRefreshing()
@@ -55,11 +55,11 @@ class InfoPaneCommentsVC: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let comment = dbImage.comments {
             return comment.count
         } else {
@@ -68,15 +68,15 @@ class InfoPaneCommentsVC: UITableViewController {
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier, forIndexPath: indexPath) as! InfoPaneCommentsCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath) as! InfoPaneCommentsCell
         
         cell.contentField.textColor = Theme.current().labelText
         
         if let comments = dbImage.comments {
-            let comment = comments[indexPath.row]
-            cell.titleLabel.text = comment.author ?? "NO_NAME"
-            cell.contentField.text = comment.body ?? "NO_COMMENT"
+            let comment = comments[(indexPath as NSIndexPath).row]
+            cell.titleLabel.text = comment.author 
+            cell.contentField.text = comment.body 
             
             if let profile = comment.authorProfile {
                 if let avatar = profile.avatar {
@@ -87,7 +87,7 @@ class InfoPaneCommentsVC: UITableViewController {
                     })
                 }
             } else {
-                let name = comment.author.stringByReplacingOccurrencesOfString(" ", withString: "+").stringByReplacingOccurrencesOfString("-", withString: "-dash-")
+                let name = comment.author.replacingOccurrences(of: " ", with: "+").replacingOccurrences(of: "-", with: "-dash-")
                 derpibooru.loadProfile(name, preloadAvatar: true, urlSession: urlSession, copyToClass: true, handler: { profile in
                     //print("ok for \(indexPath.row)")
                     comment.authorProfile = profile
@@ -107,7 +107,7 @@ class InfoPaneCommentsVC: UITableViewController {
         }
         
         let fixedWidth = cell.contentField.frame.size.width
-        let newSize = cell.contentField.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.max))
+        let newSize = cell.contentField.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
         cell.contentField.frame.size = CGSize(width: max(newSize.width, fixedWidth), height: newSize.height)
 
         return cell

@@ -19,7 +19,7 @@ class InfoPaneRootVC: UIViewController {
     var contentInset: UIEdgeInsets!
 
     @IBOutlet weak var infoPaneTab: UISegmentedControl!
-    @IBAction func infoPaneTabValueChanged(sender: UISegmentedControl) {
+    @IBAction func infoPaneTabValueChanged(_ sender: UISegmentedControl) {
         
         getInfoPaneChildView(sender.selectedSegmentIndex)
         
@@ -28,7 +28,7 @@ class InfoPaneRootVC: UIViewController {
         super.viewDidLoad()
         //print("layoutguide: \(topLayoutGuide.length)")
         if let commentCount = dbImage.comment_count {
-            infoPaneTab.setTitle("\(commentCount) \(commentCount == 1 ? "Comment" : "Comments")", forSegmentAtIndex: 1)
+            infoPaneTab.setTitle("\(commentCount) \(commentCount == 1 ? "Comment" : "Comments")", forSegmentAt: 1)
         }
         
         getInfoPaneChildView(0)
@@ -54,11 +54,11 @@ class InfoPaneRootVC: UIViewController {
     
     // private methods
     
-    private func getInfoPaneChildView(index: Int) {
+    fileprivate func getInfoPaneChildView(_ index: Int) {
         if index == 0 { //details
             
             if detailsVC == nil {
-                detailsVC = storyboard?.instantiateViewControllerWithIdentifier("InfoPaneDetailsVC") as! InfoPaneDetailsVC
+                detailsVC = storyboard?.instantiateViewController(withIdentifier: "InfoPaneDetailsVC") as! InfoPaneDetailsVC
                 detailsVC.dbImage = dbImage
             }
             if commentsVC != nil {
@@ -71,7 +71,7 @@ class InfoPaneRootVC: UIViewController {
             //detailsVC.automaticallyAdjustsScrollViewInsets = true
             
             addChildViewController(detailsVC)
-            detailsVC.didMoveToParentViewController(self)
+            detailsVC.didMove(toParentViewController: self)
             view.addSubview(detailsVC.view)
             view.layoutSubviews()
             
@@ -80,7 +80,7 @@ class InfoPaneRootVC: UIViewController {
         } else if index == 1 { //comments
             
             if commentsVC == nil {
-                commentsVC = storyboard?.instantiateViewControllerWithIdentifier("InfoPaneCommentsVC") as! InfoPaneCommentsVC
+                commentsVC = storyboard?.instantiateViewController(withIdentifier: "InfoPaneCommentsVC") as! InfoPaneCommentsVC
                 commentsVC.derpibooru = derpibooru
                 commentsVC.dbImage = dbImage
             }
@@ -93,7 +93,7 @@ class InfoPaneRootVC: UIViewController {
             commentsVC.tableView.contentInset = contentInset
             
             addChildViewController(commentsVC)
-            commentsVC.didMoveToParentViewController(self)
+            commentsVC.didMove(toParentViewController: self)
             view.addSubview(commentsVC.view)
             view.layoutSubviews()
             

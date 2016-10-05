@@ -12,56 +12,56 @@ class ImageDetailPageVC: UIViewController, SFSafariViewControllerDelegate {
     
     var derpibooru: Derpibooru!
     
-    var pageController = UIPageViewController(transitionStyle: .Scroll, navigationOrientation: .Horizontal, options: nil)
+    var pageController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
     
     var imageIndexFromSegue: Int!
     var currentImageIndex: Int!
     
-    @IBAction func returnToImageDetailPageVC(segue: UIStoryboardSegue) {
+    @IBAction func returnToImageDetailPageVC(_ segue: UIStoryboardSegue) {
         
     }
     
     
     @IBOutlet var singleTapGR: UITapGestureRecognizer!
-    @IBAction func singleTapDetected(sender: UITapGestureRecognizer) {
+    @IBAction func singleTapDetected(_ sender: UITapGestureRecognizer) {
         if let navbar = navigationController?.navigationBar {
-            if navbar.hidden == true {
+            if navbar.isHidden == true {
                 navigationController?.setToolbarHidden(true, animated: true)
             } else {
                 navigationController?.setToolbarHidden(false, animated: true)
             }
         }
     }
-    @IBAction func optionsButtonClicked(sender: UIBarButtonItem) {
-        let alertC = UIAlertController(title: "Options", message: nil, preferredStyle: .ActionSheet)
-        alertC.addAction(UIAlertAction(title: "Share Image", style: .Default, handler: {
+    @IBAction func optionsButtonClicked(_ sender: UIBarButtonItem) {
+        let alertC = UIAlertController(title: "Options", message: nil, preferredStyle: .actionSheet)
+        alertC.addAction(UIAlertAction(title: "Share Image", style: .default, handler: {
             alert in
             self.shareImageViaActivityView()
         }))
-        alertC.addAction(UIAlertAction(title: "Share Derpibooru Link", style: .Default, handler: {
+        alertC.addAction(UIAlertAction(title: "Share Derpibooru Link", style: .default, handler: {
             alert in
             self.shareLinkViaActivityView()
         }))
-        alertC.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: {
+        alertC.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {
             alert in
-            alertC.dismissViewControllerAnimated(true, completion: nil)
+            alertC.dismiss(animated: true, completion: nil)
         }))
-        presentViewController(alertC, animated: true, completion: nil)
+        present(alertC, animated: true, completion: nil)
     }
     
-    @IBAction func openInSafari(sender: UIBarButtonItem) {
-        let url = NSURL(string: "https://derpibooru.org/\(derpibooru.images[currentImageIndex].id)")
-        let svc = SFSafariViewController(URL: url!, entersReaderIfAvailable: true)
+    @IBAction func openInSafari(_ sender: UIBarButtonItem) {
+        let url = URL(string: "https://derpibooru.org/\(derpibooru.images[currentImageIndex].id)")
+        let svc = SFSafariViewController(url: url!, entersReaderIfAvailable: true)
         svc.delegate = self
-        self.presentViewController(svc, animated: true, completion: nil)
+        self.present(svc, animated: true, completion: nil)
     }
     
     
     //SFSafariView
     
-    func safariViewControllerDidFinish(controller: SFSafariViewController)
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController)
     {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+        controller.dismiss(animated: true, completion: nil)
     }
 
     override func viewDidLoad() {
@@ -74,33 +74,33 @@ class ImageDetailPageVC: UIViewController, SFSafariViewControllerDelegate {
         
         addChildViewController(pageController)
         view.addSubview(pageController.view)
-        pageController.didMoveToParentViewController(self)
+        pageController.didMove(toParentViewController: self)
         
         guard let startVC = getViewController(atIndex: imageIndexFromSegue) else { print("ImageDetailPage: viewController(atIndex) return nil."); return }
         let vcs = [startVC]
         
         currentImageIndex = imageIndexFromSegue
         
-        pageController.setViewControllers(vcs, direction: .Forward, animated: true, completion: nil)
+        pageController.setViewControllers(vcs, direction: .forward, animated: true, completion: nil)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         //navigationController?.hidesBarsOnSwipe = false
         navigationController?.hidesBarsOnTap = true
         
-        if navigationController?.navigationBar.hidden == false {
+        if navigationController?.navigationBar.isHidden == false {
             navigationController?.setToolbarHidden(false, animated: true)
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         //print("page swipe: \(navigationController?.hidesBarsOnSwipe), tap: \(navigationController?.hidesBarsOnTap)")
         
         
-        if navigationController?.toolbar.hidden == false {
+        if navigationController?.toolbar.isHidden == false {
             navigationController?.setToolbarHidden(true, animated: true)
         }
         
@@ -114,20 +114,20 @@ class ImageDetailPageVC: UIViewController, SFSafariViewControllerDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    override func prefersStatusBarHidden() -> Bool {
-        return navigationController?.navigationBarHidden == true
+    override var prefersStatusBarHidden : Bool {
+        return navigationController?.isNavigationBarHidden == true
     }
     
-    override func preferredStatusBarUpdateAnimation() -> UIStatusBarAnimation {
-        return UIStatusBarAnimation.Slide
+    override var preferredStatusBarUpdateAnimation : UIStatusBarAnimation {
+        return UIStatusBarAnimation.slide
     }
 
     // MARK: - Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "imageDetailModal" {
-            let navVC = segue.destinationViewController as! UINavigationController
+            let navVC = segue.destination as! UINavigationController
             let vc = navVC.viewControllers.first as! InfoPaneRootVC
             
             vc.derpibooru = derpibooru
@@ -140,7 +140,7 @@ class ImageDetailPageVC: UIViewController, SFSafariViewControllerDelegate {
     
     func getViewController(atIndex index: Int) -> ImageDetailVC? {
         if derpibooru.images.count != 0 && index < derpibooru.images.count {
-            let vc = storyboard?.instantiateViewControllerWithIdentifier("ImageDetailVC") as! ImageDetailVC
+            let vc = storyboard?.instantiateViewController(withIdentifier: "ImageDetailVC") as! ImageDetailVC
             
             vc.derpibooru = derpibooru
             vc.imageIndex = index
@@ -151,19 +151,19 @@ class ImageDetailPageVC: UIViewController, SFSafariViewControllerDelegate {
         }
     }
     
-    private func shareImageViaActivityView() {
+    fileprivate func shareImageViaActivityView() {
         if let image = derpibooru.images[currentImageIndex].largeImage {
             print("ok")
             let activity = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-            presentViewController(activity, animated: true, completion: nil)
+            present(activity, animated: true, completion: nil)
         }
     }
     
-    private func shareLinkViaActivityView() {
-        if let url = NSURL(string: "https://derpibooru.org/\(derpibooru.images[currentImageIndex].id)") {
+    fileprivate func shareLinkViaActivityView() {
+        if let url = URL(string: "https://derpibooru.org/\(derpibooru.images[currentImageIndex].id)") {
             print("ok")
             let activity = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-            presentViewController(activity, animated: true, completion: nil)
+            present(activity, animated: true, completion: nil)
         }
     }
     
@@ -172,14 +172,14 @@ class ImageDetailPageVC: UIViewController, SFSafariViewControllerDelegate {
 }
 
 extension ImageDetailPageVC: UIPageViewControllerDataSource {
-    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         let vc = viewController as! ImageDetailVC
         if vc.imageIndex == 0 { return nil }
         return getViewController(atIndex: vc.imageIndex - 1)
         
     }
     
-    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         let vc = viewController as! ImageDetailVC
         if vc.imageIndex == derpibooru.images.count - 1 { return nil }
         return getViewController(atIndex: vc.imageIndex + 1)
@@ -187,7 +187,7 @@ extension ImageDetailPageVC: UIPageViewControllerDataSource {
 }
 
 extension ImageDetailPageVC: UIPageViewControllerDelegate {
-    func pageViewController(pageViewController: UIPageViewController, willTransitionToViewControllers pendingViewControllers: [UIViewController]) {
+    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
         if let vc = pendingViewControllers[0] as? ImageDetailVC {
             currentImageIndex = vc.imageIndex
         }
@@ -195,7 +195,7 @@ extension ImageDetailPageVC: UIPageViewControllerDelegate {
 }
 
 extension ImageDetailPageVC: UIGestureRecognizerDelegate {
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer === singleTapGR && otherGestureRecognizer == navigationController?.barHideOnTapGestureRecognizer {
             print("true")
             return true

@@ -15,13 +15,13 @@ protocol DBClientImagesProtocol {
     var listName: String! { get set }
     var mainList: [[Derpiboo.DBImage]] { get }
     
-    func getListNameReadable(listName: String?) -> String
+    func getListNameReadable(_ listName: String?) -> String
     func clearImages()
     
-    func loadImages(ofType resultsType: DBClientImages.ImageResultsType, asNewResults: Bool, preloadThumbImage: Bool, urlSession: NSURLSession?, copyToClass: Bool, completion: ((images: [DBImage]?) -> Void)?)
-    func loadImages(ofType resultsType: DBClientImages.ImageResultsType, asNewResults: Bool, listName: String?, preloadThumbImage: Bool, urlSession: NSURLSession?, copyToClass: Bool, completion: ((images: [DBImage]?) -> Void)?)
+    func loadImages(ofType resultsType: DBClientImages.ImageResultsType, asNewResults: Bool, preloadThumbImage: Bool, urlSession: URLSession?, copyToClass: Bool, completion: ((_ images: [DBImage]?) -> Void)?)
+    func loadImages(ofType resultsType: DBClientImages.ImageResultsType, asNewResults: Bool, listName: String?, preloadThumbImage: Bool, urlSession: URLSession?, copyToClass: Bool, completion: ((_ images: [DBImage]?) -> Void)?)
     
-    func loadMainList(urlSession: NSURLSession?, copyToClass: Bool, completion: ((listNames: [[DBImage]]?) -> Void)?)
+    func loadMainList(_ urlSession: URLSession?, copyToClass: Bool, completion: ((_ listNames: [[DBImage]]?) -> Void)?)
 }
 
 class DBClientImages: DBClient, DBClientImagesProtocol {
@@ -39,7 +39,7 @@ class DBClientImages: DBClient, DBClientImagesProtocol {
         case AllTimeTopScoring = "all_time_top_scoring"
     }
     
-    func getListNameReadable(listName: String?) -> String {
+    func getListNameReadable(_ listName: String?) -> String {
         guard let name = listName else { return "" }
         var s: String!
         switch name {
@@ -56,11 +56,11 @@ class DBClientImages: DBClient, DBClientImagesProtocol {
     lazy var images = [DBImage]()
     var searchTerm: String = "" {
         didSet {
-            searchTerm = searchTerm.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLPathAllowedCharacterSet()) ?? ""
+            searchTerm = searchTerm.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlPathAllowed) ?? ""
         }
     }
-    private var currentPage: Int = 1
-    private let perPage: Int = 48
+    fileprivate var currentPage: Int = 1
+    fileprivate let perPage: Int = 48
     
     //--- Loading Images ---//
     
@@ -68,12 +68,12 @@ class DBClientImages: DBClient, DBClientImagesProtocol {
         images.removeAll()
     }
     
-    func loadImages(ofType resultsType: ImageResultsType, asNewResults: Bool, preloadThumbImage: Bool, urlSession: NSURLSession?, copyToClass: Bool, completion: ((images: [DBImage]?) -> Void)?) {
+    func loadImages(ofType resultsType: ImageResultsType, asNewResults: Bool, preloadThumbImage: Bool, urlSession: URLSession?, copyToClass: Bool, completion: ((_ images: [DBImage]?) -> Void)?) {
         assert(resultsType != .List, "loadImages(ofType: .List) must use overloaded func with listName: String param.")
         loadImages(ofType: resultsType, asNewResults: asNewResults, listName: nil, preloadThumbImage: preloadThumbImage, urlSession: urlSession, copyToClass: copyToClass, completion: completion)
     }
     
-    func loadImages(ofType resultsType: ImageResultsType, asNewResults: Bool, listName: String?, preloadThumbImage: Bool, urlSession: NSURLSession?, copyToClass: Bool, completion: ((images: [DBImage]?) -> Void)?) {
+    func loadImages(ofType resultsType: ImageResultsType, asNewResults: Bool, listName: String?, preloadThumbImage: Bool, urlSession: URLSession?, copyToClass: Bool, completion: ((_ images: [DBImage]?) -> Void)?) {
         
         if asNewResults {
             clearImages()
@@ -100,7 +100,7 @@ class DBClientImages: DBClient, DBClientImagesProtocol {
     
     //--- Lists ---//
     
-    func loadMainList(urlSession: NSURLSession?, copyToClass: Bool, completion: ((listNames: [[DBImage]]?) -> Void)?) {
+    func loadMainList(_ urlSession: URLSession?, copyToClass: Bool, completion: ((_ listNames: [[DBImage]]?) -> Void)?) {
         guard let url = assembleURL(ofType: .List, listName: "").toURL() else { print("loadList() error: URL error"); return }
         
         NetworkManager.loadData(url, urlSession: urlSession ?? clientSession, completion: { data in
@@ -118,11 +118,11 @@ class DBClientImages: DBClient, DBClientImagesProtocol {
     
     //--- URLs ---//
     
-    private func assembleURL(ofType resultsType: ImageResultsType) -> String {
+    fileprivate func assembleURL(ofType resultsType: ImageResultsType) -> String {
         return assembleURL(ofType: resultsType, listName: nil)
     }
     
-    private func assembleURL(ofType resultsType: ImageResultsType, listName: String?) -> String {
+    fileprivate func assembleURL(ofType resultsType: ImageResultsType, listName: String?) -> String {
         let userAPIKey = getUserAPIKey()
         let forcedSafeMode = userAPIKey == nil
         
@@ -131,7 +131,7 @@ class DBClientImages: DBClient, DBClientImagesProtocol {
         switch resultsType {
         case .Home, .Search, .Default:
             
-            u.appendContentsOf(searchTerm == "" && !forcedSafeMode ? "images.json":"search.json")
+            u.append(searchTerm == "" && !forcedSafeMode ? "images.json":"search.json")
             
             
         case .List:
@@ -139,51 +139,51 @@ class DBClientImages: DBClient, DBClientImagesProtocol {
             guard let listName = listName else { print("assembleURL() error: listName is nil."); break }
             
             if listName == "" {
-                u.appendContentsOf("lists.json")
+                u.append("lists.json")
             } else {
-                u.appendContentsOf("lists/\(listName).json")
+                u.append("lists/\(listName).json")
             }
             
         case .Watched:
             if forcedSafeMode {
                 u = assembleURL(ofType: .Home)
             } else {
-                u.appendContentsOf("images/watched.json")
+                u.append("images/watched.json")
             }
             
         case .Favorites:
             if forcedSafeMode {
                 u = assembleURL(ofType: .Home)
             } else {
-                u.appendContentsOf("images/favourites.json")
+                u.append("images/favourites.json")
             }
             
         case .Upvotes:
             if forcedSafeMode {
                 u = assembleURL(ofType: .Home)
             } else {
-                u.appendContentsOf("images/upvoted.json")
+                u.append("images/upvoted.json")
             }
             
         case .Uploaded:
             if forcedSafeMode {
                 u = assembleURL(ofType: .Home)
             } else {
-                u.appendContentsOf("images/uploaded.json")
+                u.append("images/uploaded.json")
             }
         }
         
-        u.appendContentsOf("?page=\(currentPage)")
-        u.appendContentsOf("&perpage=\(perPage)")
-        u.appendContentsOf(!forcedSafeMode ? "&key=\(userAPIKey!)":"")
-        u.appendContentsOf(searchTerm == "" ? (forcedSafeMode ? "&q=safe" : "") : (forcedSafeMode ? "&q=\(searchTerm),safe" : "&q=\(searchTerm)"))
+        u.append("?page=\(currentPage)")
+        u.append("&perpage=\(perPage)")
+        u.append(!forcedSafeMode ? "&key=\(userAPIKey!)":"")
+        u.append(searchTerm == "" ? (forcedSafeMode ? "&q=safe" : "") : (forcedSafeMode ? "&q=\(searchTerm),safe" : "&q=\(searchTerm)"))
         
         return u
     }
     
     //--- Creating Data from Json dictionaries ---//
     
-    private func dictToDBImages(dictionary json: NSDictionary, preloadThumbImage: Bool, urlSession: NSURLSession?, copyToClass: Bool, handler: ([DBImage] -> Void)?) {
+    fileprivate func dictToDBImages(dictionary json: NSDictionary, preloadThumbImage: Bool, urlSession: URLSession?, copyToClass: Bool, handler: (([DBImage]) -> Void)?) {
         
         var returnResult = handler == nil ? images : [DBImage]()
         
@@ -215,7 +215,7 @@ class DBClientImages: DBClient, DBClientImagesProtocol {
     }
     
     
-    private func dictToMainList(dictionary json: NSDictionary, urlSession: NSURLSession?, copyToClass: Bool, handler: ([[DBImage]] -> Void)?) {
+    fileprivate func dictToMainList(dictionary json: NSDictionary, urlSession: URLSession?, copyToClass: Bool, handler: (([[DBImage]]) -> Void)?) {
         
         var returnResults = handler == nil ? mainList : [[DBImage]]()
         
@@ -247,7 +247,7 @@ class DBClientImages: DBClient, DBClientImagesProtocol {
         handler?(returnResults)
     }
     
-    private func dictToDBImage(dictionary image: NSDictionary, inout dbImage: DBImage) {
+    fileprivate func dictToDBImage(dictionary image: NSDictionary, dbImage: inout DBImage) {
         
         let created_at = image["created_at"] as? String
         dbImage.created_at = created_at

@@ -11,7 +11,7 @@ import UIKit
 protocol DBClientCommentsProtocol {
     var comments: [DBComment] { get }
     func clearComments()
-    func loadComments(image_id id: String, preloadProfile: Bool, preloadAvatar: Bool, urlSession: NSURLSession?, copyToClass: Bool, handler: ((comments: [DBComment]) -> Void)?)
+    func loadComments(image_id id: String, preloadProfile: Bool, preloadAvatar: Bool, urlSession: URLSession?, copyToClass: Bool, handler: ((_ comments: [DBComment]) -> Void)?)
 }
 
 class DBClientComments: DBClient {
@@ -20,8 +20,8 @@ class DBClientComments: DBClient {
     
     lazy var comments = [DBComment]()
     
-    private var currentPage: Int = 1
-    private let perPage: Int = 48
+    fileprivate var currentPage: Int = 1
+    fileprivate let perPage: Int = 48
     
     //--- Load Comments ---//
     
@@ -29,7 +29,7 @@ class DBClientComments: DBClient {
         comments.removeAll()
     }
     
-    func loadComments(image_id id: String, preloadProfile: Bool, preloadAvatar: Bool, urlSession: NSURLSession?, copyToClass: Bool, handler: ((comments: [DBComment]) -> Void)?) {
+    func loadComments(image_id id: String, preloadProfile: Bool, preloadAvatar: Bool, urlSession: URLSession?, copyToClass: Bool, handler: ((_ comments: [DBComment]) -> Void)?) {
         
         guard let url = "https://www.derpibooru.org/\(id).json?comments=true".toURL() else { print("loadComments() error: cannot assemble valid url for image_id_number: \(id)"); return }
         
@@ -50,7 +50,7 @@ class DBClientComments: DBClient {
     
     //--- Creating Data from Json dictionaries ---//
     
-    private func dictToDBComments(dictionary result: NSDictionary, preloadProfile: Bool, preloadAvatar: Bool, urlSession: NSURLSession?, copyToClass: Bool, handler: ([DBComment] -> Void)?) {
+    fileprivate func dictToDBComments(dictionary result: NSDictionary, preloadProfile: Bool, preloadAvatar: Bool, urlSession: URLSession?, copyToClass: Bool, handler: (([DBComment]) -> Void)?) {
         
         guard let results = result["comments"] as? [NSDictionary] else { print("Error parsing"); return }
         

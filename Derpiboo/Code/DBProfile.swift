@@ -41,34 +41,34 @@ class DBProfile {
         self.avatar = avatar
     }
     
-    func downloadAvatar(urlSession: NSURLSession?, completion: ((profile: DBProfile?) -> Void)?) {
+    func downloadAvatar(_ urlSession: URLSession?, completion: ((_ profile: DBProfile?) -> Void)?) {
         guard let avatar_url = avatar_url else { return }
         guard let url = "https:\(avatar_url)".toURL() else { print("download avatar url error, url: \(avatar_url)"); return }
         
         NetworkManager.loadData(url, urlSession: urlSession, completion: { data in
             
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+            DispatchQueue.global(qos: .utility).async {
                 
-                guard let image = UIImage(data: data) else { print("data to image error");completion?(profile: nil) ; return }
+                guard let image = UIImage(data: data) else { print("data to image error");completion?(nil) ; return }
                 self.avatar = image
-                dispatch_async(dispatch_get_main_queue()) {
-                    completion?(profile: self)
+                DispatchQueue.main.async {
+                    completion?(self)
                 }
             }
         })
     }
     
-    func downloadAwardImage(award: DBProfileAwards, urlSession: NSURLSession?, completion: ((image: UIImage?) -> Void)?) {
+    func downloadAwardImage(_ award: DBProfileAwards, urlSession: URLSession?, completion: ((_ image: UIImage?) -> Void)?) {
         guard let url = "https:\(award.image_url)".toURL() else { print("downloadAwardImage() url error, url: \(award.image_url)"); return }
         
         NetworkManager.loadData(url, urlSession: urlSession, completion: { data in
             
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+            DispatchQueue.global(qos: .utility).async {
                 
-                guard let image = UIImage(data: data) else { print("data to image error for award image"); completion?(image: nil); return }
-                dispatch_async(dispatch_get_main_queue()) {
+                guard let image = UIImage(data: data) else { print("data to image error for award image"); completion?(nil); return }
+                DispatchQueue.main.async {
                     award.image = image
-                    completion?(image: image)
+                    completion?(image)
                 }
                 
             }

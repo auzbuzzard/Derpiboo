@@ -77,7 +77,7 @@ class DBImage {
         self.id = id
     }
     
-    func getImage(ofSizeType sizeType: ImageSizeType, urlSession: NSURLSession?, completion: (image: DBImage?) -> Void) -> UIImage? {
+    func getImage(ofSizeType sizeType: ImageSizeType, urlSession: URLSession?, completion: @escaping (_ image: DBImage?) -> Void) -> UIImage? {
         if let image = getImage(ofSizeType: sizeType) {
             return image
         } else {
@@ -102,7 +102,7 @@ class DBImage {
         }
     }
     
-    private func getImageURL(ofSizeType sizeType: ImageSizeType) -> String? {
+    fileprivate func getImageURL(ofSizeType sizeType: ImageSizeType) -> String? {
         switch sizeType {
         case .thumb: return thumb
         case .large: return large
@@ -110,11 +110,11 @@ class DBImage {
         }
     }
     
-    func downloadImage(ofSizeType sizeType: ImageSizeType, urlSession: NSURLSession?, completion: ((image: DBImage?) -> Void)?) {
+    func downloadImage(ofSizeType sizeType: ImageSizeType, urlSession: URLSession?, completion: ((_ image: DBImage?) -> Void)?) {
         downloadImage(ofSizeType: sizeType, urlSession: urlSession, useCustomDelegate: false, completion: completion)
     }
     
-    func downloadImage(ofSizeType sizeType: ImageSizeType, urlSession: NSURLSession?, useCustomDelegate: Bool, completion: ((image: DBImage?) -> Void)?) {
+    func downloadImage(ofSizeType sizeType: ImageSizeType, urlSession: URLSession?, useCustomDelegate: Bool, completion: ((_ image: DBImage?) -> Void)?) {
         guard let u = getImageURL(ofSizeType: sizeType) else { print("getImageURL() error at DBImage"); return }
         guard let url = "https:\(u)".toURL() else { print("DBImage downloadImage() url error, for dbImage: \(id), for url: \(getImageURL(ofSizeType: sizeType))"); return }
         
@@ -123,12 +123,12 @@ class DBImage {
         } else {
             NetworkManager.loadData(url, urlSession: urlSession, completion: { data in
                 
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+                DispatchQueue.global(qos: .utility).async {
                     
-                    guard let image = UIImage(data: data) else { print("data to image error");completion?(image: nil) ; return }
+                    guard let image = UIImage(data: data) else { print("data to image error");completion?(nil) ; return }
                     self.setImage(ofSizeType: sizeType, image: image)
                     
-                    completion?(image: self)
+                    completion?(self)
                 }
             })
         }

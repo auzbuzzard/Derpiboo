@@ -12,8 +12,8 @@ class ImageGridVC: UICollectionViewController {
     
     //--- TableViewRID ---//
     
-    private let cellReuseIdentifier = "gridCell"
-    private let footerReuseIdentifier = "gridFooter"
+    fileprivate let cellReuseIdentifier = "gridCell"
+    fileprivate let footerReuseIdentifier = "gridFooter"
     
     //--- Data and Objects ---//
     
@@ -25,7 +25,7 @@ class ImageGridVC: UICollectionViewController {
     
     var refreshControl: UIRefreshControl!
     
-    let urlSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    let urlSession = URLSession(configuration: URLSessionConfiguration.default)
     
     //--- Class Vars for Methods ---//
     
@@ -50,7 +50,7 @@ class ImageGridVC: UICollectionViewController {
         tabBarOriginalFrame = tabBarController?.tabBar.frame
 
         refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(pullToRefresh), forControlEvents: .ValueChanged)
+        refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
         collectionView?.addSubview(refreshControl)
         collectionView?.backgroundColor = Theme.current().background
     }
@@ -59,7 +59,7 @@ class ImageGridVC: UICollectionViewController {
         super.didReceiveMemoryWarning()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         //navigationController?.hidesBarsOnSwipe = true
         
@@ -71,10 +71,10 @@ class ImageGridVC: UICollectionViewController {
         pullToRefresh()
     }
     
-    @objc private func pullToRefresh() {
+    @objc fileprivate func pullToRefresh() {
         isLoadingImages = true
         derpibooru.loadImages(ofType: imageResultsType, asNewResults: true, listName: listName, preloadThumbImage: true, urlSession: urlSession, copyToClass: true, completion: { _ in
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.isLoadingImages = false
                 self.refreshControl.endRefreshing()
                 self.collectionView?.reloadData()
@@ -82,14 +82,14 @@ class ImageGridVC: UICollectionViewController {
         })
     }
     
-    private func loadMoreImages(completion: (isEndOfResults: Bool) -> Void) {
+    fileprivate func loadMoreImages(_ completion: @escaping (_ isEndOfResults: Bool) -> Void) {
         isLoadingImages = true
         let currentImagesCount = images.count
         derpibooru.loadImages(ofType: imageResultsType, asNewResults: false, listName: listName, preloadThumbImage: true, urlSession: urlSession, copyToClass: true, completion: { _ in
             let bool = currentImagesCount == self.images.count
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.isLoadingImages = false
-                completion(isEndOfResults: bool)
+                completion(bool)
                 self.collectionView?.reloadData()
             }
         })
@@ -98,12 +98,12 @@ class ImageGridVC: UICollectionViewController {
     
     //--- Segues ---//
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showImageDetail" {
-            guard let indexPath = collectionView?.indexPathsForSelectedItems()?[0] else { return }
+            guard let indexPath = collectionView?.indexPathsForSelectedItems?[0] else { return }
             guard let index = indexPathToImageIndex(indexPath) else { return }
             
-            let vc = segue.destinationViewController as! ImageDetailPageVC
+            let vc = segue.destination as! ImageDetailPageVC
             
             vc.derpibooru = derpibooru
             vc.imageIndexFromSegue = index
@@ -115,24 +115,24 @@ class ImageGridVC: UICollectionViewController {
 
     //--- UICollectionViewDataSource ---//
     
-    override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
 
 
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return derpibooru.images.count
     }
 
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellReuseIdentifier, forIndexPath: indexPath) as! ImageGridCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellReuseIdentifier, for: indexPath) as! ImageGridCell
         
         cell.layer.shouldRasterize = true
-        cell.layer.rasterizationScale = UIScreen.mainScreen().scale
+        cell.layer.rasterizationScale = UIScreen.main.scale
         
         cell.contentView.layer.borderWidth = 1
-        cell.contentView.layer.borderColor = Theme.current().background2.CGColor
+        cell.contentView.layer.borderColor = Theme.current().background2.cgColor
         
         cell.backgroundColor = Theme.current().background
         cell.stackViewBackgroundView.backgroundColor = Theme.current().background2
@@ -158,8 +158,8 @@ class ImageGridVC: UICollectionViewController {
         return cell
     }
     
-    override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-        let footer = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: footerReuseIdentifier, forIndexPath: indexPath) as! ImageGridFooter
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: footerReuseIdentifier, for: indexPath) as! ImageGridFooter
         
         footer.footerLabel.textColor = Theme.current().labelText
         footer.footerLabel.text = isLoadingImages == true ? "Loading" : images.count == 0 ? "" : "Loading More"
@@ -174,14 +174,14 @@ class ImageGridVC: UICollectionViewController {
         return footer
     }
     
-    func onImageDownloadComplete(dbImage: DBImage?) {
-        dispatch_async(dispatch_get_main_queue()) {
+    func onImageDownloadComplete(_ dbImage: DBImage?) {
+        DispatchQueue.main.async {
             if let dbImage = dbImage {
                 guard let indexPath = self.indexPathFromDBImage(dbImage) else { return }
                 
-                for cell in (self.collectionView?.visibleCells())! {
-                    if self.collectionView?.indexPathForCell(cell) == indexPath {
-                        self.collectionView?.reloadItemsAtIndexPaths([indexPath])
+                for cell in (self.collectionView?.visibleCells)! {
+                    if self.collectionView?.indexPath(for: cell) == indexPath {
+                        self.collectionView?.reloadItems(at: [indexPath])
                         return
                     }
                 }
@@ -192,25 +192,25 @@ class ImageGridVC: UICollectionViewController {
     
     //--- Convenience Methods ---//
     
-    func indexPathToImageIndex(indexPath: NSIndexPath) -> Int? {
-        if indexPath.row < images.count {
-            return indexPath.row
+    func indexPathToImageIndex(_ indexPath: IndexPath) -> Int? {
+        if (indexPath as NSIndexPath).row < images.count {
+            return (indexPath as NSIndexPath).row
         } else {
             return nil
         }
     }
     
-    func imageIndexToIndexPath(index: Int) -> NSIndexPath {
-        return NSIndexPath(forItem: index, inSection: 0)
+    func imageIndexToIndexPath(_ index: Int) -> IndexPath {
+        return IndexPath(item: index, section: 0)
     }
     
-    func dbImageFromIndexPath(indexPath: NSIndexPath) -> DBImage? {
+    func dbImageFromIndexPath(_ indexPath: IndexPath) -> DBImage? {
         guard let index = indexPathToImageIndex(indexPath) else { return nil }
         return images[index]
     }
     
-    func indexPathFromDBImage(dbImage: DBImage) -> NSIndexPath? {
-        guard let index = images.indexOf({$0 === dbImage}) else { return nil }
+    func indexPathFromDBImage(_ dbImage: DBImage) -> IndexPath? {
+        guard let index = images.index(where: {$0 === dbImage}) else { return nil }
         return imageIndexToIndexPath(index)
     }
     
@@ -222,7 +222,7 @@ class ImageGridVC: UICollectionViewController {
     
     //--- Orientation Change ---//
     
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         collectionView?.collectionViewLayout.invalidateLayout()
     }
     
@@ -281,16 +281,16 @@ class ImageGridVC: UICollectionViewController {
 
 extension ImageGridVC: UICollectionViewDelegateFlowLayout {
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         //target rows: iPAD: 4 or 6, iPhone 3 or 5
 
         let collectionWidth = collectionView.bounds.width
         var itemWidth: CGFloat = 60
-        let orientation = UIApplication.sharedApplication().statusBarOrientation
-        if UI_USER_INTERFACE_IDIOM() == .Pad {
-            itemWidth = orientation == .Portrait ? collectionWidth / 4 : collectionWidth / 6
-        } else if UI_USER_INTERFACE_IDIOM() == .Phone {
-            itemWidth = orientation == .Portrait ? collectionWidth / 3 : collectionWidth / 5
+        let orientation = UIApplication.shared.statusBarOrientation
+        if UI_USER_INTERFACE_IDIOM() == .pad {
+            itemWidth = orientation == .portrait ? collectionWidth / 4 : collectionWidth / 6
+        } else if UI_USER_INTERFACE_IDIOM() == .phone {
+            itemWidth = orientation == .portrait ? collectionWidth / 3 : collectionWidth / 5
         }
         
         return CGSize(width: itemWidth - 2, height: itemWidth + 20)
@@ -309,11 +309,11 @@ extension ImageGridVC: UICollectionViewDelegateFlowLayout {
 //        return CGSizeMake(itemWidth - 2, itemWidth + 20)
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 2
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 2
     }
     
@@ -338,7 +338,7 @@ class ImageGridCell: UICollectionViewCell {
         cellImageView.image = nil
     }
     
-    override func preferredLayoutAttributesFittingAttributes(layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
         return layoutAttributes
     }
     

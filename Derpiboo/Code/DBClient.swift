@@ -12,7 +12,7 @@ class DBClient {
     
     //--- Useful stuffs and enums ---//
     
-    let clientSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    let clientSession = URLSession(configuration: URLSessionConfiguration.default)
     
 
     enum ResultsType: String {
@@ -21,17 +21,17 @@ class DBClient {
     
     //--- Parsing Json ---//
     
-    func parseJSON(data: NSData) throws -> NSDictionary? {
-        return try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as? NSDictionary
+    func parseJSON(_ data: Data) throws -> NSDictionary? {
+        return try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? NSDictionary
     }
     
     //--- UserDefaults ---//
     
     func getUserAPIKey() -> String? {
-        let defaults = NSUserDefaults.standardUserDefaults()
+        let defaults = UserDefaults.standard
         
-        if defaults.boolForKey("userAPIKeySwitch") {
-            guard let api = defaults.stringForKey("userAPIKey") else { return nil }
+        if defaults.bool(forKey: "userAPIKeySwitch") {
+            guard let api = defaults.string(forKey: "userAPIKey") else { return nil }
             return api
         } else {
             return nil

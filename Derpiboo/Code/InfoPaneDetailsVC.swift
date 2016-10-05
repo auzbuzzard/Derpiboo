@@ -10,7 +10,7 @@ import UIKit
 
 class InfoPaneDetailsVC: UITableViewController {
     
-    private let cellReuseIdentifier = "infoPaneDetailsCell"
+    fileprivate let cellReuseIdentifier = "infoPaneDetailsCell"
     
     var dbImage: DBImage!
 
@@ -28,40 +28,40 @@ class InfoPaneDetailsVC: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         //print("scrollviewinset: \(tableView.contentInset)")
         
-        let vc = parentViewController as! InfoPaneRootVC
+        let vc = parent as! InfoPaneRootVC
         vc.contentInset = tableView.contentInset
     }
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 2
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier, forIndexPath: indexPath) as! InfoPaneDetailsCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath) as! InfoPaneDetailsCell
         
         cell.contentField.textColor = Theme.current().labelText
 
-        if indexPath.row == 0 { //tag
+        if (indexPath as NSIndexPath).row == 0 { //tag
             cell.titleLabel.text = "Tags"
             if let tags = dbImage.tags {
                 cell.contentField.text = tags
             } else {
                 cell.contentField.text = "Image not tagged. :("
             }
-        } else if indexPath.row == 1 { //source
+        } else if (indexPath as NSIndexPath).row == 1 { //source
             cell.titleLabel.text = "Source"
             if let source_url = dbImage.source_url {
                 cell.contentField.text = source_url
@@ -71,7 +71,7 @@ class InfoPaneDetailsVC: UITableViewController {
         }
         
         let fixedWidth = cell.contentField.frame.size.width
-        let newSize = cell.contentField.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.max))
+        let newSize = cell.contentField.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
         cell.contentField.frame.size = CGSize(width: max(newSize.width, fixedWidth), height: newSize.height)
 
         return cell

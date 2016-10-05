@@ -28,13 +28,13 @@ class DBComment {
     
     var authorProfile: DBProfile?
     
-    func downloadProfile(clientProfile: DBClientProfile?, preloadAvatar: Bool, urlSession: NSURLSession?, copyToClass: Bool, completion: ((profile: DBProfile?) -> Void)?) {
+    func downloadProfile(_ clientProfile: DBClientProfile?, preloadAvatar: Bool, urlSession: URLSession?, copyToClass: Bool, completion: ((_ profile: DBProfile?) -> Void)?) {
         
         let client = clientProfile ?? DBClientProfile()
         
         client.loadProfile(author, preloadAvatar: preloadAvatar, urlSession: urlSession, copyToClass: copyToClass, handler: { profile in
             self.authorProfile = profile
-            completion?(profile: profile)
+            completion?(profile)
         })
         
     }
