@@ -23,7 +23,7 @@ class SearchResultVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(HomeVC.useE621ModeDidChange), name: Notification.Name.init(rawValue: Preferences.useE621Mode.rawValue), object: nil)
+        //NotificationCenter.default.addObserver(self, selector: #selector(HomeVC.useE621ModeDidChange), name: Notification.Name.init(rawValue: Preferences.useE621Mode.rawValue), object: nil)
         
         instantiateVC()
         
@@ -44,17 +44,8 @@ class SearchResultVC: UIViewController {
         
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
     func instantiateVC() {
-        listVC = storyboard?.instantiateViewController(withIdentifier: "listCollectionVC") as! ListCollectionVC
+        listVC = storyboard?.instantiateViewController(withIdentifier: ListCollectionVC.storyboardID) as! ListCollectionVC
         
         setupVC(vc: listVC)
         
@@ -64,16 +55,9 @@ class SearchResultVC: UIViewController {
     }
     
     func setupVC(vc: ListCollectionVC) {
-        vc.delegate = self
+        //vc.delegate = self
         //vc.collectionView?.contentInset = UIEdgeInsetsMake(64, 0, 40, 0)
         
-    }
-    
-    func useE621ModeDidChange() {
-        listVC.results = ListResult()
-        _ = navigationController?.popToViewController(listVC, animated: false)
-        listVC.removeFromParentViewController()
-        instantiateVC()
     }
 
     /*
@@ -88,14 +72,4 @@ class SearchResultVC: UIViewController {
 
 }
 
-extension SearchResultVC: ListCollectionVCRequestDelegate {
-    internal func vcShouldLoadImmediately() -> Bool {
-        return true
-    }
-    
-    func getResult(results: ListResult?, completion: @escaping (ListResult) -> Void) {
-        let requester = ListRequester()
-        requester.get(listOfType: .search, tags: correctedSearchString, result: results, completion: completion)
-    }
-}
 

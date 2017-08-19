@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import PromiseKit
+import Alamofire
 
 enum NetworkError: Error {
     case InvalidURL(url: String)
@@ -21,64 +23,53 @@ enum NetworkError: Error {
 
 class Network {
     
-    typealias completionData = (Data) -> Void
-//    
-//    static func get(url: String, completion: @escaping completionData) throws {
-//        do {
-//            try post(url: url, params: nil, completion: completion)
-//        } catch let error {
-//            throw error
-//        }
-//    }
+    static func get(url: String, session: URLSession? = nil) -> Promise<Data> {
+        return post(url: url, params: nil, session: session)
+    }
     
-    static func fetch(url: String, params: Dictionary<String, String>?, completion: @escaping (Data) -> Void) throws {
-        guard let u = URL(string: url) else { throw NetworkError.InvalidURL(url: url) }
-        let session = URLSession.shared
-        
-        var request = URLRequest(url: u)
-        if params == nil {
-            request.httpMethod = "GET"
-        } else {
-            request.httpMethod = "POST"
+    static func post(url: String, params: [String]?, session: URLSession? = nil) -> Promise<Data> {
+        return Promise { fulfill, reject in
+            guard let u = URL(string: url) else { reject(NetworkError.InvalidURL(url: url)); return }
+            let session = session ?? URLSession.shared
             
-//            var paramsString = ""
-//            for (key, value) in params! {
-//                let scapedKey = key.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
-//                let scapedValue = value.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
-//                paramsString += "\(scapedKey)=\(scapedValue)&"
-//            }
-//            paramsString.remove(at: paramsString.index(before: paramsString.endIndex))
-//            
-//            request.httpBody = paramsString.data(using: String.Encoding.utf8)
-            if let params = params {
-                for (key, value) in params {
-                    request.addValue(value, forHTTPHeaderField: key)
+            let request = NSMutableURLRequest(url: u)
+            if params == nil {
+                request.httpMethod = "GET"
+            } else {
+                request.httpMethod = "POST"
+                
+                if let paramString = params?.joined(separator: "&") {
+                    request.httpBody = paramString.data(using: String.Encoding.utf8)
                 }
             }
             
+            let userAgent: String = {
+                let bundleIdentifier = Bundle.main.bundleIdentifier ?? "BundleIdentifier"
+                let bundleVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "BundleVersion"
+                return "\(bundleIdentifier)/\(bundleVersion) (by auzbuzzard on e621)"
+            }()
+            
+            request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
+            #if DEBUG
+                //print(u)
+            #endif
+            let dataPromise: URLDataPromise = session.dataTask(with: request as URLRequest)
+            dataPromise.asDataAndResponse().then { (data, respone) -> Void in
+                fulfill(data)
+                }.catch(execute: reject)
         }
-        //request.cachePolicy = NSURLRequest.CachePolicy.reloadIgnoringCacheData
-        //print(request.httpBody)
-        
-        
-        let task = session.dataTask(with: request, completionHandler: {
-            (
-            data, response, error) in
-            
-            //print("data: \(data)\n, response: \(response)\n, error: \(error)")
-            
-            guard let _:Data = data, let _:URLResponse = response  , error == nil else {
-                print("Network.fetch error")
-                return
-            }
-            
-//            let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-//            print(dataString)
-            
-            completion(data!)
-            
-        })
-        
-        task.resume()
+    }
+    
+    static func getWithAlamo(url: String) -> DataRequest {
+        var request = URLRequest(url: URL(string: url)!)
+        request.httpMethod = HTTPMethod.get.rawValue
+        return Alamofire.request(request as URLRequestConvertible)
+    }
+    
+    static func postWithAlamo(url: String, params: [String:String]?, encoding: ParameterEncoding) -> DataRequest {
+        var request = URLRequest(url: URL(string: url)!)
+        request.httpMethod = HTTPMethod.post.rawValue
+        request.allHTTPHeaderFields = params ?? nil
+        return Alamofire.request(request as URLRequestConvertible)
     }
 }

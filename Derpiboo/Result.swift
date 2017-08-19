@@ -7,35 +7,67 @@
 //
 
 import UIKit
+import PromiseKit
 
-class Result {
+protocol Result {
     
 }
 
-class ListResult: Result {
-    
-    lazy var results = [ImageResult]()
-    
-    var page: Int = 1
-    
-    func add(results newResults: [ImageResult]) {
-        results.append(contentsOf: newResults)
-        page += 1
+protocol ResultListable: Result {
+    associatedtype Item: ResultItem
+    var results: [Item] { get set }
+}
+extension ResultListable {
+    mutating func add(_ result: [Item]) {
+        results.append(contentsOf: result)
     }
-    
+    mutating func add(_ result: Self) {
+        add(result.results)
+    }
 }
 
-class ImageResult: Result {
+protocol ResultItem: Result {
+    associatedtype Metadata: ResultItemMetadata
+    var id: String { get }
+    var metadata: Metadata { get }
+}
+
+protocol ResultItemMetadata { }
+
+
+// Mark: - Actual Classes
+
+struct ListResult: ResultListable {
+    typealias ResultType = ImageResult
     
-    var id: String { get { return metadata.id } }
+    var results: [ResultType]
+    private(set) var currentPage = 0
+    var tags: [String]?
+    var tagsAsString: String? { return tags?.joined(separator: " ") }
     
-    var metadata: Metadata {
-        didSet {
-            _ = getImage(ofSize: .large, callback: { _ in })
-        }
+    init() {
+        results = [ResultType]()
+    }
+    init(result: [ResultType]) {
+        self.init()
+        add(result)
     }
     
-    struct Metadata {
+    mutating func add(_ result: [ResultType]) {
+        results.append(contentsOf: result)
+        currentPage += 1
+    }
+    mutating func add(_ result: ListResult) {
+        add(result.results)
+    }
+}
+
+struct ImageResult: ResultItem, UsingImageCache {
+    var id: String { return metadata.id }
+    
+    private(set) var metadata: Metadata
+    
+    struct Metadata: ResultItemMetadata {
         let id: String
         
         let created_at: String
@@ -47,6 +79,8 @@ class ImageResult: Result {
         
         let file_name: String
         let description: String
+        
+        let uploader_id: String
         let uploader: String
         
         let image: String
@@ -59,7 +93,9 @@ class ImageResult: Result {
         let comment_count: Int
         
         let tags: String
-        let tag_ids: [Int]
+        let tag_ids: [String]
+        
+        //let rating: Ratings
         
         let width: Int
         let height: Int
@@ -67,9 +103,12 @@ class ImageResult: Result {
         
         let original_format: String
         let mime_type: String
+        var original_format_enum: File_Ext? {
+            return File_Ext(rawValue: original_format) ?? nil
+        }
         
         let sha512_hash: String
-        let orig_sha512_hash: String
+        let orig_sha512_hash: String?
         let sourse_url: String
         
         let representations: Representations
@@ -88,63 +127,54 @@ class ImageResult: Result {
         let is_rendered: Bool
         let is_optimized: Bool
         
-        enum SizeType: String {
+        enum ImageSize: String {
             case thumb, large, full
         }
-    }
-    
-    func hasImageInCache(ofSize size: Metadata.SizeType) -> Bool {
-        if let _ = try? Cache.shared.getImage(size: size, id: self.id) {
-            return true
-        } else {
-            return false
+        enum File_Ext: String {
+            case jpg = "jpg", png = "png", gif = "gif", swf = "swf", webm = "webm"
+        }
+        enum Ratings: String {
+            case safe, suggestive, explicit = "26707"
         }
     }
     
-    func getImage(ofSize size: Metadata.SizeType, callback: ((_ image: UIImage?, _ id: String, ImageResultError?) -> Void)?) -> UIImage? {
-        if let image = try? Cache.shared.getImage(size: size, id: self.id) {
-            callback?(image, self.id, nil)
-            return image
-        } else {
-            if let callback = callback {
-                var url = ""
-                switch size {
-                case .thumb: url = "https:" + metadata.representations.thumb
-                case .large: url = "https:" + metadata.representations.large
-                case .full: url = "https:" + metadata.image
+    func image(ofSize size: Metadata.ImageSize) -> Promise<UIImage> {
+        return imageFromCache(size: size)
+            .recover { error -> Promise<UIImage> in
+                if case ImageCache.CacheError.noImageInStore(_) = error {
+                    return self.downloadImage(ofSize: size)
+                } else {
+                    throw error
                 }
-                do {
-                    try Network.fetch(url: url, params: nil, completion: { data in
-                        if let image = UIImage(data: data) {
-                            do {
-                                try Cache.shared.setImage(size: size, image: image, forID: self.id)
-                                callback(image, self.id, nil)
-                            } catch {
-                                print("store error")
-                            }
-                        } else {
-                            callback(nil, self.id, ImageResultError.ImageDownloadError(id: self.id, url: url))
-                        }
-                    })
-                } catch {
-                    print("getImage error")
-                }
+        }
+    }
+    
+    func imageFromCache(size: Metadata.ImageSize) -> Promise<UIImage> {
+        return imageCache.getImage(for: self.id, size: size)
+    }
+    
+    func downloadImage(ofSize size: Metadata.ImageSize) -> Promise<UIImage> {
+        let url: String = {
+            switch size {
+            case .thumb: return "https:" + metadata.representations.thumb
+            case .large: return "https:" + metadata.representations.large
+            case .full: return "https:" + metadata.representations.full
             }
-            return nil
-        }
-    }
-    
-    func setImage(ofSize size: Metadata.SizeType, image: UIImage) {
+        }()
         
-    }
-    
-    init(metadata: Metadata) {
-        self.metadata = metadata
+        return Network.get(url: url)
+            .then { data -> Promise<UIImage> in
+                guard let image = /*self.metadata.original_format_enum == .gif ? UIImage.gif(data: data) : */ UIImage(data: data) else {
+                    throw ImageResultError.dataIsNotUIImage(id: self.id, data: data)
+                }
+                _ = self.imageCache.setImage(image, id: self.id, size: size)
+                return Promise(value: image)
+        }
     }
     
     enum ImageResultError: Error {
-        case ImageDownloadError(id: String, url: String)
-        case ImageNotInCache(id: Int)
+        case downloadFailed(id: String, url: String)
+        case dataIsNotUIImage(id: String, data: Data)
     }
 }
 
@@ -198,6 +228,33 @@ class FilterListResult: Result {
     lazy var user_filters = [FilterResult]()
     lazy var search_filters = [FilterResult]()
 }
+
+struct TagResult: ResultItem {
+    var id: String { return metadata.id }
+    
+    private(set) var metadata: Metadata
+    
+    struct Metadata: ResultItemMetadata {
+        let id: String
+        let name: String
+        let slug: String
+        let description: String
+        let short_description: String
+        let images: Int
+        let spoiler_image_uri: String?
+        let aliased_to: String?
+        let aliased_to_id: String?
+        let namespace: String?
+        let name_in_namespace: String?
+        let implied_tags: String?
+        let implied_tag_ids: [Int]?
+        let category: String?
+    }
+}
+
+
+
+
 
 
 

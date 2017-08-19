@@ -18,7 +18,7 @@ class SignInSheetVC: UIViewController {
         if let username = userField.text, let password = passwordField.text {
             let remember_me = rememberMeSwitch.isOn
             
-            Identity.main.signIn(user: username, password: password, remember_me: remember_me)
+            //Identity.main.signIn(user: username, password: password, remember_me: remember_me)
         }
         
     }

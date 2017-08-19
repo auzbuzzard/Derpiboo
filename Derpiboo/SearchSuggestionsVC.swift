@@ -9,10 +9,11 @@
 import UIKit
 
 class SearchSuggestionsVC: UITableViewController {
+    static let storyboardID = "searchSuggestionsVC"
     
     lazy var searchHistory = [String]()
     
-    weak var delegate: SearchVC?
+    weak var delegate: SearchHomeVC?
 
     override func viewDidLoad() {
         super.viewDidLoad()

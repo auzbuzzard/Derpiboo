@@ -7,12 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03F8E94978B951AF5BE74F1C /* Pods_DerpibooTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A89FFE62218007920D0E3BF /* Pods_DerpibooTests.framework */; };
+		09621C90A40048984745F504 /* Pods_DerpibooUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41CDD8590068EEB4149C4461 /* Pods_DerpibooUITests.framework */; };
+		AE40B2BAE58736F9EEB792A4 /* Pods_Derpiboo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456DF0278CAF3C96B5B0C5EA /* Pods_Derpiboo.framework */; };
+		D905E3C11F46253900B6F276 /* SearchHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D905E3C01F46253900B6F276 /* SearchHomeVC.swift */; };
+		D928F35B1F452507009A8185 /* ListCollectionVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D928F35A1F452507009A8185 /* ListCollectionVM.swift */; };
 		D92CAFE01DB8256C00B03FEF /* SignInSheetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92CAFDF1DB8256C00B03FEF /* SignInSheetVC.swift */; };
+		D9554B351F444DCC00E58018 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9554B2E1F444DCC00E58018 /* PromiseKit.framework */; };
+		D9554B361F444DCC00E58018 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9554B2F1F444DCC00E58018 /* Alamofire.framework */; };
+		D9554B371F444DCC00E58018 /* SwiftGifOrigin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9554B301F444DCC00E58018 /* SwiftGifOrigin.framework */; };
+		D9554B381F444DCC00E58018 /* UIScrollView_InfiniteScroll.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9554B311F444DCC00E58018 /* UIScrollView_InfiniteScroll.framework */; };
+		D9554B391F444DCC00E58018 /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9554B321F444DCC00E58018 /* Carlos.framework */; };
+		D9554B3A1F444DCC00E58018 /* Fuzi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9554B331F444DCC00E58018 /* Fuzi.framework */; };
+		D9554B3C1F44530200E58018 /* ListCollectionVCMainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9554B3B1F44530200E58018 /* ListCollectionVCMainCell.swift */; };
 		D96F24EE1DB86562008719ED /* Filters.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96F24ED1DB86562008719ED /* Filters.swift */; };
 		D96F24F01DB86801008719ED /* FiltersSelectionTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96F24EF1DB86801008719ED /* FiltersSelectionTableVC.swift */; };
+		D972399F1F484C410082E37A /* DGCollectionViewLeftAlignFlowLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D972399E1F484C410082E37A /* DGCollectionViewLeftAlignFlowLayout.framework */; };
+		D97239A81F48EBB30082E37A /* ListCollectionFilterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97239A71F48EBB30082E37A /* ListCollectionFilterVC.swift */; };
 		D98374351DB044BB00055A68 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D98374331DB044BB00055A68 /* Main.storyboard */; };
 		D98374371DB0462E00055A68 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98374361DB0462E00055A68 /* AppDelegate.swift */; };
-		D98374411DB046A700055A68 /* UIScrollView+InfiniteScroll.m in Sources */ = {isa = PBXBuildFile; fileRef = D98374401DB046A700055A68 /* UIScrollView+InfiniteScroll.m */; };
 		D98374431DB046D200055A68 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98374421DB046D200055A68 /* Cache.swift */; };
 		D98374451DB046DC00055A68 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98374441DB046DC00055A68 /* HomeVC.swift */; };
 		D98374471DB046E200055A68 /* Identity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98374461DB046E200055A68 /* Identity.swift */; };
@@ -28,13 +41,14 @@
 		D983745B1DB0472700055A68 /* SearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D983745A1DB0472700055A68 /* SearchManager.swift */; };
 		D983745D1DB0472C00055A68 /* SearchResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D983745C1DB0472C00055A68 /* SearchResultVC.swift */; };
 		D983745F1DB0473000055A68 /* SearchSuggestionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D983745E1DB0473000055A68 /* SearchSuggestionsVC.swift */; };
-		D98374611DB0473700055A68 /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98374601DB0473700055A68 /* SearchVC.swift */; };
 		D98374631DB0473B00055A68 /* SettingsTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98374621DB0473B00055A68 /* SettingsTableVC.swift */; };
 		D98374651DB0474000055A68 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98374641DB0474000055A68 /* Theme.swift */; };
 		D98CB90D1C2998100029A6F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D98CB90C1C2998100029A6F7 /* Assets.xcassets */; };
 		D98CB9101C2998100029A6F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D98CB90E1C2998100029A6F7 /* LaunchScreen.storyboard */; };
 		D98CB91B1C2998100029A6F7 /* DerpibooTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB91A1C2998100029A6F7 /* DerpibooTests.swift */; };
 		D98CB9261C2998100029A6F7 /* DerpibooUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB9251C2998100029A6F7 /* DerpibooUITests.swift */; };
+		D9F3EE681F48205E006B0363 /* ImageDetailVCTagTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F3EE671F48205E006B0363 /* ImageDetailVCTagTableCell.swift */; };
+		D9F3EE6A1F4822AA006B0363 /* ImageDetailVCTagCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F3EE691F4822AA006B0363 /* ImageDetailVCTagCollection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,14 +77,23 @@
 		7B8893BC705B49E501A9FAE2 /* Pods-DerpibooTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DerpibooTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DerpibooTests/Pods-DerpibooTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A8FEA33EDC3C55B972E2991C /* Pods-DerpibooUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DerpibooUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DerpibooUITests/Pods-DerpibooUITests.release.xcconfig"; sourceTree = "<group>"; };
 		ACA1619518626313A31DF643 /* Pods-DerpibooUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DerpibooUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DerpibooUITests/Pods-DerpibooUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		D905E3C01F46253900B6F276 /* SearchHomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHomeVC.swift; sourceTree = "<group>"; };
+		D928F35A1F452507009A8185 /* ListCollectionVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionVM.swift; sourceTree = "<group>"; };
 		D92CAFDF1DB8256C00B03FEF /* SignInSheetVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInSheetVC.swift; sourceTree = "<group>"; };
+		D9554B2D1F444DCC00E58018 /* UICollectionViewLeftAlignedLayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UICollectionViewLeftAlignedLayout.framework; path = "Pods/../build/Debug-iphoneos/UICollectionViewLeftAlignedLayout/UICollectionViewLeftAlignedLayout.framework"; sourceTree = "<group>"; };
+		D9554B2E1F444DCC00E58018 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = "Pods/../build/Debug-iphoneos/PromiseKit/PromiseKit.framework"; sourceTree = "<group>"; };
+		D9554B2F1F444DCC00E58018 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-iphoneos/Alamofire/Alamofire.framework"; sourceTree = "<group>"; };
+		D9554B301F444DCC00E58018 /* SwiftGifOrigin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftGifOrigin.framework; path = "Pods/../build/Debug-iphoneos/SwiftGifOrigin/SwiftGifOrigin.framework"; sourceTree = "<group>"; };
+		D9554B311F444DCC00E58018 /* UIScrollView_InfiniteScroll.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIScrollView_InfiniteScroll.framework; path = "Pods/../build/Debug-iphoneos/UIScrollView-InfiniteScroll/UIScrollView_InfiniteScroll.framework"; sourceTree = "<group>"; };
+		D9554B321F444DCC00E58018 /* Carlos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carlos.framework; path = "Pods/../build/Debug-iphoneos/Carlos/Carlos.framework"; sourceTree = "<group>"; };
+		D9554B331F444DCC00E58018 /* Fuzi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fuzi.framework; path = "Pods/../build/Debug-iphoneos/Fuzi/Fuzi.framework"; sourceTree = "<group>"; };
+		D9554B3B1F44530200E58018 /* ListCollectionVCMainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionVCMainCell.swift; sourceTree = "<group>"; };
 		D96F24ED1DB86562008719ED /* Filters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filters.swift; sourceTree = "<group>"; };
 		D96F24EF1DB86801008719ED /* FiltersSelectionTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersSelectionTableVC.swift; sourceTree = "<group>"; };
-		D98373CB1DB0439F00055A68 /* Derpiboo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Derpiboo-Bridging-Header.h"; sourceTree = "<group>"; };
+		D972399E1F484C410082E37A /* DGCollectionViewLeftAlignFlowLayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DGCollectionViewLeftAlignFlowLayout.framework; path = "Pods/../build/Debug-iphoneos/DGCollectionViewLeftAlignFlowLayout/DGCollectionViewLeftAlignFlowLayout.framework"; sourceTree = "<group>"; };
+		D97239A71F48EBB30082E37A /* ListCollectionFilterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionFilterVC.swift; sourceTree = "<group>"; };
 		D98374331DB044BB00055A68 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		D98374361DB0462E00055A68 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D983743F1DB046A700055A68 /* UIScrollView+InfiniteScroll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+InfiniteScroll.h"; sourceTree = "<group>"; };
-		D98374401DB046A700055A68 /* UIScrollView+InfiniteScroll.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+InfiniteScroll.m"; sourceTree = "<group>"; };
 		D98374421DB046D200055A68 /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		D98374441DB046DC00055A68 /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		D98374461DB046E200055A68 /* Identity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Identity.swift; sourceTree = "<group>"; };
@@ -86,7 +109,6 @@
 		D983745A1DB0472700055A68 /* SearchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchManager.swift; sourceTree = "<group>"; };
 		D983745C1DB0472C00055A68 /* SearchResultVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultVC.swift; sourceTree = "<group>"; };
 		D983745E1DB0473000055A68 /* SearchSuggestionsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchSuggestionsVC.swift; sourceTree = "<group>"; };
-		D98374601DB0473700055A68 /* SearchVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
 		D98374621DB0473B00055A68 /* SettingsTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableVC.swift; sourceTree = "<group>"; };
 		D98374641DB0474000055A68 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		D98CB9001C2998100029A6F7 /* Derpiboo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Derpiboo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,6 +121,8 @@
 		D98CB9211C2998100029A6F7 /* DerpibooUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DerpibooUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D98CB9251C2998100029A6F7 /* DerpibooUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DerpibooUITests.swift; sourceTree = "<group>"; };
 		D98CB9271C2998100029A6F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D9F3EE671F48205E006B0363 /* ImageDetailVCTagTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailVCTagTableCell.swift; sourceTree = "<group>"; };
+		D9F3EE691F4822AA006B0363 /* ImageDetailVCTagCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailVCTagCollection.swift; sourceTree = "<group>"; };
 		DC631A2F9A03B360ED9D0EA0 /* Pods-DerpibooTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DerpibooTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DerpibooTests/Pods-DerpibooTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -107,6 +131,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D972399F1F484C410082E37A /* DGCollectionViewLeftAlignFlowLayout.framework in Frameworks */,
+				D9554B351F444DCC00E58018 /* PromiseKit.framework in Frameworks */,
+				D9554B361F444DCC00E58018 /* Alamofire.framework in Frameworks */,
+				D9554B371F444DCC00E58018 /* SwiftGifOrigin.framework in Frameworks */,
+				D9554B381F444DCC00E58018 /* UIScrollView_InfiniteScroll.framework in Frameworks */,
+				D9554B391F444DCC00E58018 /* Carlos.framework in Frameworks */,
+				D9554B3A1F444DCC00E58018 /* Fuzi.framework in Frameworks */,
+				AE40B2BAE58736F9EEB792A4 /* Pods_Derpiboo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,6 +146,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03F8E94978B951AF5BE74F1C /* Pods_DerpibooTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,6 +154,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09621C90A40048984745F504 /* Pods_DerpibooUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,6 +164,14 @@
 		11CD075913E85CE7761BDBC3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D972399E1F484C410082E37A /* DGCollectionViewLeftAlignFlowLayout.framework */,
+				D9554B2F1F444DCC00E58018 /* Alamofire.framework */,
+				D9554B321F444DCC00E58018 /* Carlos.framework */,
+				D9554B331F444DCC00E58018 /* Fuzi.framework */,
+				D9554B2E1F444DCC00E58018 /* PromiseKit.framework */,
+				D9554B301F444DCC00E58018 /* SwiftGifOrigin.framework */,
+				D9554B2D1F444DCC00E58018 /* UICollectionViewLeftAlignedLayout.framework */,
+				D9554B311F444DCC00E58018 /* UIScrollView_InfiniteScroll.framework */,
 				456DF0278CAF3C96B5B0C5EA /* Pods_Derpiboo.framework */,
 				2A89FFE62218007920D0E3BF /* Pods_DerpibooTests.framework */,
 				41CDD8590068EEB4149C4461 /* Pods_DerpibooUITests.framework */,
@@ -150,14 +192,25 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		D98374381DB0463D00055A68 /* Obj-C */ = {
+		D90B52501F4785CC0046560B /* CollectionView */ = {
 			isa = PBXGroup;
 			children = (
-				D98373CB1DB0439F00055A68 /* Derpiboo-Bridging-Header.h */,
-				D983743F1DB046A700055A68 /* UIScrollView+InfiniteScroll.h */,
-				D98374401DB046A700055A68 /* UIScrollView+InfiniteScroll.m */,
+				D928F35A1F452507009A8185 /* ListCollectionVM.swift */,
+				D983744C1DB0470300055A68 /* ListCollectionVC.swift */,
+				D9554B3B1F44530200E58018 /* ListCollectionVCMainCell.swift */,
+				D97239A71F48EBB30082E37A /* ListCollectionFilterVC.swift */,
 			);
-			name = "Obj-C";
+			name = CollectionView;
+			sourceTree = "<group>";
+		};
+		D90B52511F4785E00046560B /* DetailView */ = {
+			isa = PBXGroup;
+			children = (
+				D98374481DB046F400055A68 /* ImageDetailVC.swift */,
+				D9F3EE671F48205E006B0363 /* ImageDetailVCTagTableCell.swift */,
+				D9F3EE691F4822AA006B0363 /* ImageDetailVCTagCollection.swift */,
+			);
+			name = DetailView;
 			sourceTree = "<group>";
 		};
 		D98374391DB0464F00055A68 /* Utils */ = {
@@ -187,9 +240,9 @@
 		D983743B1DB0466700055A68 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				D98374441DB046DC00055A68 /* HomeVC.swift */,
 				D983743C1DB0467200055A68 /* List */,
-				D98374601DB0473700055A68 /* SearchVC.swift */,
+				D98374441DB046DC00055A68 /* HomeVC.swift */,
+				D905E3C01F46253900B6F276 /* SearchHomeVC.swift */,
 				D983743E1DB0468200055A68 /* Search */,
 				D983744E1DB0470900055A68 /* MenuTableVC.swift */,
 				D983743D1DB0467A00055A68 /* Menu */,
@@ -200,9 +253,9 @@
 		D983743C1DB0467200055A68 /* List */ = {
 			isa = PBXGroup;
 			children = (
-				D983744C1DB0470300055A68 /* ListCollectionVC.swift */,
+				D90B52501F4785CC0046560B /* CollectionView */,
 				D983744A1DB046FA00055A68 /* ImageZoomVC.swift */,
-				D98374481DB046F400055A68 /* ImageDetailVC.swift */,
+				D90B52511F4785E00046560B /* DetailView */,
 			);
 			name = List;
 			sourceTree = "<group>";
@@ -256,7 +309,6 @@
 				D98CB90E1C2998100029A6F7 /* LaunchScreen.storyboard */,
 				D98CB90C1C2998100029A6F7 /* Assets.xcassets */,
 				D98CB9111C2998100029A6F7 /* Info.plist */,
-				D98374381DB0463D00055A68 /* Obj-C */,
 				D98374391DB0464F00055A68 /* Utils */,
 				D983743A1DB0466200055A68 /* Server */,
 				D983743B1DB0466700055A68 /* UI */,
@@ -289,9 +341,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D98CB92A1C2998100029A6F7 /* Build configuration list for PBXNativeTarget "Derpiboo" */;
 			buildPhases = (
+				ED435F58EEC5F9BD9CE1EE5A /* [CP] Check Pods Manifest.lock */,
 				D98CB8FC1C2998100029A6F7 /* Sources */,
 				D98CB8FD1C2998100029A6F7 /* Frameworks */,
 				D98CB8FE1C2998100029A6F7 /* Resources */,
+				DF580AD161B8DC6C0F43BD13 /* [CP] Embed Pods Frameworks */,
+				3B51A40B43D3CB3FA11A5333 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -306,9 +361,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D98CB92D1C2998100029A6F7 /* Build configuration list for PBXNativeTarget "DerpibooTests" */;
 			buildPhases = (
+				12CA9F94288FD69FAA5B345C /* [CP] Check Pods Manifest.lock */,
 				D98CB9121C2998100029A6F7 /* Sources */,
 				D98CB9131C2998100029A6F7 /* Frameworks */,
 				D98CB9141C2998100029A6F7 /* Resources */,
+				87CA83258FC2A34826A22D9E /* [CP] Embed Pods Frameworks */,
+				ADB652FEED09CA40022600AF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -324,9 +382,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D98CB9301C2998100029A6F7 /* Build configuration list for PBXNativeTarget "DerpibooUITests" */;
 			buildPhases = (
+				64A389D7874B05E0D65C0B6E /* [CP] Check Pods Manifest.lock */,
 				D98CB91D1C2998100029A6F7 /* Sources */,
 				D98CB91E1C2998100029A6F7 /* Frameworks */,
 				D98CB91F1C2998100029A6F7 /* Resources */,
+				04E0C5C88E1269541523084A /* [CP] Embed Pods Frameworks */,
+				41E949C26BCBEC21F3AEE07F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -415,6 +476,144 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		04E0C5C88E1269541523084A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DerpibooUITests/Pods-DerpibooUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		12CA9F94288FD69FAA5B345C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		3B51A40B43D3CB3FA11A5333 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Derpiboo/Pods-Derpiboo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		41E949C26BCBEC21F3AEE07F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DerpibooUITests/Pods-DerpibooUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		64A389D7874B05E0D65C0B6E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		87CA83258FC2A34826A22D9E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DerpibooTests/Pods-DerpibooTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		ADB652FEED09CA40022600AF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DerpibooTests/Pods-DerpibooTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DF580AD161B8DC6C0F43BD13 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Derpiboo/Pods-Derpiboo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		ED435F58EEC5F9BD9CE1EE5A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		D98CB8FC1C2998100029A6F7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -426,23 +625,27 @@
 				D92CAFE01DB8256C00B03FEF /* SignInSheetVC.swift in Sources */,
 				D98374531DB0471300055A68 /* Parser.swift in Sources */,
 				D98374551DB0471700055A68 /* Preferences.swift in Sources */,
+				D928F35B1F452507009A8185 /* ListCollectionVM.swift in Sources */,
 				D983744B1DB046FA00055A68 /* ImageZoomVC.swift in Sources */,
 				D98374591DB0472100055A68 /* Result.swift in Sources */,
 				D983744F1DB0470900055A68 /* MenuTableVC.swift in Sources */,
-				D98374411DB046A700055A68 /* UIScrollView+InfiniteScroll.m in Sources */,
 				D96F24EE1DB86562008719ED /* Filters.swift in Sources */,
 				D983744D1DB0470300055A68 /* ListCollectionVC.swift in Sources */,
 				D98374451DB046DC00055A68 /* HomeVC.swift in Sources */,
 				D98374471DB046E200055A68 /* Identity.swift in Sources */,
 				D98374491DB046F400055A68 /* ImageDetailVC.swift in Sources */,
 				D983745F1DB0473000055A68 /* SearchSuggestionsVC.swift in Sources */,
-				D98374611DB0473700055A68 /* SearchVC.swift in Sources */,
 				D98374431DB046D200055A68 /* Cache.swift in Sources */,
 				D983745B1DB0472700055A68 /* SearchManager.swift in Sources */,
 				D983745D1DB0472C00055A68 /* SearchResultVC.swift in Sources */,
 				D98374651DB0474000055A68 /* Theme.swift in Sources */,
+				D97239A81F48EBB30082E37A /* ListCollectionFilterVC.swift in Sources */,
 				D98374371DB0462E00055A68 /* AppDelegate.swift in Sources */,
+				D905E3C11F46253900B6F276 /* SearchHomeVC.swift in Sources */,
+				D9F3EE6A1F4822AA006B0363 /* ImageDetailVCTagCollection.swift in Sources */,
 				D98374571DB0471D00055A68 /* Requester.swift in Sources */,
+				D9554B3C1F44530200E58018 /* ListCollectionVCMainCell.swift in Sources */,
+				D9F3EE681F48205E006B0363 /* ImageDetailVCTagTableCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -584,12 +787,23 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/UICollectionViewLeftAlignedLayout",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/PromiseKit",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Alamofire",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/SwiftGifOrigin",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/UIScrollView-InfiniteScroll",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Carlos",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Fuzi",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/DGCollectionViewLeftAlignFlowLayout",
+				);
 				INFOPLIST_FILE = Derpiboo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.austinmchau.Derpiboo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Derpiboo/Derpiboo-Bridging-Header.h";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -602,12 +816,22 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/UICollectionViewLeftAlignedLayout",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/PromiseKit",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Alamofire",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/SwiftGifOrigin",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/UIScrollView-InfiniteScroll",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Carlos",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Fuzi",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/DGCollectionViewLeftAlignFlowLayout",
+				);
 				INFOPLIST_FILE = Derpiboo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.austinmchau.Derpiboo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Derpiboo/Derpiboo-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

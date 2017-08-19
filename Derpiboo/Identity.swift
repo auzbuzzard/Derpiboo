@@ -22,7 +22,7 @@ class Identity {
     }
     
     var user: UserResult?
-    
+    /*
     func signIn(user: String, password: String, remember_me: Bool) {
         let url = Requester.base_url + "/users/sign_in"
         do {
@@ -65,7 +65,7 @@ class Identity {
         }
         
         
-        
-    }
+ 
+    }*/
     
 }

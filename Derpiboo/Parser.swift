@@ -7,62 +7,77 @@
 //
 
 import Foundation
+import PromiseKit
 
-class Parser {
-    
-    enum ParserError: Error {
-        case JsonDataCorrupted(data: Data)
-        case CannotCastJsonIntoNSDictionary(data: Data)
-    }
+protocol Parser {
+    associatedtype ParseResult: Result
+    static func parse(data: Data) -> Promise<ParseResult>
 }
 
-class ListParser: Parser {
-    static func parse(data: Data, asType listType: ListRequester.ListType, toResult result: ListResult) throws {
-        do {
-            if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary {
+protocol ParserForList {
+    associatedtype ParseResult: Result
+    static func parse(data: Data, as listType: ListRequester.ListType) -> Promise<ParseResult>
+}
+
+protocol ParserForItem {
+    associatedtype Result: ResultItem
+    static func parse(dictionary item: NSDictionary) -> Promise<Result>
+}
+
+enum ParserError: Error {
+    case JsonDataCorrupted(data: Data)
+    case CannotCastJsonIntoNSDictionary(data: Data)
+}
+
+class ListParser: ParserForList {
+    static func parse(data: Data, as listType: ListRequester.ListType) -> Promise<ListResult> {
+        return Promise { fulfill, reject in
+            do {
+                let key: String = {
+                    switch listType {
+                    case .images, .lists: return "images"
+                    case .search: return "search"
+                    }
+                }()
                 
-                var tempResult = [ImageResult]()
+                guard let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary, let items = json[key] as? Array<NSDictionary> else { reject(ParserError.CannotCastJsonIntoNSDictionary(data: data)); return }
                 
-                var key = ""
-                switch listType {
-                case .home: key = "images"
-                case .search: key = "search"
-                case .list(_): key = "images"
-                    
-                }
+                var results = [ImageResult]()
                 
-                if let items = json[key] as? Array<NSDictionary> {
-                    
-                    for item in items {
-                        try? tempResult.append(ImageParser.parseDictionary(item: item))
+                for item in items {
+                    ImageParser.parse(dictionary: item).then { result -> Void in
+                        results.append(result)
+                        }.catch { error -> Void in
+                            
                     }
                 }
-                
-                result.add(results: tempResult)
-                
+                fulfill(ListResult(result: results))
+            } catch {
+                reject(error)
             }
-        } catch {
-            throw error
         }
-        
     }
 }
 
-class ImageParser: Parser {
+class ImageParser: Parser, ParserForItem {
     
-    static func parse(data: Data) throws -> ImageResult {
-        do {
-            if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary {
-                return try parseDictionary(item: json)
-            } else {
-                throw ParserError.CannotCastJsonIntoNSDictionary(data: data)
+    static func parse(data: Data) -> Promise<ImageResult> {
+        return Promise { fulfill, reject in
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary {
+                    parse(dictionary: json).then { result -> Void in
+                        fulfill(result)
+                        }.catch { error in
+                            reject(error)
+                    }
+                } else {
+                    reject(ParserError.CannotCastJsonIntoNSDictionary(data: data))
+                }
             }
-        } catch {
-            throw error
         }
     }
     
-    static func parseDictionary(item: NSDictionary) throws -> ImageResult {
+    static func parse(dictionary item: NSDictionary) -> Promise<ImageResult> {
         let id = item["id"] as? String ?? ""
         
         let created_at = item["created_at"] as? String ?? ""
@@ -75,6 +90,7 @@ class ImageParser: Parser {
         let file_name = item["file_name"] as? String ?? ""
         let description = item["description"] as? String ?? ""
         let uploader = item["uploader"] as? String ?? ""
+        let uploader_id = item["uploader_id"] as? String ?? ""
         
         let image = item["image"] as? String ?? ""
         
@@ -86,7 +102,7 @@ class ImageParser: Parser {
         let comment_count = item["comment_count"] as? Int ?? 0
         
         let tags = item["tags"] as? String ?? ""
-        let tag_ids = item["tag_ids"] as? [Int] ?? [Int]()
+        let tag_ids = item["tag_ids"] as? [String] ?? [String]()
         
         let width = item["width"] as? Int ?? 1
         let height = item["height"] as? Int ?? 1
@@ -114,38 +130,87 @@ class ImageParser: Parser {
         let is_rendered = item["is_rendered"] as? Bool ?? false
         let is_optimized = item["is_optimized"] as? Bool ?? false
         
-        let metadata = ImageResult.Metadata(id: id, created_at: created_at, updated_at: updated_at, duplicate_reports: duplicate_reports, first_seen_at: first_seen_at, file_name: file_name, description: description, uploader: uploader, image: image, score: score, upvotes: upvotes, downvotes: downvotes, faves: faves, comment_count: comment_count, tags: tags, tag_ids: tag_ids, width: width, height: height, aspect_ratio: aspect_ratio, original_format: original_format, mime_type: mime_type, sha512_hash: sha512_hash, orig_sha512_hash: orig_sha512_hash, sourse_url: sourse_url, representations: r, is_rendered: is_rendered, is_optimized: is_optimized)
+        let metadata = ImageResult.Metadata(id: id, created_at: created_at, updated_at: updated_at, duplicate_reports: duplicate_reports, first_seen_at: first_seen_at, file_name: file_name, description: description, uploader_id: uploader_id, uploader: uploader, image: image, score: score, upvotes: upvotes, downvotes: downvotes, faves: faves, comment_count: comment_count, tags: tags, tag_ids: tag_ids, width: width, height: height, aspect_ratio: aspect_ratio, original_format: original_format, mime_type: mime_type, sha512_hash: sha512_hash, orig_sha512_hash: orig_sha512_hash, sourse_url: sourse_url, representations: r, is_rendered: is_rendered, is_optimized: is_optimized)
         
-        return ImageResult(metadata: metadata)
+        return Promise { fulfill, _ in
+            fulfill(ImageResult(metadata: metadata))
+        }
     }
     
+    enum ImageParserError: Error {
+        case imageTypeIsNotSupported(id: Int, status: ImageResult.Metadata.File_Ext)
+    }
 }
 
 class UserParser: Parser {
     
-    static func parse(data: Data) throws -> UserResult {
-        do {
-            if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary {
-                
-                let name = json["name"] as? String ?? ""
-                let id = json["id"] as? Int ?? 0
-                let level = json["level"] as? Int ?? 0
-                
-                let avatar_id = json["avatar_id"] as? Int
-                
-                let metadata = UserResult.Metadata(name: name, id: id, level: level, avatar_id: avatar_id)
-                
-                return UserResult(metadata: metadata)
-                
-            } else {
-                throw ParserError.CannotCastJsonIntoNSDictionary(data: data)
+    static func parse(data: Data) -> Promise<UserResult> {
+        return Promise { fulfill, reject in
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary {
+                    
+                    let name = json["name"] as? String ?? ""
+                    let id = json["id"] as? Int ?? 0
+                    let level = json["level"] as? Int ?? 0
+                    
+                    let avatar_id = json["avatar_id"] as? Int
+                    
+                    let metadata = UserResult.Metadata(name: name, id: id, level: level, avatar_id: avatar_id)
+                    
+                    fulfill(UserResult(metadata: metadata))
+                    
+                } else {
+                    reject(ParserError.CannotCastJsonIntoNSDictionary(data: data))
+                }
+            } catch {
+                reject(error)
             }
-        } catch {
-            throw error
         }
     }
 }
 
+class TagParser: Parser, ParserForItem {
+    static func parse(data: Data) -> Promise<TagResult> {
+        return Promise { fulfill, reject in
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary {
+                    parse(dictionary: json).then { result -> Void in
+                        fulfill(result)
+                        }.catch { error in
+                            reject(error)
+                    }
+                } else {
+                    reject(ParserError.CannotCastJsonIntoNSDictionary(data: data))
+                }
+            }
+        }
+    }
+    
+    static func parse(dictionary item: NSDictionary) -> Promise<TagResult> {
+        let id = item["id"] as? String ?? ""
+        let name = item["name"] as? String ?? ""
+        let slug = item["slug"] as? String ?? ""
+        let description = item["description"] as? String ?? ""
+        let short_description = item["short_description"] as? String ?? ""
+        let images = item["images"] as? Int ?? 0
+        let spoiler_image_uri = item["spoiler_image_uri"] as? String
+        let aliased_to = item["aliased_to"] as? String
+        let aliased_to_id = item["aliased_to_id"] as? String
+        let namespace = item["namespace"] as? String
+        let name_in_namespace = item["name_in_namespace"] as? String
+        let implied_tags = item["implied_tags"] as? String
+        let implied_tag_ids = item["implied_tag_ids"] as? [Int]
+        let category = item["category"] as? String
+        
+        let metadata = TagResult.Metadata(id: id, name: name, slug: slug, description: description, short_description: short_description, images: images, spoiler_image_uri: spoiler_image_uri, aliased_to: aliased_to, aliased_to_id: aliased_to_id, namespace: namespace, name_in_namespace: name_in_namespace, implied_tags: implied_tags, implied_tag_ids: implied_tag_ids, category: category)
+        
+        return Promise { fulfill, _ in
+            fulfill(TagResult(metadata: metadata))
+        }
+    }
+}
+
+/*
 class FilterListParser: Parser {
     
     static func parse(data: Data, toResult result: FilterListResult) throws {
@@ -230,7 +295,7 @@ class FilterParser: Parser {
     }
     
 }
-
+*/
 
 
 

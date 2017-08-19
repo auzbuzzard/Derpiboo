@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+/*
 class SearchManager: ListCollectionVCRequestDelegate {
     
     var listVC: ListCollectionVC!
@@ -28,3 +28,4 @@ class SearchManager: ListCollectionVCRequestDelegate {
     }
     
 }
+*/

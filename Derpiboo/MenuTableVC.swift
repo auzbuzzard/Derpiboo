@@ -21,11 +21,6 @@ class MenuTableVC: UITableViewController {
         tableView.backgroundColor = Theme.colors().background
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -48,7 +43,7 @@ class MenuTableVC: UITableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: profileCellID, for: indexPath) as! MenuTableVCProfileCell
             
             cell.profileLabel.textColor = Theme.colors().labelText
-            
+            /*
             if Identity.main.isLoggedIn == true {
                 let user = Identity.main.user!
                 cell.profileLabel.text = user.metadata.name
@@ -69,7 +64,7 @@ class MenuTableVC: UITableViewController {
             } else {
                 cell.profileLabel.text = "Not logged in"
             }
-            
+            */
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: defaultCellID, for: indexPath) as! MenuTableVCDefaultCell
@@ -166,7 +161,7 @@ class MenuTableVC: UITableViewController {
 extension MenuTableVC: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if viewController == self {
-            navigationController.setNavigationBarHidden(true, animated: animated)
+            navigationController.setNavigationBarHidden(false, animated: animated)
         } else {
             navigationController.setNavigationBarHidden(false, animated: animated)
         }

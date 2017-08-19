@@ -7,101 +7,98 @@
 //
 
 import Foundation
+import PromiseKit
+import Fuzi
 
 class Requester {
     static var base_url: String {
-        get { return "https://derpibooru.org" }
+        return "https://derpibooru.org"
     }
 }
 
 class ListRequester: Requester {
-    typealias completion = (ListResult) -> Void
-    
     enum ListType {
-        case home, search, list(type: ListListType)//, watched, favorites, upvotes, uploaded
-    }
-    enum ListListType:String {
-        case top_scoring
+        case images, lists, search
     }
     
-    static var list_home_url: String { get { return base_url + "/images.json" } }
-    static var list_search_url: String { get { return base_url + "/search.json" } }
-    static var list_list_url: String { get { return base_url + "/lists.json" } }
-    static func list_list_list_url(type: ListListType) -> String {
-        return base_url + "/\(type.rawValue).json"
-    }
-    
-    func get(listOfType listType: ListType, tags: String?, result: ListResult?, completion: @escaping completion) {
-        var url = ""
-        switch listType {
-        case .home: url.append(ListRequester.list_home_url)
-        case .search: url.append(ListRequester.list_search_url)
-        case .list(let type): url.append(ListRequester.list_list_list_url(type: type))
+    static func url(for type: ListType) -> String {
+        switch type {
+        case .images: return base_url + "/images.json"
+        case .lists: return base_url + "/lists.json"
+        case .search: return base_url + "/search.json"
         }
-        
+    }
+    
+    func downloadList(for type: ListType, tags: [String]?, page: Int?) -> Promise<ListResult> {
         var params = [String]()
         
-        params.append("page=\(result?.page ?? 1)")
-        
-        if let tags = tags {
-            params.append("q=\(tags)")
+        if let page = page {
+            params.append("page=\(page)")
         }
         
-        url.append("?\(params.joined(separator: "&"))")
-        
-        print(url)
-        do {
-            try Network.fetch(url: url, params: nil) {
-                data in
-                DispatchQueue.global().async {
-                    do {
-                        let r = result ?? ListResult()
-                        try ListParser.parse(data: data, asType: listType, toResult: r)
-                        completion(r)
-                    } catch {
-                        print(error)
-                    }
-                }
+        if let tags = tags {
+            params.append("q=\(tags.joined(separator: ",").addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!)")
+        }
+        #if DEBUG
+            if UserDefaults.standard.bool(forKey: Preferences.useE621Mode.rawValue) {
+                params.append("filter_id=56027")
             }
-        } catch {
-            print("ListRequester Error \(error)")
+        #endif
+        
+        let url = ListRequester.url(for: type) + "?\(params.joined(separator: "&"))"
+        
+        #if DEBUG
+            print("ListRequester downloading list: \(url)")
+        #endif
+        
+        let network = Network.get(url: url)
+        
+        return network.then(on: .global(qos: .userInitiated)) { data -> Promise<ListResult> in
+            return ListParser.parse(data: data, as: type)
         }
     }
     
 }
 
 class ImageRequester: Requester {
-    typealias completion = (ImageResult) -> Void
+    static var image_url: String { return base_url }
     
-    static var image_url: String { get { return base_url } }
-    
-    func get(imageOfId id: Int, completion: @escaping completion) {
-        let url = ImageRequester.image_url + "/\(id).json"
-        do {
-            try Network.fetch(url: url, params: nil) { data in
-                DispatchQueue.global().async {
-                    do {
-                        let result = try ImageParser.parse(data: data)
-                        completion(result)
-                    } catch {
-                        print("ImageRequester get error")
-                    }
-                }
-            }
-        } catch {
-            print("ImageRequester Error")
+    func getUrl(for id: Int, withJson: Bool = true) -> String {
+        return ImageRequester.image_url + "/\(id)\(withJson ? "" : ".json")"
+    }
+    func downloadImageResult(for id: Int) -> Promise<ImageResult> {
+        let url = getUrl(for: id)
+        return Network.get(url: url).then(on: .global(qos: .userInitiated)) { data -> Promise<ImageResult> in
+            return ImageParser.parse(data: data)
         }
     }
     
 }
 
-class UserRequester: Requester {
-    typealias completion = (UserResult) -> Void
+class TagRequester: Requester {
+    static var tag_url: String { return base_url + "/tags" }
     
+    func downloadTag(for id: Int) -> Promise<TagResult> {
+        let url = TagRequester.tag_url + "\(id).json"
+        
+        return Network.get(url: url).then(on: .global(qos: .userInitiated)) { data -> Promise<TagResult> in
+            return TagParser.parse(data: data)
+        }
+    }
+    @available(*, unavailable, message: "DB don't have a way to return tag search in json yet.")
+    func searchTag(searchTerm: String) -> Promise<TagResult> {
+        let url = TagRequester.tag_url + "?tq=\(searchTerm).json"
+        return Network.get(url: url).then(on: .global(qos: .userInitiated)) { data -> Promise<TagResult> in
+            return TagParser.parse(data: data)
+        }
+    }
+}
+/*
+class UserRequester: Requester {
     static let user_url = base_url + "/user/index"
     static let user_show_url = base_url + "/user/show"
     
-    func get(userOfId id: Int, completion: @escaping completion) {
+    func getUser(for id: Int, completion: @escaping completion) {
         let url = UserRequester.user_show_url + "/\(id).json"
         do {
             try Network.fetch(url: url, params: nil) { data in
@@ -162,4 +159,4 @@ class FilterRequester: Requester {
     }
     
 }
-
+*/

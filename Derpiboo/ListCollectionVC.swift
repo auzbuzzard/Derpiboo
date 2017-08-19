@@ -7,116 +7,118 @@
 //
 
 import UIKit
+import PromiseKit
+import UIScrollView_InfiniteScroll
+import SwiftGifOrigin
 
-private let reuseIdentifier = "mainCell"
-
-protocol ListCollectionVCRequestDelegate {
-    func getResult(results: ListResult?, completion: @escaping (ListResult) -> Void)
-    func vcShouldLoadImmediately() -> Bool
+protocol ListCollectionVCDataSource {
+    var results: [ImageResult] { get }
+    var tags: [String]? { get }
+    func getResults(asNew reset: Bool, withTags tags: [String]?) -> Promise<Void>
 }
 
+/// There CollectionViewController class that deals with the vertical scroll view of lists of returned image results.
 class ListCollectionVC: UICollectionViewController {
+    // Mark: Constants and tags
+    public static let storyboardID = "listCollectionVC"
+    private let showImageSegueID = "showImageZoomVC"
+
+    var isFirstListCollectionVC = false
+    var shouldHideNavigationBar = true
     
-    var delegate: ListCollectionVCRequestDelegate?
-    var results: ListResult!
+    // Mark: Delegates
     
-    var refresh = UIRefreshControl()
-    var isLoading = false
+    var dataSource: ListCollectionVCDataSource?
     
-    var isFirstListVC = true
+    // Mark: VC Life Cycle
+    
+    let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if isFirstListVC {
-            navigationController?.delegate = self
-        }
+        setupRefreshControl()
+        setupInfiniteScroll()
+        navigationController?.delegate = self
         
-        results = ListResult()
-        
-        if let delegate = delegate, delegate.vcShouldLoadImmediately(), !isLoading {
-            getResult() { self.isLoading = false }
-        }
-        
-        collectionView?.backgroundColor = Theme.colors().background
-        
-        refresh.addTarget(self, action: #selector(ListCollectionVC.getNewResult), for: .valueChanged)
-        collectionView?.addSubview(refresh)
-        
-        // Add infinite scroll handler
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(useE621ModeDidChange), name: Notification.Name.init(rawValue: Preferences.useE621Mode.rawValue), object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    // Setup UI
+    
+    private func setupRefreshControl() {
+        refreshControl.addTarget(self, action: #selector(self.getNewResultsForStupidSelector), for: .valueChanged)
+        collectionView?.addSubview(refreshControl)
+    }
+    
+    private func setupInfiniteScroll() {
         collectionView?.infiniteScrollIndicatorStyle = .whiteLarge
         collectionView?.addInfiniteScroll { [weak self] (scrollView) -> Void in
-            let collectionView = scrollView
-            
-            // suppose this is an array with new data
-            let currentResultCount = self?.results.results.count
-            self?.getResult() {
-                
-                var indexPaths = [IndexPath]()
-                //print(currentResultCount, self?.results.results.count)
-                for n in currentResultCount! - 1...(self?.results.results.count)! - 1 {
-                    let indexPath = IndexPath(row: n, section: 0)
-                    //print(indexPath)
-                    indexPaths.append(indexPath)
-                }
-                
-                // create index paths for affected items
-                
+            // Setup loading when performing infinite scroll
+            let lastCount = (self?.dataSource?.results.count)!
+            _ = self?.dataSource?.getResults(asNew: false, withTags: self?.dataSource?.tags).then { () -> Void in
                 // Update collection view
-                collectionView.performBatchUpdates({ () -> Void in
-                    // add new items into collection
-                    //collectionView.insertItems(at: indexPaths)
-                    }, completion: { (finished) -> Void in
-                        // finish infinite scroll animations
-                        collectionView.finishInfiniteScroll()
-                })
-                
-            }
-            
-        }
-        
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        
-    }
-    
-    func getNewResult() {
-        results = ListResult()
-        //print(isLoading)
-        if !isLoading {
-            getResult() {
-                DispatchQueue.main.async {
-                    self.refresh.endRefreshing()
+                var index = [IndexPath]()
+                for n in lastCount..<(self?.dataSource?.results.count)! {
+                    index.append(IndexPath(item: n, section: 0))
                 }
+                scrollView.performBatchUpdates({ () -> Void in
+                    scrollView.insertItems(at: index)
+                }, completion: { (finished) -> Void in
+                    scrollView.finishInfiniteScroll()
+                })
             }
         }
     }
     
-    func getResult(callback: @escaping () -> Void) {
-        isLoading = true
-        delegate?.getResult(results: results, completion: { _ in
-            DispatchQueue.main.async {
-                self.collectionView?.reloadData()
-                self.isLoading = false
-                callback()
-            }
-        })
+    func getNewResultsForStupidSelector() {
+        getNewResult(withTags: nil)
     }
     
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showImageZoomVC" {
+    func getNewResult(withTags tags: [String]? = nil) {
+        _ = dataSource?.getResults(asNew: true, withTags: tags != nil ? tags: dataSource?.tags).then { () -> Void in
+            self.collectionView?.reloadData()
+            self.refreshControl.endRefreshing()
+        }
+    }
+    
+    // Mark: - Segues
+    func segue(isTappedBy sender: UITapGestureRecognizer) {
+        if sender.state == .ended {
+            let point = sender.location(in: collectionView)
+            if let indexPath = collectionView?.indexPathForItem(at: point) {
+                performSegue(withIdentifier: showImageSegueID, sender: indexPath)
+            }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == showImageSegueID {
             let destinationVC = segue.destination as! ImageZoomVC
             let index = (sender as! IndexPath).row
-            destinationVC.imageResult = results.results[index]
+            let result = dataSource?.results[index]
+            destinationVC.imageResult = result
+            /*DispatchQueue.global(qos: .background).async {
+                for tag in (result?.metadata.tag_ids)! {
+                    _ = result.tagResult(from: tag).then { tagResult -> Void in
+                        //_ = TagCache.shared.setTag(tagResult)
+                    }
+                }
+            }*/
         }
-     }
+    }
     
+    // Mark: - Notification Observing
+    
+    func useE621ModeDidChange() {
+        dataSource?.getResults(asNew: true, withTags: dataSource?.tags).then {
+            self.collectionView?.reloadData()
+            }.catch { error in print(error) }
+    }
     
     // MARK: UICollectionViewDataSource
     
@@ -126,155 +128,71 @@ class ListCollectionVC: UICollectionViewController {
     
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return results?.results.count ?? 0
+        return dataSource?.results.count ?? 0
     }
     
-    @IBAction func segueTap(_ sender: UITapGestureRecognizer) {
-        print("tapped")
-    }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ListCollectionVCMainCell
-
-        let singleTap = UITapGestureRecognizer(target: self, action: #selector(ListCollectionVC.segueTapRecognizerIsTapped(sender:)))
-        singleTap.numberOfTapsRequired = 1
-        cell.mainImage.addGestureRecognizer(singleTap)
-        
-        cell.mainImage?.image = nil
-        cell.titleImage.image = nil
-        
+        // Define cell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionVCMainCell.storyboardID, for: indexPath) as! ListCollectionVCMainCell
+        // Guard if dataSource exists
+        guard let dataSource = dataSource else { return cell }
+        // Safeguard if there's enough cell
+        guard indexPath.row < dataSource.results.count else { return cell }
+        // Setup gesture recognizer
+        cell.setupImageViewGesture(receiver: self)
+        // Layout the cell
         if let windowWidth = view.window?.bounds.size.width {
-            if cell.bounds.size.width < windowWidth  {
-                cell.layer.cornerRadius = 5
-            } else {
-                cell.layer.cornerRadius = 0
-            }
+            cell.setupCellLayout(windowWidth: windowWidth)
         }
-        
-        if indexPath.row < results.results.count {
-            let item = results.results[indexPath.row]
-            let artists = item.metadata.uploader
-            
-            cell.id = item.id
-            
-            cell.titleLabel.text = artists != "" ? artists : "(no artist)"
-            cell.titleSubheading.text = item.metadata.uploader
-            
-            cell.footerFavLabel.text = "\(item.metadata.faves)"
-            cell.footerScoreLabel.text = "\(item.metadata.score)"
-            
-            _ = item.getImage(ofSize: .large, callback: { image, id, error in
-                if error == nil {
-                    if let cell_id = cell.id, cell_id == id {
-                        DispatchQueue.main.async {
-                            cell.mainImage.image = image
-                            //self.collectionView?.reloadItems(at: [indexPath])
-                        }
-                    }
-                } else {
-                    print("load image error")
-                }
-            })
-            
-//            DispatchQueue.global().async {
-//                let user_id = item.metadata.creator_id
-//                _ = UserRequester().get(userOfId: user_id) { result in
-//                    if let avatar_id = result.metadata.avatar_id {
-//                        _ = ImageRequester().get(imageOfId: avatar_id) { result in
-//                            if result.metadata.rating == ImageResult.Metadata.Rating.s.rawValue || UserDefaults.standard.bool(forKey: Preferences.useE621Mode.rawValue) {
-//                                _ = result.getImage(ofSize: .preview, callback: { image, id, error in
-//                                    if error == nil {
-//                                        if let cell_id = cell.id, cell_id == id {
-//                                            DispatchQueue.main.async {
-//                                                cell.titleImage.image = image
-//                                                //self.collectionView?.reloadItems(at: [indexPath])
-//                                            }
-//                                        }
-//                                    } else {
-//                                        print("load image error")
-//                                    }
-//                                })
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-            
-            
-        }
-        
-        cell.titleView.backgroundColor = Theme.colors().background2
-        cell.footerView.backgroundColor = Theme.colors().background2
-        
+        // Setting the cell
+        let item = dataSource.results[indexPath.row]
+        let itemVM = ListCollectionVCMainCellVM(result: item)
+        cell.setCellContents(indexPath: indexPath, dataSource: itemVM)
+        // Done
         return cell
     }
     
-    func segueTapRecognizerIsTapped(sender: UITapGestureRecognizer) {
-        if sender.state == .ended {
-            let point:CGPoint = sender.location(in: collectionView)
-            if let indexPath = collectionView?.indexPathForItem(at: point) {
-                performSegue(withIdentifier: "showImageZoomVC", sender: indexPath)
-            }
+    // Mark: - Scroll View
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        //print("dragging")
+        if scrollView.panGestureRecognizer.translation(in: scrollView).y < 0 {
+            changeTabBar(hidden: true, animated: true)
+        } else {
+            changeTabBar(hidden: false, animated: true)
         }
-        
     }
     
-    func cellMainImageIsTapped(indexPath: IndexPath) {
-        
+    func changeTabBar(hidden:Bool, animated: Bool){
+        let tabBar = self.tabBarController?.tabBar
+        if tabBar!.isHidden == hidden { return }
+        let frame = tabBar?.frame
+        let offset = (hidden ? (frame?.size.height)! : -(frame?.size.height)!)
+        let duration: TimeInterval = (animated ? 0.5 : 0.0)
+        tabBar?.isHidden = false
+        if frame != nil {
+            UIView.animate(withDuration: duration, animations: {
+                tabBar!.frame = tabBar!.frame.offsetBy(dx: 0, dy: offset)
+            }, completion: {
+                if $0 {
+                    tabBar?.isHidden = hidden
+                }
+            })
+        }
     }
-    
-    // MARK: UICollectionViewDelegate
-    
-    /*
-     // Uncomment this method to specify if the specified item should be highlighted during tracking
-     override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-     return true
-     }
-     */
-    
-    /*
-     // Uncomment this method to specify if the specified item should be selected
-     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-     return true
-     }
-     */
-    
-    /*
-     // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-     override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-     return false
-     }
-     
-     override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-     return false
-     }
-     
-     override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-     
-     }
-     */
-    
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        collectionView?.collectionViewLayout.invalidateLayout()
-    }
-    
-    
-    
 }
+
+// MARK: - Nav Controller Delegate
 
 extension ListCollectionVC: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        if viewController == self {
-            navigationController.setNavigationBarHidden(true, animated: animated)
-        } else if let _ = viewController as? ListCollectionVC {
-            navigationController.hidesBarsOnSwipe = true
+        if viewController is ListCollectionVC {
+            navigationController.setNavigationBarHidden(shouldHideNavigationBar, animated: animated)
+            navigationController.hidesBarsOnSwipe = !shouldHideNavigationBar
         } else {
             navigationController.setNavigationBarHidden(false, animated: animated)
-            if navigationController.hidesBarsOnSwipe == true {
-                navigationController.hidesBarsOnSwipe = false
-            }
+            navigationController.hidesBarsOnSwipe = false
         }
-        
-        
     }
 }
 
@@ -284,9 +202,9 @@ extension ListCollectionVC: UICollectionViewDelegateFlowLayout {
         if width > 480 {
             width = 480
         }
-        let itemMetadata = results.results[indexPath.row].metadata
-        let imageHeight = itemMetadata.height ?? 400
-        let imageWidth = itemMetadata.width ?? Int(width)
+        let itemMetadata = dataSource?.results[indexPath.row].metadata
+        let imageHeight = itemMetadata?.height ?? 400
+        let imageWidth = itemMetadata?.width ?? Int(width)
         let correctedImageHeight = width / CGFloat(imageWidth) * CGFloat(imageHeight)
         
         
@@ -300,25 +218,4 @@ extension ListCollectionVC: UICollectionViewDelegateFlowLayout {
     }
 }
 
-class ListCollectionVCMainCell: UICollectionViewCell {
-    
-    var indexPath: IndexPath?
-    var id: String?
-    
-    @IBOutlet weak var titleView: UIView!
-    
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var titleImage: UIImageView!
-    @IBOutlet weak var titleSubheading: UILabel!
-    
-    @IBOutlet weak var mainImage: UIImageView!
-    
-    @IBOutlet weak var footerView: UIView!
-    
-    @IBOutlet weak var footerScoreLabel: UILabel!
-    @IBOutlet weak var footerFavLabel: UILabel!
-    @IBOutlet weak var footerCommentLabel: UILabel!
-    
-    
-    
-}
+
