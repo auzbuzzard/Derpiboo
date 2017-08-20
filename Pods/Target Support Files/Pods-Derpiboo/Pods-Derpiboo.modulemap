@@ -1,0 +1,6 @@
+framework module Pods_Derpiboo {
+  umbrella header "Pods-Derpiboo-umbrella.h"
+
+  export *
+  module * { export * }
+}

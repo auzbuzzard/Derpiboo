@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "EB52C03BFED8CA741CCBC9D0BCAEF9274CB158EA",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "EB52C03BFED8CA741CCBC9D0BCAEF9274CB158EA" : 9223372036854775807,
+    "41A942ABA24618BE846889FF7A9CB154C36EF12E" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "3319A74F-351E-4071-9521-BF9CB1A8465F",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "EB52C03BFED8CA741CCBC9D0BCAEF9274CB158EA" : "Derpiboo\/",
+    "41A942ABA24618BE846889FF7A9CB154C36EF12E" : "e926\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Derpiboo",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Derpiboo.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/auzbuzzard\/e926.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "41A942ABA24618BE846889FF7A9CB154C36EF12E"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/auzbuzzard\/project-derpi.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "EB52C03BFED8CA741CCBC9D0BCAEF9274CB158EA"
+    }
+  ]
+}

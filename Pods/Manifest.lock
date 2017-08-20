@@ -1,0 +1,47 @@
+PODS:
+  - Alamofire (4.4.0)
+  - Carlos (0.9.1):
+    - PiedPiper (~> 0.10.1)
+  - DGCollectionViewLeftAlignFlowLayout (1.0.1)
+  - Fuzi (1.0.1)
+  - Gifu (2.0.0)
+  - PiedPiper (0.10.1)
+  - PromiseKit (4.1.7):
+    - PromiseKit/Foundation (= 4.1.7)
+    - PromiseKit/QuartzCore (= 4.1.7)
+    - PromiseKit/UIKit (= 4.1.7)
+  - PromiseKit/Alamofire (4.1.7):
+    - Alamofire (~> 4.0)
+    - PromiseKit/CorePromise
+  - PromiseKit/CorePromise (4.1.7)
+  - PromiseKit/Foundation (4.1.7):
+    - PromiseKit/CorePromise
+  - PromiseKit/QuartzCore (4.1.7):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (4.1.7):
+    - PromiseKit/CorePromise
+  - UIScrollView-InfiniteScroll (1.0.0)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.4)
+  - Carlos
+  - DGCollectionViewLeftAlignFlowLayout
+  - Fuzi (~> 1.0.0)
+  - Gifu
+  - PromiseKit (~> 4.0)
+  - PromiseKit/Alamofire (~> 4.0)
+  - UIScrollView-InfiniteScroll (~> 1.0.0)
+
+SPEC CHECKSUMS:
+  Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
+  Carlos: f6883dabefcdc762c050be9d1d7716d4beb60736
+  DGCollectionViewLeftAlignFlowLayout: eef4758f4f3a5dbbb1feda905b9cbc79cadb55ae
+  Fuzi: 851403654bac55675aaeed815d0c8a1d3e3d3e8b
+  Gifu: 56a4d8f1092399159fa32662aa2232158b48d8ac
+  PiedPiper: 0f9bc4e76c6fb0154d6fe6e078174e7fc391a684
+  PromiseKit: 779f2e41faf62d854e7593026ddbcb0bb5c5002d
+  UIScrollView-InfiniteScroll: d26885be71caca7485cdb37eab513a8f89036bb0
+
+PODFILE CHECKSUM: 9387d8000b68e2548f0dba0576c6db1ab8716208
+
+COCOAPODS: 1.2.0
