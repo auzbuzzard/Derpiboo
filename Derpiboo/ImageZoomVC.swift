@@ -86,11 +86,11 @@ class ImageZoomVC: UIViewController {
     
     func setImageView(data: Data?, withZoom: Bool) {
         guard let data = data else { mainImageView.image = nil; return }
+        guard let image = UIImage(data: data) else { print("Image could not be casted into UIImage."); return }
+        mainImageView.image = image
         if imageResult.metadata.original_format_enum == .gif {
-            mainImageView.animate(withGIFData: data)
-        } else {
-            guard let image = UIImage(data: data) else { print("Image could not be casted into UIImage."); return }
             mainImageView.image = image
+            mainImageView.animate(withGIFData: data)
         }
 
         if withZoom {
