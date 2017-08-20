@@ -8,6 +8,7 @@
 
 import UIKit
 import PromiseKit
+import Gifu
 
 protocol ListCollectionVCMainCellDataSource {
     var artistsName: String { get }
@@ -18,8 +19,8 @@ protocol ListCollectionVCMainCellDataSource {
     var score: Int { get }
     //var rating: ImageResult.Metadata.Ratings { get }
     var imageType: ImageResult.Metadata.File_Ext { get }
-    var mainImage: Promise<UIImage> { get }
-    var profileImage: Promise<UIImage> { get }
+    var mainImageData: Promise<Data> { get }
+    var profileImageData: Promise<Data> { get }
 }
 
 class ListCollectionVCMainCell: UICollectionViewCell {
@@ -44,6 +45,7 @@ class ListCollectionVCMainCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         mainImage.image = nil
+        mainImage.prepareForReuse()
     }
     
     func setupImageViewGesture(receiver: ListCollectionVC) {
@@ -89,11 +91,22 @@ class ListCollectionVCMainCell: UICollectionViewCell {
     }
     
     func setMainImage(indexPath: IndexPath, dataSource: ListCollectionVCMainCellDataSource) {
-        _ = dataSource.mainImage.then { image -> Void in
+        _ = dataSource.mainImageData.then { data -> Void in
             if indexPath == self.currentIndexPath {
-                self.mainImage.image = image
+                if dataSource.imageType == .gif {
+                    self.mainImage.animate(withGIFData: data)
+                } else {
+                    guard let image = UIImage(data: data) else { print("Image at \(indexPath) could not be casted into UIImage."); return }
+                    self.mainImage.image = image
+                }
             }
         }
     }
     
 }
+
+
+
+
+
+

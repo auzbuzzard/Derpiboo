@@ -112,28 +112,47 @@ struct Theme {
     }
     
     static func apply(Theme theme: Colors) {
+        let color = colors().background_header.withAlphaComponent(0.98)
+        let imageColor = UIImage(color: color)
+        
         if theme == .dark {
             UINavigationBar.appearance().barStyle = UIBarStyle.black
             UIApplication.shared.statusBarStyle = .lightContent
         }
         
+        // Status Bar
         UIApplication.shared.statusBarView?.backgroundColor = colors().background_header
         
-        UINavigationBar.appearance().barTintColor = theme.background_header
-        UINavigationBar.appearance().tintColor = theme.labelText
-        UITabBar.appearance().barTintColor = theme.background_header
+        // Tab Bar
+        UITabBar.appearance().backgroundImage = imageColor
+        //UITabBar.appearance().barTintColor = theme.background_header
         UITabBar.appearance().tintColor = theme.labelText
-        UIToolbar.appearance().barTintColor = theme.background_header
-        UIToolbar.appearance().tintColor = theme.labelText
+            // Remove top gradient line
+        UITabBar.appearance().layer.borderWidth = 0.0
+        UITabBar.appearance().clipsToBounds = true
+        UITabBar.appearance().tintColor = colors().labelLink
         
-        UILabel.appearance().textColor = theme.labelText
-        UITextField.appearance().tintColor = theme.labelLink
-        UITextView.appearance().tintColor = theme.labelLink
+        // Nav Bar
+        UINavigationBar.appearance().setBackgroundImage(imageColor, for: .default)
+        //UINavigationBar.appearance().barTintColor = theme.background_header
+        UINavigationBar.appearance().tintColor = theme.labelText
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : Theme.colors().labelText]
         
+        // Table View
         UITableView.appearance().backgroundColor = theme.background
         UITableViewCell.appearance().backgroundColor = theme.background2
         
+        // Collection View
         UICollectionView.appearance().backgroundColor = theme.background
+        
+        // Tool Bar
+        UIToolbar.appearance().barTintColor = theme.background_header
+        UIToolbar.appearance().tintColor = theme.labelText
+        
+        // UI Buttons
+        UILabel.appearance().textColor = theme.labelText
+        UITextField.appearance().tintColor = theme.labelLink
+        UITextView.appearance().tintColor = theme.labelLink
         
         UISwitch.appearance().tintColor = theme.highlight
         
@@ -146,4 +165,16 @@ extension UIApplication {
     }
 }
 
-
+public extension UIImage {
+    public convenience init?(color: UIColor, size: CGSize = CGSize(width: 1, height: 1)) {
+        let rect = CGRect(origin: .zero, size: size)
+        UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
+        color.setFill()
+        UIRectFill(rect)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        guard let cgImage = image?.cgImage else { return nil }
+        self.init(cgImage: cgImage)
+    }
+}

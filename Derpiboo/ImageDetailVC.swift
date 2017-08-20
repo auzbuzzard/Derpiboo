@@ -72,7 +72,7 @@ class ImageDetailVC: UITableViewController, SFSafariViewControllerDelegate {
         #if DEBUG
             print("opening: \(searchTag)")
         #endif
-        let listVC = storyboard?.instantiateViewController(withIdentifier: ListCollectionVC.storyboardID) as! ListCollectionVC
+        let listVC = UIStoryboard(name: ListCollectionVC.storyboardName, bundle: nil).instantiateViewController(withIdentifier: ListCollectionVC.storyboardID) as! ListCollectionVC
         let dataSource = ListCollectionVM(result: ListResult())
         listVC.dataSource = dataSource
         listVC.title = searchTag

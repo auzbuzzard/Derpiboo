@@ -50,25 +50,30 @@ class Cache {
 }
 
 class ImageCache: CacheClass {
+    class DataWrapper: NSObject {
+        let data: Data
+        init(_ data: Data) { self.data = data }
+    }
+    
     fileprivate static let shared = ImageCache()
     private init() { images.totalCostLimit = 750 * 1024 /* 750MB */ }
     
-    private lazy var images = NSCache<NSString, UIImage>()
+    private lazy var images = NSCache<NSString, DataWrapper>()
     
-    func getImage(for id: String, size: ImageResult.Metadata.ImageSize) -> Promise<UIImage> {
+    func getImageData(for id: String, size: ImageResult.Metadata.ImageSize) -> Promise<Data> {
         return Promise { fulfill, reject in
             if let image = images.object(forKey: "\(id)_\(size.rawValue)" as NSString) {
-                fulfill(image)
+                fulfill(image.data)
             } else {
                 reject(CacheError.noImageInStore(id: id))
             }
         }
     }
     
-    func setImage(_ image: UIImage, id: String, size: ImageResult.Metadata.ImageSize) -> Promise<Void> {
+    func setImageData(_ imageData: Data, id: String, size: ImageResult.Metadata.ImageSize) -> Promise<Void> {
         return Promise { fulfill, reject in
-            let cost = UIImageJPEGRepresentation(image, 1.0)?.count
-            images.setObject(image, forKey: "\(id)_\(size.rawValue)" as NSString, cost: cost ?? 0)
+            let cost = imageData.cost
+            images.setObject(DataWrapper(imageData), forKey: "\(id)_\(size.rawValue)" as NSString, cost: cost)
             fulfill()
         }
     }

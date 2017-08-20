@@ -34,7 +34,7 @@ class ImageDetailVCTagCollectionCell: UICollectionViewCell {
 // MARK: - Extension to ImageDetailVC that allows it to control the collectionview
 extension ImageDetailVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imageResult.metadata.tag_ids.count
+        return imageResult.metadata.tags.components(separatedBy: ",").count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

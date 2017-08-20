@@ -15,7 +15,6 @@
 		D92CAFE01DB8256C00B03FEF /* SignInSheetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92CAFDF1DB8256C00B03FEF /* SignInSheetVC.swift */; };
 		D9554B351F444DCC00E58018 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9554B2E1F444DCC00E58018 /* PromiseKit.framework */; };
 		D9554B361F444DCC00E58018 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9554B2F1F444DCC00E58018 /* Alamofire.framework */; };
-		D9554B371F444DCC00E58018 /* SwiftGifOrigin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9554B301F444DCC00E58018 /* SwiftGifOrigin.framework */; };
 		D9554B381F444DCC00E58018 /* UIScrollView_InfiniteScroll.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9554B311F444DCC00E58018 /* UIScrollView_InfiniteScroll.framework */; };
 		D9554B391F444DCC00E58018 /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9554B321F444DCC00E58018 /* Carlos.framework */; };
 		D9554B3A1F444DCC00E58018 /* Fuzi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9554B331F444DCC00E58018 /* Fuzi.framework */; };
@@ -24,6 +23,8 @@
 		D96F24F01DB86801008719ED /* FiltersSelectionTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96F24EF1DB86801008719ED /* FiltersSelectionTableVC.swift */; };
 		D972399F1F484C410082E37A /* DGCollectionViewLeftAlignFlowLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D972399E1F484C410082E37A /* DGCollectionViewLeftAlignFlowLayout.framework */; };
 		D97239A81F48EBB30082E37A /* ListCollectionFilterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97239A71F48EBB30082E37A /* ListCollectionFilterVC.swift */; };
+		D97239AE1F48EED30082E37A /* SearchTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D97239AD1F48EED30082E37A /* SearchTab.storyboard */; };
+		D97239B01F48F0520082E37A /* ListCollection.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D97239AF1F48F0520082E37A /* ListCollection.storyboard */; };
 		D98374351DB044BB00055A68 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D98374331DB044BB00055A68 /* Main.storyboard */; };
 		D98374371DB0462E00055A68 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98374361DB0462E00055A68 /* AppDelegate.swift */; };
 		D98374431DB046D200055A68 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98374421DB046D200055A68 /* Cache.swift */; };
@@ -39,7 +40,6 @@
 		D98374571DB0471D00055A68 /* Requester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98374561DB0471D00055A68 /* Requester.swift */; };
 		D98374591DB0472100055A68 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98374581DB0472100055A68 /* Result.swift */; };
 		D983745B1DB0472700055A68 /* SearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D983745A1DB0472700055A68 /* SearchManager.swift */; };
-		D983745D1DB0472C00055A68 /* SearchResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D983745C1DB0472C00055A68 /* SearchResultVC.swift */; };
 		D983745F1DB0473000055A68 /* SearchSuggestionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D983745E1DB0473000055A68 /* SearchSuggestionsVC.swift */; };
 		D98374631DB0473B00055A68 /* SettingsTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98374621DB0473B00055A68 /* SettingsTableVC.swift */; };
 		D98374651DB0474000055A68 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98374641DB0474000055A68 /* Theme.swift */; };
@@ -47,6 +47,7 @@
 		D98CB9101C2998100029A6F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D98CB90E1C2998100029A6F7 /* LaunchScreen.storyboard */; };
 		D98CB91B1C2998100029A6F7 /* DerpibooTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB91A1C2998100029A6F7 /* DerpibooTests.swift */; };
 		D98CB9261C2998100029A6F7 /* DerpibooUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB9251C2998100029A6F7 /* DerpibooUITests.swift */; };
+		D9A0AA221F4A206D00F1D721 /* Gifu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9A0AA211F4A206D00F1D721 /* Gifu.framework */; };
 		D9F3EE681F48205E006B0363 /* ImageDetailVCTagTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F3EE671F48205E006B0363 /* ImageDetailVCTagTableCell.swift */; };
 		D9F3EE6A1F4822AA006B0363 /* ImageDetailVCTagCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F3EE691F4822AA006B0363 /* ImageDetailVCTagCollection.swift */; };
 /* End PBXBuildFile section */
@@ -92,6 +93,8 @@
 		D96F24EF1DB86801008719ED /* FiltersSelectionTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersSelectionTableVC.swift; sourceTree = "<group>"; };
 		D972399E1F484C410082E37A /* DGCollectionViewLeftAlignFlowLayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DGCollectionViewLeftAlignFlowLayout.framework; path = "Pods/../build/Debug-iphoneos/DGCollectionViewLeftAlignFlowLayout/DGCollectionViewLeftAlignFlowLayout.framework"; sourceTree = "<group>"; };
 		D97239A71F48EBB30082E37A /* ListCollectionFilterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionFilterVC.swift; sourceTree = "<group>"; };
+		D97239AD1F48EED30082E37A /* SearchTab.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SearchTab.storyboard; sourceTree = "<group>"; };
+		D97239AF1F48F0520082E37A /* ListCollection.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ListCollection.storyboard; sourceTree = "<group>"; };
 		D98374331DB044BB00055A68 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		D98374361DB0462E00055A68 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D98374421DB046D200055A68 /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
@@ -107,7 +110,6 @@
 		D98374561DB0471D00055A68 /* Requester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Requester.swift; sourceTree = "<group>"; };
 		D98374581DB0472100055A68 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		D983745A1DB0472700055A68 /* SearchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchManager.swift; sourceTree = "<group>"; };
-		D983745C1DB0472C00055A68 /* SearchResultVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultVC.swift; sourceTree = "<group>"; };
 		D983745E1DB0473000055A68 /* SearchSuggestionsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchSuggestionsVC.swift; sourceTree = "<group>"; };
 		D98374621DB0473B00055A68 /* SettingsTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableVC.swift; sourceTree = "<group>"; };
 		D98374641DB0474000055A68 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 		D98CB9211C2998100029A6F7 /* DerpibooUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DerpibooUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D98CB9251C2998100029A6F7 /* DerpibooUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DerpibooUITests.swift; sourceTree = "<group>"; };
 		D98CB9271C2998100029A6F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D9A0AA211F4A206D00F1D721 /* Gifu.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Gifu.framework; path = "../../../../Developer/Xcode/DerivedData/Derpiboo-csidkyqynvzfxrboliimewdaukkc/Build/Products/Debug-iphoneos/Gifu/Gifu.framework"; sourceTree = "<group>"; };
 		D9F3EE671F48205E006B0363 /* ImageDetailVCTagTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailVCTagTableCell.swift; sourceTree = "<group>"; };
 		D9F3EE691F4822AA006B0363 /* ImageDetailVCTagCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailVCTagCollection.swift; sourceTree = "<group>"; };
 		DC631A2F9A03B360ED9D0EA0 /* Pods-DerpibooTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DerpibooTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DerpibooTests/Pods-DerpibooTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -131,10 +134,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9A0AA221F4A206D00F1D721 /* Gifu.framework in Frameworks */,
 				D972399F1F484C410082E37A /* DGCollectionViewLeftAlignFlowLayout.framework in Frameworks */,
 				D9554B351F444DCC00E58018 /* PromiseKit.framework in Frameworks */,
 				D9554B361F444DCC00E58018 /* Alamofire.framework in Frameworks */,
-				D9554B371F444DCC00E58018 /* SwiftGifOrigin.framework in Frameworks */,
 				D9554B381F444DCC00E58018 /* UIScrollView_InfiniteScroll.framework in Frameworks */,
 				D9554B391F444DCC00E58018 /* Carlos.framework in Frameworks */,
 				D9554B3A1F444DCC00E58018 /* Fuzi.framework in Frameworks */,
@@ -164,6 +167,7 @@
 		11CD075913E85CE7761BDBC3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D9A0AA211F4A206D00F1D721 /* Gifu.framework */,
 				D972399E1F484C410082E37A /* DGCollectionViewLeftAlignFlowLayout.framework */,
 				D9554B2F1F444DCC00E58018 /* Alamofire.framework */,
 				D9554B321F444DCC00E58018 /* Carlos.framework */,
@@ -273,7 +277,6 @@
 		D983743E1DB0468200055A68 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				D983745C1DB0472C00055A68 /* SearchResultVC.swift */,
 				D983745E1DB0473000055A68 /* SearchSuggestionsVC.swift */,
 			);
 			name = Search;
@@ -306,6 +309,8 @@
 			children = (
 				D98374361DB0462E00055A68 /* AppDelegate.swift */,
 				D98374331DB044BB00055A68 /* Main.storyboard */,
+				D97239AF1F48F0520082E37A /* ListCollection.storyboard */,
+				D97239AD1F48EED30082E37A /* SearchTab.storyboard */,
 				D98CB90E1C2998100029A6F7 /* LaunchScreen.storyboard */,
 				D98CB90C1C2998100029A6F7 /* Assets.xcassets */,
 				D98CB9111C2998100029A6F7 /* Info.plist */,
@@ -454,6 +459,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D97239AE1F48EED30082E37A /* SearchTab.storyboard in Resources */,
+				D97239B01F48F0520082E37A /* ListCollection.storyboard in Resources */,
 				D98374351DB044BB00055A68 /* Main.storyboard in Resources */,
 				D98CB9101C2998100029A6F7 /* LaunchScreen.storyboard in Resources */,
 				D98CB90D1C2998100029A6F7 /* Assets.xcassets in Resources */,
@@ -637,7 +644,6 @@
 				D983745F1DB0473000055A68 /* SearchSuggestionsVC.swift in Sources */,
 				D98374431DB046D200055A68 /* Cache.swift in Sources */,
 				D983745B1DB0472700055A68 /* SearchManager.swift in Sources */,
-				D983745D1DB0472C00055A68 /* SearchResultVC.swift in Sources */,
 				D98374651DB0474000055A68 /* Theme.swift in Sources */,
 				D97239A81F48EBB30082E37A /* ListCollectionFilterVC.swift in Sources */,
 				D98374371DB0462E00055A68 /* AppDelegate.swift in Sources */,

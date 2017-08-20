@@ -9,19 +9,24 @@
 import UIKit
 import PromiseKit
 import UIScrollView_InfiniteScroll
-import SwiftGifOrigin
 
 protocol ListCollectionVCDataSource {
     var results: [ImageResult] { get }
     var tags: [String]? { get }
-    func getResults(asNew reset: Bool, withTags tags: [String]?) -> Promise<Void>
+    var sortBy: ListRequester.SortType { get }
+    var sortOrder: ListRequester.SortOrderType { get }
+    
+    func getResults(asNew reset: Bool, withTags tags: [String]?, withSorting: (sortBy: ListRequester.SortType, inOrder: ListRequester.SortOrderType)?) -> Promise<Void>
+    func setSorting(sortBy: ListRequester.SortType, sortOrder: ListRequester.SortOrderType)
 }
 
 /// There CollectionViewController class that deals with the vertical scroll view of lists of returned image results.
 class ListCollectionVC: UICollectionViewController {
     // Mark: Constants and tags
+    public static let storyboardName = "ListCollection"
     public static let storyboardID = "listCollectionVC"
     private let showImageSegueID = "showImageZoomVC"
+    private let showFilterVC = "showFilterVC"
 
     var isFirstListCollectionVC = false
     var shouldHideNavigationBar = true
@@ -60,7 +65,7 @@ class ListCollectionVC: UICollectionViewController {
         collectionView?.addInfiniteScroll { [weak self] (scrollView) -> Void in
             // Setup loading when performing infinite scroll
             let lastCount = (self?.dataSource?.results.count)!
-            _ = self?.dataSource?.getResults(asNew: false, withTags: self?.dataSource?.tags).then { () -> Void in
+            _ = self?.dataSource?.getResults(asNew: false, withTags: self?.dataSource?.tags, withSorting: (sortBy: self!.dataSource!.sortBy, inOrder: self!.dataSource!.sortOrder)).then { () -> Void in
                 // Update collection view
                 var index = [IndexPath]()
                 for n in lastCount..<(self?.dataSource?.results.count)! {
@@ -80,7 +85,7 @@ class ListCollectionVC: UICollectionViewController {
     }
     
     func getNewResult(withTags tags: [String]? = nil) {
-        _ = dataSource?.getResults(asNew: true, withTags: tags != nil ? tags: dataSource?.tags).then { () -> Void in
+        _ = dataSource?.getResults(asNew: true, withTags: tags != nil ? tags: dataSource?.tags, withSorting: (sortBy: dataSource!.sortBy, inOrder: dataSource!.sortOrder)).then { () -> Void in
             self.collectionView?.reloadData()
             self.refreshControl.endRefreshing()
         }
@@ -102,20 +107,20 @@ class ListCollectionVC: UICollectionViewController {
             let index = (sender as! IndexPath).row
             let result = dataSource?.results[index]
             destinationVC.imageResult = result
-            /*DispatchQueue.global(qos: .background).async {
-                for tag in (result?.metadata.tag_ids)! {
-                    _ = result.tagResult(from: tag).then { tagResult -> Void in
-                        //_ = TagCache.shared.setTag(tagResult)
-                    }
-                }
-            }*/
+        } else if segue.identifier == showFilterVC {
+            let popoverVC = segue.destination as! ListCollectionFilterVC
+            
+            popoverVC.modalPresentationStyle = .popover
+            popoverVC.popoverPresentationController!.delegate = self
+            
+            popoverVC.listVC = self
         }
     }
     
     // Mark: - Notification Observing
     
     func useE621ModeDidChange() {
-        dataSource?.getResults(asNew: true, withTags: dataSource?.tags).then {
+        dataSource?.getResults(asNew: true, withTags: dataSource?.tags, withSorting: nil).then {
             self.collectionView?.reloadData()
             }.catch { error in print(error) }
     }
@@ -198,18 +203,21 @@ extension ListCollectionVC: UINavigationControllerDelegate {
 
 extension ListCollectionVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        var width = view.window?.bounds.size.width ?? 375
-        if width > 480 {
-            width = 480
-        }
-        let itemMetadata = dataSource?.results[indexPath.row].metadata
-        let imageHeight = itemMetadata?.height ?? 400
-        let imageWidth = itemMetadata?.width ?? Int(width)
+        let width: CGFloat = {
+            var w = view.window?.bounds.size.width ?? 375
+            if w > 480 { w = 480 }
+            return w
+        }()
+        
+        guard let dataSource = dataSource, indexPath.row < dataSource.results.count else { return CGSize(width: width, height: 0) }
+        
+        let itemMetadata = dataSource.results[indexPath.row].metadata
+        let imageHeight = itemMetadata.height
+        let imageWidth = itemMetadata.width
         let correctedImageHeight = width / CGFloat(imageWidth) * CGFloat(imageHeight)
         
         
         let height = 60 + 50 + correctedImageHeight
-        //print("width: \(width), height: \(height)")
         return CGSize(width: width, height: height)
     }
     
@@ -217,5 +225,24 @@ extension ListCollectionVC: UICollectionViewDelegateFlowLayout {
         return 1000
     }
 }
+
+// Mark: - Popover Presentation Delegate
+
+extension ListCollectionVC: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 
 

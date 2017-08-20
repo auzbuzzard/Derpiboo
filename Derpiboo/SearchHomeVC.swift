@@ -52,7 +52,7 @@ class SearchHomeVC: UITableViewController {
     // Mark: - Methods
     
     func showResults(with stringTag: String?) {
-        let listVC = storyboard?.instantiateViewController(withIdentifier: ListCollectionVC.storyboardID) as! ListCollectionVC
+        let listVC = UIStoryboard(name: ListCollectionVC.storyboardName, bundle: nil).instantiateViewController(withIdentifier: ListCollectionVC.storyboardID) as! ListCollectionVC
         let dataSource = ListCollectionVM(result: ListResult())
         listVC.dataSource = dataSource
         #if DEBUG
@@ -67,16 +67,6 @@ class SearchHomeVC: UITableViewController {
         
         navigationController?.pushViewController(listVC, animated: true)
         listVC.title = stringTag
-    }
-    
-    // MARK: - Navigation
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showSearchResultVC" {
-            if let vc = segue.destination as? SearchResultVC, let sender = sender as? UISearchBar  {
-                vc.searchString = sender.text
-            }
-        }
     }
 }
 

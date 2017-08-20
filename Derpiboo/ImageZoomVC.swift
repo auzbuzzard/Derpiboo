@@ -50,13 +50,13 @@ class ImageZoomVC: UIViewController {
     // Mark: - Data Loading
     
     func loadImage() {
-        _ = imageResult.image(ofSize: .large).then { image -> Void in
+        _ = imageResult.imageData(forSize: .large).then { data -> Void in
             if !self.isFileImage {
-                self.setImageView(image: image, withZoom: true)
+                self.setImageView(data: data, withZoom: true)
             }
         }
-        _ = imageResult.image(ofSize: .full).then { image -> Void in
-            self.setImageView(image: image, withZoom: false)
+        _ = imageResult.imageData(forSize: .full).then { data -> Void in
+            self.setImageView(data: data, withZoom: false)
             self.isFileImage = true
         }
     }
@@ -84,8 +84,14 @@ class ImageZoomVC: UIViewController {
         mainScrollView.contentInset = UIEdgeInsets(top: verticalPadding, left: horizontalPadding, bottom: verticalPadding, right: horizontalPadding)
     }
     
-    func setImageView(image: UIImage?, withZoom: Bool) {
-        mainImageView.image = image
+    func setImageView(data: Data?, withZoom: Bool) {
+        guard let data = data else { mainImageView.image = nil; return }
+        if imageResult.metadata.original_format_enum == .gif {
+            mainImageView.animate(withGIFData: data)
+        } else {
+            guard let image = UIImage(data: data) else { print("Image could not be casted into UIImage."); return }
+            mainImageView.image = image
+        }
 
         if withZoom {
             adjustViewSizes(thenZoomOut: true)

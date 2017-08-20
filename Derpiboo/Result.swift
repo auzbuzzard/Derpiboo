@@ -138,22 +138,22 @@ struct ImageResult: ResultItem, UsingImageCache {
         }
     }
     
-    func image(ofSize size: Metadata.ImageSize) -> Promise<UIImage> {
-        return imageFromCache(size: size)
-            .recover { error -> Promise<UIImage> in
+    func imageData(forSize size: Metadata.ImageSize) -> Promise<Data> {
+        return imageDataFromCache(size: size)
+            .recover { error -> Promise<Data> in
                 if case ImageCache.CacheError.noImageInStore(_) = error {
-                    return self.downloadImage(ofSize: size)
+                    return self.downloadImageData(forSize: size)
                 } else {
                     throw error
                 }
         }
     }
     
-    func imageFromCache(size: Metadata.ImageSize) -> Promise<UIImage> {
-        return imageCache.getImage(for: self.id, size: size)
+    func imageDataFromCache(size: Metadata.ImageSize) -> Promise<Data> {
+        return imageCache.getImageData(for: self.id, size: size)
     }
     
-    func downloadImage(ofSize size: Metadata.ImageSize) -> Promise<UIImage> {
+    func downloadImageData(forSize size: Metadata.ImageSize) -> Promise<Data> {
         let url: String = {
             switch size {
             case .thumb: return "https:" + metadata.representations.thumb
@@ -163,18 +163,14 @@ struct ImageResult: ResultItem, UsingImageCache {
         }()
         
         return Network.get(url: url)
-            .then { data -> Promise<UIImage> in
-                guard let image = /*self.metadata.original_format_enum == .gif ? UIImage.gif(data: data) : */ UIImage(data: data) else {
-                    throw ImageResultError.dataIsNotUIImage(id: self.id, data: data)
-                }
-                _ = self.imageCache.setImage(image, id: self.id, size: size)
-                return Promise(value: image)
+            .then { data -> Promise<Data> in
+                _ = self.imageCache.setImageData(data, id: self.id, size: size)
+                return Promise(value: data)
         }
     }
     
     enum ImageResultError: Error {
         case downloadFailed(id: String, url: String)
-        case dataIsNotUIImage(id: String, data: Data)
     }
 }
 

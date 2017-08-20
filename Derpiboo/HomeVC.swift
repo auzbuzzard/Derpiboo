@@ -21,7 +21,10 @@ class HomeVC: UINavigationController {
     }
     
     func instantiateVC() {
-        listVC = storyboard?.instantiateViewController(withIdentifier: ListCollectionVC.storyboardID) as! ListCollectionVC
+        listVC = UIStoryboard(name: ListCollectionVC.storyboardName, bundle: nil).instantiateViewController(withIdentifier: ListCollectionVC.storyboardID) as! ListCollectionVC
+        
+        listVC.isFirstListCollectionVC = true
+        listVC.shouldHideNavigationBar = true
         
         listVC.dataSource = ListCollectionVM(result: ListResult())
         listVC.getNewResult()
