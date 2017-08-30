@@ -138,31 +138,54 @@ struct ImageResult: ResultItem, UsingImageCache {
         }
     }
     
+    private func url(forSize size: Metadata.ImageSize) -> String {
+        switch size {
+        case .thumb: return "https:" + metadata.representations.thumb
+        case .large: return "https:" + metadata.representations.large
+        case .full: return "https:" + metadata.representations.full
+        }
+    }
+    
     func imageData(forSize size: Metadata.ImageSize) -> Promise<Data> {
+        if metadata.original_format_enum == .webm || metadata.original_format_enum == .webm {
+            #if DEBUG
+                print("[Verbose] imageResult(\(id)) is trying to get imageData for size (\(size)), BUT image is of type \(String(describing: metadata.original_format_enum)).")
+            #endif
+            return Promise<Data>(error: ImageResultError.imageTypeNotSupported(id: id, type: metadata.original_format_enum))
+        }
+        
+        #if DEBUG
+            print("[Verbose] imageResult(\(id)) is trying to get imageData for size (\(size)).")
+        #endif
         return imageDataFromCache(size: size)
             .recover { error -> Promise<Data> in
                 if case ImageCache.CacheError.noImageInStore(_) = error {
+                    #if DEBUG
+                        print("[Verbose] imageResult(\(self.id)) can't find cached data for size (\(size)), will attempt download.")
+                    #endif
                     return self.downloadImageData(forSize: size)
                 } else {
+                    #if DEBUG
+                        print("[Verbose] imageResult(\(self.id)) got into error for size (\(size)): \(error)")
+                    #endif
                     throw error
                 }
         }
     }
     
     func imageDataFromCache(size: Metadata.ImageSize) -> Promise<Data> {
+        #if DEBUG
+            print("[Verbose] imageResult(\(id)) is trying to get imageData FROM CACHE for size (\(size)).")
+        #endif
         return imageCache.getImageData(for: self.id, size: size)
     }
     
     func downloadImageData(forSize size: Metadata.ImageSize) -> Promise<Data> {
-        let url: String = {
-            switch size {
-            case .thumb: return "https:" + metadata.representations.thumb
-            case .large: return "https:" + metadata.representations.large
-            case .full: return "https:" + metadata.representations.full
-            }
-        }()
+        #if DEBUG
+            print("[Verbose] imageResult(\(id)) is trying to get imageData FROM DOWNLOAD for size (\(size)). URL: \(url(forSize: size))")
+        #endif
         
-        return Network.get(url: url)
+        return Network.get(url: url(forSize: size))
             .then { data -> Promise<Data> in
                 _ = self.imageCache.setImageData(data, id: self.id, size: size)
                 return Promise(value: data)
@@ -171,6 +194,7 @@ struct ImageResult: ResultItem, UsingImageCache {
     
     enum ImageResultError: Error {
         case downloadFailed(id: String, url: String)
+        case imageTypeNotSupported(id: String, type: Metadata.File_Ext?)
     }
 }
 

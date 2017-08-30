@@ -45,6 +45,14 @@ class ListCollectionFilterVC: UIViewController {
     
     func setupContent() {
         sortByPickerButton.setTitle(selectedSortBy.description, for: .normal)
+        sortOrderSC.selectedSegmentIndex = {
+            switch selectedSortOrder {
+            case .descending: return 0
+            case .ascending: return 1
+            default: return 0
+            }
+        }()
+        sortOrderSC.sendActions(for: .valueChanged)
         
         setupPickerField()
     }
@@ -87,6 +95,10 @@ class ListCollectionFilterVC: UIViewController {
     @IBAction func applyButtonIsClicked(_ sender: UIButton) {
         listVC.dataSource?.setSorting(sortBy: selectedSortBy, sortOrder: selectedSortOrder)
         listVC.getNewResult()
+        //let origin = CGPoint(x: (listVC.collectionView?.contentInset.left ?? 0), y: (listVC.collectionView?.contentInset.top ?? 0))
+        //print(origin)
+        //listVC.collectionView?.setContentOffset(origin, animated: true)
+        listVC.collectionView?.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
         dismiss(animated: true, completion: nil)
     }
     

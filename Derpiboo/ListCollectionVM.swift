@@ -65,6 +65,7 @@ struct ListCollectionVCMainCellVM: ListCollectionVCMainCellDataSource {
     }
     
     // Mark: - Interface
+    var fileType: ImageResult.Metadata.File_Ext? { return result.metadata.original_format_enum }
     
     var artistsName: String { return result.metadata.uploader }
     var uploaderName: String { return result.metadata.uploader }

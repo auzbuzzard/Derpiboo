@@ -85,6 +85,9 @@ class ImageZoomVC: UIViewController {
     }
     
     func setImageView(data: Data?, withZoom: Bool) {
+        #if DEBUG
+            print("[Verbose] imageDetailView for (\(imageResult.id)) is trying to set image.")
+        #endif
         guard let data = data else { mainImageView.image = nil; return }
         guard let image = UIImage(data: data) else { print("Image could not be casted into UIImage."); return }
         mainImageView.image = image
@@ -139,12 +142,12 @@ class ImageZoomVC: UIViewController {
     func handleDoubleTap(recognizer: UITapGestureRecognizer) {
         if (mainScrollView.zoomScale > mainScrollView.minimumZoomScale) {
             mainScrollView.setZoomScale(mainScrollView.minimumZoomScale, animated: true)
-            print("NO")
+            //print("NO")
         } else {
             switchTo(fullScreen: true, animated: true, withExtraAnimation: {
                 self.mainScrollView.setZoomScale(self.mainScrollView.maximumZoomScale * 0.4, animated: true)
             }, completion: { })
-            print("YES")
+            //print("YES")
         }
         adjustPadding()
     }
@@ -161,37 +164,21 @@ class ImageZoomVC: UIViewController {
     
     func switchTo(fullScreen switchToFullScreen: Bool, animated: Bool, withExtraAnimation: @escaping () -> Void, completion: @escaping () -> Void) {
         let duration = animated ? 0.3 : 0.0
-        if switchToFullScreen {
-            UIView.animate(withDuration: duration, animations: {
-                UIApplication.shared.isStatusBarHidden = true
-                self.navigationController?.setNavigationBarHidden(true, animated: false)
-                self.navigationController?.navigationBar.alpha = 0
-                self.tabBarController?.tabBar.isHidden = true
-                self.tabBarController?.tabBar.alpha = 0
-                self.view.backgroundColor = UIColor.black
-                withExtraAnimation()
-            }, completion: { success in
-                if success {
-                    self.isFullScreen = true
-                    completion()
-                }
-            })
-        } else {
-            UIView.animate(withDuration: duration, animations: {
-                self.navigationController?.setNavigationBarHidden(false, animated: false)
-                self.navigationController?.navigationBar.alpha = 1
-                self.tabBarController?.tabBar.isHidden = false
-                self.tabBarController?.tabBar.alpha = 1
-                self.view.backgroundColor = Theme.colors().background
-                UIApplication.shared.isStatusBarHidden = false
-                withExtraAnimation()
-            }, completion: { success in
-                if success {
-                    self.isFullScreen = false
-                    completion()
-                }
-            })
-        }
+        
+        UIView.animate(withDuration: duration, animations: {
+            UIApplication.shared.isStatusBarHidden = switchToFullScreen
+            self.navigationController?.setNavigationBarHidden(switchToFullScreen, animated: false)
+            self.navigationController?.navigationBar.alpha = switchToFullScreen ? 0 : 1
+            self.tabBarController?.tabBar.isHidden = switchToFullScreen
+            self.tabBarController?.tabBar.alpha = switchToFullScreen ? 0 : 1
+            self.view.backgroundColor = switchToFullScreen ? UIColor.black : Theme.colors().background
+            withExtraAnimation()
+        }, completion: { success in
+            if success {
+                self.isFullScreen = switchToFullScreen
+                completion()
+            }
+        })
     }
     
     // Mark: - Segues

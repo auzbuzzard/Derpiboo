@@ -87,6 +87,17 @@ class ListCollectionVC: UICollectionViewController {
     func getNewResult(withTags tags: [String]? = nil) {
         _ = dataSource?.getResults(asNew: true, withTags: tags != nil ? tags: dataSource?.tags, withSorting: (sortBy: dataSource!.sortBy, inOrder: dataSource!.sortOrder)).then { () -> Void in
             self.collectionView?.reloadData()
+            /*
+            self.collectionView?.performBatchUpdates({
+                guard let indexCount = self.collectionView?.numberOfItems(inSection: 0) else { return }
+                for n in 0..<indexCount {
+                    let indexPath = IndexPath(item: n, section: 0)
+                    self.collectionView?.deleteItems(at: [indexPath])
+                }
+                }, completion: { success in
+                    self.refreshControl.endRefreshing()
+            })
+             */
             self.refreshControl.endRefreshing()
         }
     }
@@ -152,6 +163,7 @@ class ListCollectionVC: UICollectionViewController {
         // Setting the cell
         let item = dataSource.results[indexPath.row]
         let itemVM = ListCollectionVCMainCellVM(result: item)
+        cell.setupCellLayout(windowWidth: view.window?.bounds.width ?? view.bounds.width)
         cell.setCellContents(indexPath: indexPath, dataSource: itemVM)
         // Done
         return cell

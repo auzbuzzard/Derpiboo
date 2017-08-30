@@ -56,7 +56,7 @@ class ImageCache: CacheClass {
     }
     
     fileprivate static let shared = ImageCache()
-    private init() { images.totalCostLimit = 750 * 1024 /* 750MB */ }
+    private init() { images.totalCostLimit = 750 * 1024 * 1024 /* 750MB */ }
     
     private lazy var images = NSCache<NSString, DataWrapper>()
     
