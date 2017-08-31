@@ -60,6 +60,7 @@ class ListCollectionVC: UICollectionViewController {
         collectionView?.addSubview(refreshControl)
     }
     
+    // TODO: - Fix loading next page so that it can detect fails.
     private func setupInfiniteScroll() {
         collectionView?.infiniteScrollIndicatorStyle = .whiteLarge
         collectionView?.addInfiniteScroll { [weak self] (scrollView) -> Void in

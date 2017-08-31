@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '078FA21FFAF696270A7ECBD7260D7FC2'
+               BlueprintIdentifier = '6AEF3B1F9A2ACBFB34E9142C9C76CC62'
                BlueprintName = 'Pods-Derpiboo'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'Pods-Derpiboo.framework'>

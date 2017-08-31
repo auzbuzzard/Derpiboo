@@ -210,6 +210,44 @@ class TagParser: Parser, ParserForItem {
     }
 }
 
+class CommentParser {
+    static func parse(data: Data) -> Promise<[CommentResult]> {
+        return Promise { fulfill, reject in
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary, let comments = json["comments"] as? Array<NSDictionary> {
+                    var results = [CommentResult]()
+                    
+                    for comment in comments {
+                        parse(dictionary: comment).then { result -> Void in
+                            results.append(result)
+                            }.catch { error -> Void in
+                                
+                        }
+                    }
+                    fulfill(results)
+                } else {
+                    reject(ParserError.CannotCastJsonIntoNSDictionary(data: data))
+                }
+            }
+        }
+    }
+    
+    static func parse(dictionary item: NSDictionary) -> Promise<CommentResult> {
+        let id = item["id"] as? Int ?? 0
+        let body = item["body"] as? String ?? ""
+        let author = item["author"] as? String ?? ""
+        let image_id = item["image_id"] as? Int ?? 0
+        let posted_at = item["posted_at"] as? String ?? ""
+        let deleted = item["deleted"] as? Bool ?? false
+        
+        let metadata = CommentResult.Metadata(id: id, body: body, author: author, image_id: image_id, posted_at: posted_at, deleted: deleted)
+        
+        return Promise { fulfill, _ in
+            fulfill(CommentResult(metadata: metadata))
+        }
+    }
+}
+
 /*
 class FilterListParser: Parser {
     

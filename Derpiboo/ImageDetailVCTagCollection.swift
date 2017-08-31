@@ -20,7 +20,8 @@ class ImageDetailVCTagCollectionCell: UICollectionViewCell {
         label.text = tag
         label.backgroundColor = Theme.colors().highlight2
         self.label.sizeToFit()
-        contentView.setNeedsLayout()
+        //contentView.setNeedsLayout()
+        contentView.layoutIfNeeded()
         onComplete()
         
     }
@@ -71,9 +72,6 @@ extension ImageDetailVC: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension DGCollectionViewLeftAlignFlowLayout {
-    
-}
 
 
 

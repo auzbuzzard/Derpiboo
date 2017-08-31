@@ -14,6 +14,11 @@
 			<key>orderHint</key>
 			<integer>6</integer>
 		</dict>
+		<key>CocoaLumberjack.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>14</integer>
+		</dict>
 		<key>DGCollectionViewLeftAlignFlowLayout.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -54,10 +59,20 @@
 			<key>orderHint</key>
 			<integer>8</integer>
 		</dict>
+		<key>SVGKit.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>15</integer>
+		</dict>
 		<key>SwiftGifOrigin.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>9</integer>
+		</dict>
+		<key>UICollectionViewLeftAlignFlowLayout.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>16</integer>
 		</dict>
 		<key>UICollectionViewLeftAlignedLayout.xcscheme</key>
 		<dict>
@@ -73,6 +88,11 @@
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>04E72627B970CB1250B990878469D51C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>078FA21FFAF696270A7ECBD7260D7FC2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -107,6 +127,11 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>5B9888C33DE4EBFB8177CEA845DEEA74</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>67764DCEF2307142F89648FA582C0FC1</key>
 		<dict>
 			<key>primary</key>
@@ -127,6 +152,11 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>990B48C307BDECF72DD230C0BCA24527</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>9B1228CA1DEE41DE26E5236304FBDEAD</key>
 		<dict>
 			<key>primary</key>
@@ -138,6 +168,11 @@
 			<true/>
 		</dict>
 		<key>B98E4579B9E676C7253003C207407BD7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C1A98AEE03EA2A429D86C42F884858A4</key>
 		<dict>
 			<key>primary</key>
 			<true/>

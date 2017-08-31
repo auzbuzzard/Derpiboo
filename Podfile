@@ -12,6 +12,7 @@ target 'Derpiboo' do
 
   # Pods for Derpiboo
   pod 'Gifu'
+  pod 'SVGKit', :git => 'https://github.com/SVGKit/SVGKit.git', :branch => '2.x'
   #pod 'SwiftGifOrigin', '~> 1.6.1'
   pod 'Alamofire', '~> 4.4'
   pod 'PromiseKit/Alamofire', '~> 4.0'

@@ -126,8 +126,8 @@ class ImageRequester: Requester {
 class TagRequester: Requester {
     static var tag_url: String { return base_url + "/tags" }
     
-    func downloadTag(for id: Int) -> Promise<TagResult> {
-        let url = TagRequester.tag_url + "\(id).json"
+    func downloadTag(for id: String) -> Promise<TagResult> {
+        let url = TagRequester.tag_url + "/\(id).json"
         
         return Network.get(url: url).then(on: .global(qos: .userInitiated)) { data -> Promise<TagResult> in
             return TagParser.parse(data: data)
@@ -141,6 +141,17 @@ class TagRequester: Requester {
         }
     }
 }
+
+class CommentRequester: Requester {
+    func downloadComments(for id: String) -> Promise<[CommentResult]> {
+        let url = ImageRequester.image_url + "/\(id).json?comments=''"
+        return Network.get(url: url).then(on: .global(qos: .userInitiated)) { data -> Promise<[CommentResult]> in
+            return CommentParser.parse(data: data)
+        }
+    }
+}
+
+
 /*
 class UserRequester: Requester {
     static let user_url = base_url + "/user/index"

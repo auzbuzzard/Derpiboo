@@ -27,7 +27,7 @@ class ListCollectionVM: ListCollectionVCDataSource {
     var sortBy: ListRequester.SortType = .creationDate
     var sortOrder: ListRequester.SortOrderType = .descending
     
-    
+    // TODO: - Fix loading next page so that it can detect fails.
     func getResults(asNew reset: Bool, withTags tags: [String]?, withSorting: (sortBy: ListRequester.SortType, inOrder: ListRequester.SortOrderType)?) -> Promise<Void> {
         if reset { result = ListResult() }
         result.tags = tags

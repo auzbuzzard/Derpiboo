@@ -23,12 +23,25 @@ class ImageZoomVC: UIViewController {
     // Mark: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = Theme.colors().background
         mainImageView = UIImageView(frame: CGRect.zero)
-        setupScrollView()
-        setupGestureRecognizer()
-        
-        loadImage()
+        if imageResult.metadata.original_format_enum == .webm || imageResult.metadata.original_format_enum == .swf {
+            let filetypeWarningView = UIImageView(image: imageResult.metadata.original_format_enum == .webm ? #imageLiteral(resourceName: "webm") : #imageLiteral(resourceName: "swf"))
+            view.addSubview(filetypeWarningView)
+            filetypeWarningView.translatesAutoresizingMaskIntoConstraints = false
+            view.addConstraints([
+                NSLayoutConstraint(item: filetypeWarningView, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0),
+                NSLayoutConstraint(item: filetypeWarningView, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1, constant: 0),
+                NSLayoutConstraint(item: filetypeWarningView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: view.bounds.width * 0.3),
+                NSLayoutConstraint(item: filetypeWarningView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: view.bounds.width * 0.3)
+                ])
+        } else {
+            setupScrollView()
+            setupGestureRecognizer()
+            
+            loadImage()
+        }
         loadExtraMetadata()
     }
     

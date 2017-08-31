@@ -45,12 +45,12 @@ class ListCollectionVCMainCell: UICollectionViewCell {
     @IBOutlet weak var footerFavLabel: UILabel!
     
     lazy var label = UILabel()
-    lazy var webmIconView = UIImageView(image: #imageLiteral(resourceName: "webm"))
+    lazy var fileTypeWarningView = UIImageView()
     
     override func prepareForReuse() {
         super.prepareForReuse()
         label.removeFromSuperview()
-        webmIconView.removeFromSuperview()
+        fileTypeWarningView.removeFromSuperview()
         mainImage.image = nil
         mainImage.prepareForReuse()
         titleImage.image = nil
@@ -99,14 +99,15 @@ class ListCollectionVCMainCell: UICollectionViewCell {
         //titleLabelBkgdView.layer.backgroundColor = ratingColor.cgColor
         
         //check if image is unhandled filetype
-        if dataSource.fileType == .webm {
-            contentView.addSubview(webmIconView)
-            webmIconView.translatesAutoresizingMaskIntoConstraints = false
+        if dataSource.fileType == .webm || dataSource.fileType == .swf {
+            fileTypeWarningView.image = dataSource.fileType == .webm ? #imageLiteral(resourceName: "webm") : #imageLiteral(resourceName: "swf")
+            contentView.addSubview(fileTypeWarningView)
+            fileTypeWarningView.translatesAutoresizingMaskIntoConstraints = false
             contentView.addConstraints([
-                NSLayoutConstraint(item: webmIconView, attribute: .centerX, relatedBy: .equal, toItem: mainImage, attribute: .centerX, multiplier: 1, constant: 0),
-                NSLayoutConstraint(item: webmIconView, attribute: .centerY, relatedBy: .equal, toItem: mainImage, attribute: .centerY, multiplier: 1, constant: 0),
-                NSLayoutConstraint(item: webmIconView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: mainImage.bounds.width * 0.3),
-                NSLayoutConstraint(item: webmIconView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: mainImage.bounds.width * 0.3)
+                NSLayoutConstraint(item: fileTypeWarningView, attribute: .centerX, relatedBy: .equal, toItem: mainImage, attribute: .centerX, multiplier: 1, constant: 0),
+                NSLayoutConstraint(item: fileTypeWarningView, attribute: .centerY, relatedBy: .equal, toItem: mainImage, attribute: .centerY, multiplier: 1, constant: 0),
+                NSLayoutConstraint(item: fileTypeWarningView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: mainImage.bounds.width * 0.3),
+                NSLayoutConstraint(item: fileTypeWarningView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: mainImage.bounds.width * 0.3)
                 ])
             //webmIconView.bounds.size = CGSize(width: mainImage.bounds.width * 0.3, height: mainImage.bounds.width * 0.3)
 
