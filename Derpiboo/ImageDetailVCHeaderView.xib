@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view tag="100" contentMode="scaleToFill" id="IZh-jq-PLY" customClass="ImageDetailVCHeaderView" customModule="Derpiboo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BjH-PY-42L">
+                    <rect key="frame" x="8" y="627.5" width="359" height="31.5"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="26"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="BjH-PY-42L" firstAttribute="top" relation="greaterThanOrEqual" secondItem="7qS-bM-mBH" secondAttribute="top" constant="8" id="FhW-dU-tu8"/>
+                <constraint firstItem="7qS-bM-mBH" firstAttribute="trailing" secondItem="BjH-PY-42L" secondAttribute="trailing" constant="8" id="k1J-Yn-5OO"/>
+                <constraint firstItem="7qS-bM-mBH" firstAttribute="bottom" secondItem="BjH-PY-42L" secondAttribute="bottom" constant="8" id="pb7-H8-8VN"/>
+                <constraint firstItem="BjH-PY-42L" firstAttribute="leading" secondItem="7qS-bM-mBH" secondAttribute="leading" constant="8" id="yfy-uc-UVO"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="7qS-bM-mBH"/>
+            <connections>
+                <outlet property="mainLabel" destination="BjH-PY-42L" id="5LU-fy-1Mz"/>
+            </connections>
+        </view>
+    </objects>
+</document>

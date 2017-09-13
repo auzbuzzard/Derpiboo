@@ -41,6 +41,7 @@ class ListCollectionVCMainCell: UICollectionViewCell {
         super.prepareForReuse()
         label.removeFromSuperview()
         fileTypeWarningView.removeFromSuperview()
+        mainImageView.startAnimatingGIF()
         mainImageView.image = nil
         mainImageView.prepareForReuse()
     }
@@ -55,6 +56,8 @@ class ListCollectionVCMainCell: UICollectionViewCell {
     // Mark: - Actual filling in the data and layout
     
     func setupCellLayout(windowWidth: CGFloat) {
+        
+        contentView.backgroundColor = Theme.colors().background2
         
         contentView.layer.cornerRadius = bounds.size.width < windowWidth ? 10 : 10
         contentView.layer.masksToBounds = true
@@ -120,13 +123,18 @@ class ListCollectionVCMainCell: UICollectionViewCell {
         _ = dataSource.mainImageData.then { data -> Void in
             if indexPath == self.currentIndexPath {
                 if dataSource.imageType == .gif {
-                    self.mainImageView.animate(withGIFData: data)
+                    self.mainImageView.prepareForAnimation(withGIFData: data)
+                    self.mainImageView.startAnimatingGIF()
                 } else {
                     guard let image = UIImage(data: data) else { print("Image at \(indexPath) could not be casted into UIImage."); return }
                     self.mainImageView.image = image
                 }
             }
         }
+    }
+    
+    func animateImage() {
+        self.mainImageView.startAnimatingGIF()
     }
     
 }

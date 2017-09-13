@@ -82,6 +82,8 @@ extension ImageDetailVC: UICollectionViewDelegate, UICollectionViewDataSource, U
             self.open(with: tags[indexPath.row])
         }
     }
+    
+
 }
 
 // MARK: - Extension to ImageDetailVC That controls the layout of the collectionview
@@ -96,9 +98,19 @@ extension ImageDetailVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
+    
 }
 
-
-
-
+/*
+extension DGCollectionViewLeftAlignFlowLayout {
+    public override func invalidationContext(forBoundsChange newBounds: CGRect) -> UICollectionViewLayoutInvalidationContext {
+        let context = super.invalidationContext(forBoundsChange: newBounds) as! UICollectionViewFlowLayoutInvalidationContext
+        context.invalidateFlowLayoutDelegateMetrics = (
+            newBounds.width != collectionView?.bounds.width ||
+                newBounds.height != collectionView?.bounds.height
+        )
+        return context
+    }
+}
+*/
 

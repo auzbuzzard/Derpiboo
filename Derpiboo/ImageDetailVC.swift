@@ -16,6 +16,8 @@ class ImageDetailVC: UITableViewController, SFSafariViewControllerDelegate {
     // Mark: - Declarations
     fileprivate enum Sections: Int { case uploader = 0, uploader_description, tag, source, favoraters, comments }
     
+    // Mark: - Properties
+    
     var imageResult: ImageResult!
     var comments: [CommentResult]?
     
@@ -37,6 +39,15 @@ class ImageDetailVC: UITableViewController, SFSafariViewControllerDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         loadComments()
+    }
+    
+    // TODO: - Fix collectionview rotation issue
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        if let section = sectionIndex(for: .tag), let cell = tableView.cellForRow(at: IndexPath(row: 0, section: section)) as? ImageDetailVCTagTableCell {
+            print("yes")
+            cell.collectionView.collectionViewLayout.invalidateLayout()
+        }
     }
     
     // MARK: - Table view data source
@@ -63,39 +74,43 @@ class ImageDetailVC: UITableViewController, SFSafariViewControllerDelegate {
         guard let section = sectionForIndex(indexPath.section) else { return UITableViewCell() }
         switch section {
         case .uploader:
-            let cell = tableView.dequeueReusableCell(withIdentifier: defaultBasicCell, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: ImageDetailVCLabelCell.storyboardID, for: indexPath) as! ImageDetailVCLabelCell
+            cell.formatTheme()
             cell.selectionStyle = .none
-            cell.backgroundColor = Theme.colors().background
-            cell.textLabel?.text = imageResult.metadata.uploader
+            cell.setupLayout()
+            cell.setupContent(text: "\(imageResult.metadata.uploader)")
             return cell
         case .uploader_description:
             let cell = tableView.dequeueReusableCell(withIdentifier: ImageDetailVCTextViewCell.storyboardID, for: indexPath) as! ImageDetailVCTextViewCell
-            cell.backgroundColor = Theme.colors().background
+            cell.formatTheme()
             cell.setupLayout()
             cell.setupContent(dataSource: imageResult)
-            cell.backgroundColor = Theme.colors().background
             return cell
         case .tag:
             let cell = tableView.dequeueReusableCell(withIdentifier: ImageDetailVCTagTableCell.storyboardID, for: indexPath) as! ImageDetailVCTagTableCell
+            cell.formatTheme()
             cell.setupLayout(tableView: tableView)
             cell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
-            cell.backgroundColor = Theme.colors().background
+            print(cell.contentView.bounds.height)
             return cell
         case .source:
-            let cell = tableView.dequeueReusableCell(withIdentifier: defaultBasicCell, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: ImageDetailVCLabelCell.storyboardID, for: indexPath) as! ImageDetailVCLabelCell
+            cell.formatTheme()
             cell.selectionStyle = .none
+            cell.setupLayout()
             let text = imageResult.metadata.source_url != "" ? imageResult.metadata.source_url : "(no source provided)"
-            cell.backgroundColor = Theme.colors().background
-            cell.textLabel?.text = text
+            cell.setupContent(text: text)
             return cell
         case .favoraters:
-            let cell = tableView.dequeueReusableCell(withIdentifier: defaultBasicCell, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: ImageDetailVCLabelCell.storyboardID, for: indexPath) as! ImageDetailVCLabelCell
+            cell.formatTheme()
             cell.selectionStyle = .none
-            cell.backgroundColor = Theme.colors().background
-            cell.textLabel?.text = "\(imageResult.metadata.faves) \(imageResult.metadata.faves == 1 ? "pony" : "ponies")"
+            cell.setupLayout()
+            cell.setupContent(text: "\(imageResult.metadata.faves) \(imageResult.metadata.faves == 1 ? "pony" : "ponies")")
             return cell
         case .comments:
             let cell = tableView.dequeueReusableCell(withIdentifier: ImageDetailVCCommentCell.storyboardID, for: indexPath) as! ImageDetailVCCommentCell
+            cell.formatTheme()
             cell.setupLayout()
             
             guard let count = comments?.count, indexPath.row < count else { return cell }
@@ -106,25 +121,21 @@ class ImageDetailVC: UITableViewController, SFSafariViewControllerDelegate {
     
     // TODO: - Make it compatible with iPhone X, currently header view is not using autolayout
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 44))
-        let label = UILabel(frame: CGRect(x: 8, y: 0, width: tableView.frame.size.width - 8, height: 32))
-        label.font = UIFont.systemFont(ofSize: 26, weight: UIFontWeightMedium)
-        label.textColor = Theme.colors().labelText
+        guard let view = Bundle.main.loadNibNamed("ImageDetailVCHeaderView", owner: nil, options: nil)?.first as? ImageDetailVCHeaderView else { return UIView() }
+        view.setupLayout()
         
         if let section = sectionForIndex(section) {
             switch section {
-            case .uploader: label.text = "Uploaded by"
-            case .uploader_description: label.text = "Uploader Descriptions"
-            case .tag: label.text = "Tags"
-            case .source: label.text = "Source"
-            case .favoraters: label.text = "Favorited by"
-            case.comments: label.text = "Comments (\(imageResult.metadata.comment_count))"
+            case .uploader: view.mainLabel.text = "Uploaded by"
+            case .uploader_description: view.mainLabel.text = "Uploader Descriptions"
+            case .tag: view.mainLabel.text = "Tags"
+            case .source: view.mainLabel.text = "Source"
+            case .favoraters: view.mainLabel.text = "Favorited by"
+            case.comments: view.mainLabel.text = "Comments (\(imageResult.metadata.comment_count))"
             }
         } else {
-            label.text = ""
+            view.mainLabel.text = ""
         }
-        
-        view.addSubview(label)
         
         return view
     }
@@ -163,6 +174,11 @@ class ImageDetailVC: UITableViewController, SFSafariViewControllerDelegate {
             let url = URL(string: imageResult.metadata.source_url)
             let svc = SFSafariViewController(url: url!, entersReaderIfAvailable: false)
             svc.delegate = self
+            if #available(iOS 10, *) {
+                svc.preferredBarTintColor = Theme.colors().background_header
+                svc.preferredControlTintColor = Theme.colors().labelText
+            }
+
             self.present(svc, animated: true, completion: nil)
         case .favoraters: return
         case .comments: return
@@ -173,6 +189,10 @@ class ImageDetailVC: UITableViewController, SFSafariViewControllerDelegate {
         let url = URL(string: ImageRequester.image_url + "/\(imageResult.id)")
         let svc = SFSafariViewController(url: url!, entersReaderIfAvailable: false)
         svc.delegate = self
+        if #available(iOS 10, *) {
+            svc.preferredBarTintColor = Theme.colors().background_header
+            svc.preferredControlTintColor = Theme.colors().labelText
+        }
         self.present(svc, animated: true, completion: nil)
     }
     
@@ -225,12 +245,21 @@ class ImageDetailVC: UITableViewController, SFSafariViewControllerDelegate {
             return nil
         }
     }
+    
+    
 }
 
 class ImageDetailVCTextCell: UITableViewCell {
     
     @IBOutlet weak var mainTextView: UITextView!
     
+}
+
+extension UITableViewCell {
+    
+    func formatTheme() {
+        backgroundColor = Theme.colors().background
+    }
     
 }
 

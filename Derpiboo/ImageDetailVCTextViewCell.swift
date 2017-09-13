@@ -14,10 +14,17 @@ class ImageDetailVCTextViewCell: UITableViewCell {
     
     
     
+    @IBOutlet weak var bkgdView: UIView!
     @IBOutlet weak var textView: UITextView!
     
     func setupLayout() {
         MarkdownParser.shared.link.color = .blue
+        
+        //BkgdView
+        bkgdView.backgroundColor = Theme.colors().background2
+        
+        bkgdView.layer.cornerRadius = 10
+        bkgdView.layer.masksToBounds = true
     }
     
     func setupContent(dataSource: ImageResult) {

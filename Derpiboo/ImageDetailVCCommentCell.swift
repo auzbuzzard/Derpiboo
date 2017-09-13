@@ -12,6 +12,7 @@ class ImageDetailVCCommentCell: UITableViewCell {
     
     static let storyboardID = "imageDetailVCCommentCell"
 
+    @IBOutlet weak var bkgdView: UIView!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var headerLabel: UILabel!
     @IBOutlet weak var mainTextView: UITextView!
@@ -22,6 +23,12 @@ class ImageDetailVCCommentCell: UITableViewCell {
     }
     
     func setupLayout() {
+        //BkgdView
+        bkgdView.backgroundColor = Theme.colors().background2
+        
+        bkgdView.layer.cornerRadius = 10
+        bkgdView.layer.masksToBounds = true
+        
         mainTextView.textColor = Theme.colors().labelText
     }
     

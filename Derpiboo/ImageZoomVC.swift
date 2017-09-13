@@ -45,15 +45,21 @@ class ImageZoomVC: UIViewController {
         loadExtraMetadata()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        view.layoutSubviews()
+    }
+    
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
         adjustPadding()
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        coordinator.notifyWhenInteractionEnds({ context in
+        super.viewWillTransition(to: size, with: coordinator)
+        /*coordinator.notifyWhenInteractionEnds({ context in
             //self.view.invalidateIntrinsicContentSize()
             self.mainScrollView.contentSize = self.mainImageView.frame.size
-        })
+        })*/
+        view.layoutSubviews()
     }
     
     override func viewWillLayoutSubviews() {

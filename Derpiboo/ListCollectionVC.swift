@@ -53,6 +53,12 @@ class ListCollectionVC: UICollectionViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        //print("rotating VC")
+        collectionView?.collectionViewLayout.invalidateLayout()
+    }
+    
     // Setup UI
     
     private func setupRefreshControl() {
@@ -170,6 +176,12 @@ class ListCollectionVC: UICollectionViewController {
         return cell
     }
     
+    /*override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let cell = cell as? ListCollectionVCMainCell {
+            cell.animateImage()
+        }
+    }*/
+    
     // Mark: - Scroll View
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
@@ -229,13 +241,25 @@ extension ListCollectionVC: UICollectionViewDelegateFlowLayout {
         let imageWidth = itemMetadata.width
         let correctedImageHeight = width / CGFloat(imageWidth) * CGFloat(imageHeight)
         
+        // If the image is too long, shrink it
         
-        let height = /*60 + 50 +*/ correctedImageHeight
+        let ratio = correctedImageHeight / width
+        let height: CGFloat = {
+            if ratio > 3 {
+                return correctedImageHeight * (sqrt(1 / ratio))
+            } else {
+                return correctedImageHeight
+            }
+        }()
         return CGSize(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 1000
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 16, left: 0, bottom: 0, right: 0)
     }
 }
 
