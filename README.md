@@ -3,7 +3,7 @@ An iOS app project for derpibooru.org written by an amateur programmer.
 
 
 ## What's this?
-Just a random project of mine. We all love ponies but it's hard to view or search for pictures of them when we're on our phone. There is an Android app for Derpibooru, but to my knowledge there isn't one for iOS. So here it is.
+Just a random project of mine. We all love ponies but it's hard to view or search for pictures of them when we're on our phone. There is an Android app for Derpibooru (which is now defunct), but to my knowledge there isn't one for iOS. So here it is.
 
 ## What does it do?
 It's a Derpibooru client. It basically pulls images from the site and display it with a nice UI in a native app.
