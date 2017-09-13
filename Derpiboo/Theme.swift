@@ -104,6 +104,9 @@ enum Colors: Int {
             return UIColor(red: 176/255, green: 153/255, blue: 211/255, alpha: 1) //#b099dd
         }
     }
+    
+    // Tags
+    
 }
 
 struct Theme {
@@ -112,8 +115,10 @@ struct Theme {
     }
     
     static func apply(Theme theme: Colors) {
-        let color = colors().background_header.withAlphaComponent(0.98)
-        let imageColor = UIImage(color: color)
+        let background_header_color = colors().background_header.withAlphaComponent(0.98)
+        let background_header_imageColor = UIImage(color: background_header_color)
+        let background_color = colors().background.withAlphaComponent(0.98)
+        let background_imageColor = UIImage(color: background_color)
         
         if theme == .dark {
             UINavigationBar.appearance().barStyle = UIBarStyle.black
@@ -124,16 +129,16 @@ struct Theme {
         UIApplication.shared.statusBarView?.backgroundColor = colors().background_header
         
         // Tab Bar
-        UITabBar.appearance().backgroundImage = imageColor
+        UITabBar.appearance().backgroundImage = background_imageColor
         //UITabBar.appearance().barTintColor = theme.background_header
-        UITabBar.appearance().tintColor = theme.labelText
+        UITabBar.appearance().tintColor = theme.labelLink
             // Remove top gradient line
         UITabBar.appearance().layer.borderWidth = 0.0
         UITabBar.appearance().clipsToBounds = true
         UITabBar.appearance().tintColor = colors().labelLink
         
         // Nav Bar
-        UINavigationBar.appearance().setBackgroundImage(imageColor, for: .default)
+        UINavigationBar.appearance().setBackgroundImage(background_header_imageColor, for: .default)
         //UINavigationBar.appearance().barTintColor = theme.background_header
         UINavigationBar.appearance().tintColor = theme.labelText
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : Theme.colors().labelText]

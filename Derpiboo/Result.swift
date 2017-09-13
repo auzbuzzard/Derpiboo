@@ -141,6 +141,16 @@ struct TagResult: ResultItem {
         let implied_tag_ids: [Int]?
         let category: String?
     }
+    
+    static func getTag(for id: String) -> Promise<TagResult> {
+        return Cache.tag.getTag(for: id).recover { error -> Promise<TagResult> in
+            if case TagCache.CacheError.noTagInStore(_) = error {
+                return TagRequester().downloadTag(for: id)
+            } else {
+                return Promise<TagResult>(error: error)
+            }
+        }
+    }
 }
 
 struct CommentResult: ResultItemInt {

@@ -12,10 +12,12 @@ class ImageDetailVCTextViewCell: UITableViewCell {
     
     static let storyboardID = "imageDetailVCTextViewCell"
     
+    
+    
     @IBOutlet weak var textView: UITextView!
     
     func setupLayout() {
-        
+        MarkdownParser.shared.link.color = .blue
     }
     
     func setupContent(dataSource: ImageResult) {
@@ -24,9 +26,7 @@ class ImageDetailVCTextViewCell: UITableViewCell {
     }
     
     private func attributedString(from string: String) -> NSAttributedString {
-        return NSAttributedString(string: string, attributes: [
-            NSForegroundColorAttributeName : Theme.colors().labelText
-            ])
+        return MarkdownParser.shared.parse(string)
     }
 
 }

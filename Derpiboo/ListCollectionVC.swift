@@ -217,7 +217,7 @@ extension ListCollectionVC: UINavigationControllerDelegate {
 extension ListCollectionVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width: CGFloat = {
-            var w = view.window?.bounds.size.width ?? 375
+            var w = (view.window?.bounds.size.width ?? 375) - 30
             if w > 480 { w = 480 }
             return w
         }()
@@ -230,7 +230,7 @@ extension ListCollectionVC: UICollectionViewDelegateFlowLayout {
         let correctedImageHeight = width / CGFloat(imageWidth) * CGFloat(imageHeight)
         
         
-        let height = 60 + 50 + correctedImageHeight
+        let height = /*60 + 50 +*/ correctedImageHeight
         return CGSize(width: width, height: height)
     }
     

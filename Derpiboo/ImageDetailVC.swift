@@ -18,7 +18,8 @@ class ImageDetailVC: UITableViewController, SFSafariViewControllerDelegate {
     
     var imageResult: ImageResult!
     var comments: [CommentResult]?
-
+    
+    // TODO: - Screen rotation breaks tag collection row height
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -63,6 +64,7 @@ class ImageDetailVC: UITableViewController, SFSafariViewControllerDelegate {
         switch section {
         case .uploader:
             let cell = tableView.dequeueReusableCell(withIdentifier: defaultBasicCell, for: indexPath)
+            cell.selectionStyle = .none
             cell.backgroundColor = Theme.colors().background
             cell.textLabel?.text = imageResult.metadata.uploader
             return cell
@@ -71,27 +73,24 @@ class ImageDetailVC: UITableViewController, SFSafariViewControllerDelegate {
             cell.backgroundColor = Theme.colors().background
             cell.setupLayout()
             cell.setupContent(dataSource: imageResult)
+            cell.backgroundColor = Theme.colors().background
             return cell
         case .tag:
-            
             let cell = tableView.dequeueReusableCell(withIdentifier: ImageDetailVCTagTableCell.storyboardID, for: indexPath) as! ImageDetailVCTagTableCell
-            //cell.bounds = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 10000) // Forcing the tableview cell to go over so that autolayout will work
             cell.setupLayout(tableView: tableView)
             cell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
-            /*
-            let cell = tableView.dequeueReusableCell(withIdentifier: ImageDetailVCTagsTextViewCell.storyboardID, for: indexPath) as! ImageDetailVCTagsTextViewCell
-            cell.setupLayout()
-            cell.setupContent(imageResult: imageResult)
-            */
+            cell.backgroundColor = Theme.colors().background
             return cell
         case .source:
             let cell = tableView.dequeueReusableCell(withIdentifier: defaultBasicCell, for: indexPath)
-            let text = imageResult.metadata.sourse_url != "" ? imageResult.metadata.sourse_url : "(no source provided)"
+            cell.selectionStyle = .none
+            let text = imageResult.metadata.source_url != "" ? imageResult.metadata.source_url : "(no source provided)"
             cell.backgroundColor = Theme.colors().background
             cell.textLabel?.text = text
             return cell
         case .favoraters:
             let cell = tableView.dequeueReusableCell(withIdentifier: defaultBasicCell, for: indexPath)
+            cell.selectionStyle = .none
             cell.backgroundColor = Theme.colors().background
             cell.textLabel?.text = "\(imageResult.metadata.faves) \(imageResult.metadata.faves == 1 ? "pony" : "ponies")"
             return cell
@@ -105,17 +104,32 @@ class ImageDetailVC: UITableViewController, SFSafariViewControllerDelegate {
         }
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let section = sectionForIndex(section) else { return "" }
-        switch section {
-        case .uploader: return "Uploaded by"
-        case .uploader_description: return "Uploader Descriptions"
-        case .tag: return "Tags"
-        case .source: return "Source"
-        case .favoraters: return "Favorited by"
-        case.comments: return "Comments (\(imageResult.metadata.comment_count))"
+    // TODO: - Make it compatible with iPhone X, currently header view is not using autolayout
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 44))
+        let label = UILabel(frame: CGRect(x: 8, y: 0, width: tableView.frame.size.width - 8, height: 32))
+        label.font = UIFont.systemFont(ofSize: 26, weight: UIFontWeightMedium)
+        label.textColor = Theme.colors().labelText
+        
+        if let section = sectionForIndex(section) {
+            switch section {
+            case .uploader: label.text = "Uploaded by"
+            case .uploader_description: label.text = "Uploader Descriptions"
+            case .tag: label.text = "Tags"
+            case .source: label.text = "Source"
+            case .favoraters: label.text = "Favorited by"
+            case.comments: label.text = "Comments (\(imageResult.metadata.comment_count))"
+            }
+        } else {
+            label.text = ""
         }
+        
+        view.addSubview(label)
+        
+        return view
     }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 44 }
     
     // Mark: - Handling Actions
     
@@ -135,14 +149,18 @@ class ImageDetailVC: UITableViewController, SFSafariViewControllerDelegate {
         guard let section = sectionForIndex(indexPath.section) else { return }
         switch section {
         case .uploader:
-            let url = URL(string: ImageRequester.image_url + "/\(imageResult.metadata.uploader)")
+            guard let uploader_id = imageResult.metadata.uploader_id else {
+                tableView.deselectRow(at: indexPath, animated: true)
+                break
+            }
+            let url = URL(string: Requester.base_url + "/profiles/\(uploader_id)")
             let svc = SFSafariViewController(url: url!, entersReaderIfAvailable: false)
             svc.delegate = self
             self.present(svc, animated: true, completion: nil)
         case .uploader_description: return
         case .tag: return
         case .source:
-            let url = URL(string: imageResult.metadata.sourse_url)
+            let url = URL(string: imageResult.metadata.source_url)
             let svc = SFSafariViewController(url: url!, entersReaderIfAvailable: false)
             svc.delegate = self
             self.present(svc, animated: true, completion: nil)
@@ -175,10 +193,7 @@ class ImageDetailVC: UITableViewController, SFSafariViewControllerDelegate {
     // Mark: - Private Methods
     
     private func loadComments() {
-        print("Now loading comments")
-        
         CommentRequester().downloadComments(for: imageResult.id).then { result -> Void in
-            print("dl completed: Count: \(result.count)")
             self.comments = result
             }.then { () -> Void in
                 self.tableView.reloadSections(IndexSet(integer: self.sectionIndex(for: .comments)!), with: .automatic)

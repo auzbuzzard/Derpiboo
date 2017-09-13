@@ -30,19 +30,9 @@ class ListCollectionVCMainCell: UICollectionViewCell {
     
     var currentIndexPath: IndexPath!
     
-    @IBOutlet weak var titleView: UIView!
-    
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var titleImage: UIImageView!
-    @IBOutlet weak var titleSubheading: UILabel!
-    
-    @IBOutlet weak var mainImage: UIImageView!
-    
-    @IBOutlet weak var footerView: UIView!
-    
-    @IBOutlet weak var footerUpvoteLabel: UILabel!
-    @IBOutlet weak var footerDownvoteLabel: UILabel!
-    @IBOutlet weak var footerFavLabel: UILabel!
+    @IBOutlet weak var titleLabelBkgdView: UIView!
+    @IBOutlet weak var mainImageView: UIImageView!
     
     lazy var label = UILabel()
     lazy var fileTypeWarningView = UIImageView()
@@ -51,52 +41,51 @@ class ListCollectionVCMainCell: UICollectionViewCell {
         super.prepareForReuse()
         label.removeFromSuperview()
         fileTypeWarningView.removeFromSuperview()
-        mainImage.image = nil
-        mainImage.prepareForReuse()
-        titleImage.image = nil
+        mainImageView.image = nil
+        mainImageView.prepareForReuse()
     }
     
     func setupImageViewGesture(receiver: ListCollectionVC) {
         let singleTap = UITapGestureRecognizer(target: receiver, action: #selector(receiver.segue(isTappedBy:)))
         singleTap.numberOfTapsRequired = 1
-        mainImage.addGestureRecognizer(singleTap)
-        mainImage.isUserInteractionEnabled = true
+        mainImageView.addGestureRecognizer(singleTap)
+        mainImageView.isUserInteractionEnabled = true
     }
     
     // Mark: - Actual filling in the data and layout
     
     func setupCellLayout(windowWidth: CGFloat) {
-        titleImage.layer.cornerRadius = 5
-        titleImage.layer.masksToBounds = true
         
-        //        contentView.layer.cornerRadius = bounds.size.width < windowWidth ? 10 : 10
-        //        contentView.layer.masksToBounds = true
-        //
-        //        layer.shadowColor = UIColor.black.cgColor
-        //        layer.backgroundColor = UIColor.clear.cgColor
-        //        layer.shadowOpacity = 0.25
-        //        layer.shadowOffset = CGSize.zero
-        //        layer.shadowRadius = 5
-        //        layer.masksToBounds = false
-        //        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: contentView.layer.cornerRadius).cgPath
+        contentView.layer.cornerRadius = bounds.size.width < windowWidth ? 10 : 10
+        contentView.layer.masksToBounds = true
         
+        layer.shadowColor = UIColor.black.cgColor
+        layer.backgroundColor = UIColor.clear.cgColor
+        layer.shadowOpacity = 0.25
+        layer.shadowOffset = CGSize.zero
+        layer.shadowRadius = 5
+        layer.masksToBounds = false
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: contentView.layer.cornerRadius).cgPath
+        
+        titleLabel.textColor = Theme.colors().labelText
+        titleLabelBkgdView.layer.masksToBounds = true
+        titleLabelBkgdView.layer.cornerRadius = titleLabelBkgdView.frame.size.height / 2
+        titleLabelBkgdView.layer.backgroundColor = Theme.colors().background2.withAlphaComponent(0.75).cgColor
     }
     
     func setCellContents(indexPath: IndexPath, dataSource: ListCollectionVCMainCellDataSource) {
         currentIndexPath = indexPath
         
-        titleView.backgroundColor = Theme.colors().background2
-        footerView.backgroundColor = Theme.colors().background2
-        titleLabel.text = "\(dataSource.artistsName)"
-        titleSubheading.text = "\(dataSource.uploaderName)"
-        footerFavLabel.text = "\(dataSource.favCount)"
-        footerUpvoteLabel.text = "\(dataSource.upvote)"
-        footerDownvoteLabel.text = "\(dataSource.downvote)"
-        titleLabel.textColor = .white
+        let titleString = NSMutableAttributedString()
+        titleString.append(NSAttributedString(string: "⬆︎\(dataSource.upvote)", attributes: [NSForegroundColorAttributeName: Theme.colors().upv]))
+        titleString.append(NSAttributedString(string: " | ", attributes: [NSForegroundColorAttributeName: UIColor.clear]))
+        titleString.append(NSAttributedString(string: "⬇︎\(dataSource.downvote)", attributes: [NSForegroundColorAttributeName: Theme.colors().dnv]))
+        titleString.append(NSAttributedString(string: " | ", attributes: [NSForegroundColorAttributeName: UIColor.clear]))
+        titleString.append(NSAttributedString(string: "♥︎\(dataSource.favCount)", attributes: [NSForegroundColorAttributeName: Theme.colors().fav]))
+        titleLabel.attributedText = titleString
+        
+        //titleLabel.text = "⬆︎\(dataSource.upvote) | ⬇︎\(dataSource.downvote) | ♥︎\(dataSource.favCount)"
         titleLabel.sizeToFit()
-        //titleLabelBkgdView.layer.masksToBounds = true
-        //titleLabelBkgdView.layer.cornerRadius = titleLabelBkgdView.frame.size.height / 2
-        //titleLabelBkgdView.layer.backgroundColor = ratingColor.cgColor
         
         //check if image is unhandled filetype
         if dataSource.fileType == .webm || dataSource.fileType == .swf {
@@ -104,10 +93,10 @@ class ListCollectionVCMainCell: UICollectionViewCell {
             contentView.addSubview(fileTypeWarningView)
             fileTypeWarningView.translatesAutoresizingMaskIntoConstraints = false
             contentView.addConstraints([
-                NSLayoutConstraint(item: fileTypeWarningView, attribute: .centerX, relatedBy: .equal, toItem: mainImage, attribute: .centerX, multiplier: 1, constant: 0),
-                NSLayoutConstraint(item: fileTypeWarningView, attribute: .centerY, relatedBy: .equal, toItem: mainImage, attribute: .centerY, multiplier: 1, constant: 0),
-                NSLayoutConstraint(item: fileTypeWarningView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: mainImage.bounds.width * 0.3),
-                NSLayoutConstraint(item: fileTypeWarningView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: mainImage.bounds.width * 0.3)
+                NSLayoutConstraint(item: fileTypeWarningView, attribute: .centerX, relatedBy: .equal, toItem: mainImageView, attribute: .centerX, multiplier: 1, constant: 0),
+                NSLayoutConstraint(item: fileTypeWarningView, attribute: .centerY, relatedBy: .equal, toItem: mainImageView, attribute: .centerY, multiplier: 1, constant: 0),
+                NSLayoutConstraint(item: fileTypeWarningView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: mainImageView.bounds.width * 0.3),
+                NSLayoutConstraint(item: fileTypeWarningView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: mainImageView.bounds.width * 0.3)
                 ])
             //webmIconView.bounds.size = CGSize(width: mainImage.bounds.width * 0.3, height: mainImage.bounds.width * 0.3)
 
@@ -125,17 +114,16 @@ class ListCollectionVCMainCell: UICollectionViewCell {
         }
         
         setMainImage(indexPath: indexPath, dataSource: dataSource)
-        titleImage.image = #imageLiteral(resourceName: "no_avatar")
     }
     
     func setMainImage(indexPath: IndexPath, dataSource: ListCollectionVCMainCellDataSource) {
         _ = dataSource.mainImageData.then { data -> Void in
             if indexPath == self.currentIndexPath {
                 if dataSource.imageType == .gif {
-                    self.mainImage.animate(withGIFData: data)
+                    self.mainImageView.animate(withGIFData: data)
                 } else {
                     guard let image = UIImage(data: data) else { print("Image at \(indexPath) could not be casted into UIImage."); return }
-                    self.mainImage.image = image
+                    self.mainImageView.image = image
                 }
             }
         }

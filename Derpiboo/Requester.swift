@@ -123,14 +123,18 @@ class ImageRequester: Requester {
     
 }
 
-class TagRequester: Requester {
+class TagRequester: Requester, UsingTagCache {
     static var tag_url: String { return base_url + "/tags" }
     
     func downloadTag(for id: String) -> Promise<TagResult> {
         let url = TagRequester.tag_url + "/\(id).json"
         
-        return Network.get(url: url).then(on: .global(qos: .userInitiated)) { data -> Promise<TagResult> in
-            return TagParser.parse(data: data)
+        return Network.get(url: url).then(on: .global(qos: .userInitiated)) { data in
+            TagParser.parse(data: data)
+            }.then { result -> Promise<TagResult> in
+                self.tagCache.setTag(result).then { result }
+            }.then { result -> Promise<TagResult> in
+                return Promise<TagResult>(value: result)
         }
     }
     @available(*, unavailable, message: "DB don't have a way to return tag search in json yet.")

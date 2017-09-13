@@ -31,12 +31,12 @@ protocol UsingImageResultCache {
 extension UsingImageResultCache {
     var imageResultCache: ImageResultCache { return ImageResultCache.shared }
 }
-/*protocol UsingTagCache {
+protocol UsingTagCache {
     var tagCache: TagCache { get }
 }
 extension UsingTagCache {
     var tagCache: TagCache { return TagCache.shared }
-}*/
+}
 
 // For internal class conformance
 protocol CacheClass { }
@@ -46,7 +46,7 @@ class Cache {
     static var image: ImageCache { return ImageCache.shared }
     static var imageResult: ImageResultCache { return ImageResultCache.shared }
     static var user: UserCache { return UserCache.shared }
-    //static var tag: TagCache { return TagCache.shared }
+    static var tag: TagCache { return TagCache.shared }
 }
 
 class ImageCache: CacheClass {
@@ -135,6 +135,33 @@ class UserCache: CacheClass {
     
     enum CacheError: Error {
         case noUserInStore(id: Int)
+    }
+}
+
+class TagCache: CacheClass {
+    fileprivate static let shared = TagCache()
+    private init() { }
+    lazy var tags = Dictionary<String, TagResult>()
+    
+    func getTag(for id: String) -> Promise<TagResult> {
+        return Promise { fulfill, reject in
+            if let tag = tags[id] {
+                fulfill(tag)
+            } else {
+                reject(CacheError.noTagInStore(id: id))
+            }
+        }
+    }
+    
+    func setTag(_ tag: TagResult) -> Promise<Void> {
+        return Promise { fulfill, reject in
+            tags.updateValue(tag, forKey: tag.id)
+            fulfill()
+        }
+    }
+    
+    enum CacheError: Error {
+        case noTagInStore(id: String)
     }
 }
 

@@ -10,20 +10,25 @@ import UIKit
 import PromiseKit
 import DGCollectionViewLeftAlignFlowLayout
 
+fileprivate let useTagId = false
+
 /// Class that defines the collectionview cell within the tag section of the ImageDetailVC
 class ImageDetailVCTagCollectionCell: UICollectionViewCell {
     static let storyboardID = "imageDetailVCTagCollectionCell"
     
     @IBOutlet weak var label: UILabel!
     
-    func setupCellContents(tag: String, result: ImageResult, onComplete: @escaping () -> Void) {
-        label.text = tag
+    func setupCellContents(tag: TagResult) {
+        label.text = tag.metadata.name
         label.backgroundColor = Theme.colors().highlight2
         self.label.sizeToFit()
-        //contentView.setNeedsLayout()
         contentView.layoutIfNeeded()
-        onComplete()
-        
+    }
+    func setupCellContents(tag: String, tagResult: TagResult? = nil) {
+        label.text = tag
+        label.backgroundColor =  Theme.colors().highlight2
+        self.label.sizeToFit()
+        contentView.layoutIfNeeded()
     }
     func setupCellLayout() {
         contentView.layer.cornerRadius = bounds.size.height / 2
@@ -33,27 +38,49 @@ class ImageDetailVCTagCollectionCell: UICollectionViewCell {
 
 
 // MARK: - Extension to ImageDetailVC that allows it to control the collectionview
-extension ImageDetailVC: UICollectionViewDelegate, UICollectionViewDataSource {
+extension ImageDetailVC: UICollectionViewDelegate, UICollectionViewDataSource, UsingTagCache {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imageResult.metadata.tags.components(separatedBy: ",").count
+        return useTagId ? imageResult.metadata.tag_ids.count : imageResult.metadata.tags.components(separatedBy: ",").count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageDetailVCTagCollectionCell.storyboardID, for: indexPath) as! ImageDetailVCTagCollectionCell
         
-        let tags = imageResult.metadata.tags.components(separatedBy: ",").map { $0.trimmingCharacters(in: .whitespaces) }
-        cell.setupCellLayout()
-        cell.setupCellContents(tag: tags[indexPath.row], result: imageResult) {
+        if useTagId {
+            guard  indexPath.row < imageResult.metadata.tag_ids.count else { return cell }
+            let tagId = imageResult.metadata.tag_ids[indexPath.row]
+            TagResult.getTag(for: tagId).then { result -> Void in
+                //print("got result for \(result.metadata.name)")
+                cell.setupCellLayout()
+                cell.setupCellContents(tag: result)
+                }.catch { error in print(error) }
+        } else {
+            let tags = imageResult.metadata.tags.components(separatedBy: ",")
+            guard indexPath.row < tags.count else { return cell }
+            cell.setupCellLayout()
+            cell.setupCellContents(tag: tags[indexPath.row])
         }
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let tag = imageResult.metadata.tags.components(separatedBy: ",")[indexPath.row].trimmingCharacters(in: .whitespaces)
-        #if DEBUG
-            print("Tag tapped: \(tag)")
-        #endif
-        open(with: tag)
+        if useTagId {
+            guard imageResult.metadata.tag_ids.count < indexPath.row else { return }
+            let tagId = imageResult.metadata.tag_ids[indexPath.row]
+            TagResult.getTag(for: tagId).then { result -> Void in
+                #if DEBUG
+                    print("Tag tapped: \(result.metadata.name)")
+                #endif
+                self.open(with: result.metadata.slug)
+                }.catch { error in print(error) }
+        } else {
+            let tags = imageResult.metadata.tags.components(separatedBy: ",")
+            guard indexPath.row < tags.count else { return }
+            #if DEBUG
+                print("Tag tapped: \(tags[indexPath.row])")
+            #endif
+            self.open(with: tags[indexPath.row])
+        }
     }
 }
 
@@ -63,7 +90,6 @@ extension ImageDetailVC: UICollectionViewDelegateFlowLayout {
         let sizeLabel = UILabel()
         sizeLabel.text = imageResult.metadata.tags.components(separatedBy: ",")[indexPath.row]
         sizeLabel.sizeToFit()
-        
         return CGSize(width: sizeLabel.bounds.width + 16, height: 24)
     }
     

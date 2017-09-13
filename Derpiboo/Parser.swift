@@ -90,7 +90,7 @@ class ImageParser: Parser, ParserForItem {
         let file_name = item["file_name"] as? String ?? ""
         let description = item["description"] as? String ?? ""
         let uploader = item["uploader"] as? String ?? ""
-        let uploader_id = item["uploader_id"] as? String ?? ""
+        let uploader_id = item["uploader_id"] as? String
         
         let image = item["image"] as? String ?? ""
         
@@ -113,7 +113,7 @@ class ImageParser: Parser, ParserForItem {
         
         let sha512_hash = item["sha512_hash"] as? String ?? ""
         let orig_sha512_hash = item["orig_sha512_hash"] as? String ?? ""
-        let sourse_url = item["sourse_url"] as? String ?? ""
+        let source_url = item["source_url"] as? String ?? ""
         
         let representations = item["representations"] as? NSDictionary
         let thumb_tiny = representations?["thumb_tiny"] as? String ?? ""
@@ -130,7 +130,7 @@ class ImageParser: Parser, ParserForItem {
         let is_rendered = item["is_rendered"] as? Bool ?? false
         let is_optimized = item["is_optimized"] as? Bool ?? false
         
-        let metadata = ImageResult.Metadata(id: id, created_at: created_at, updated_at: updated_at, duplicate_reports: duplicate_reports, first_seen_at: first_seen_at, file_name: file_name, description: description, uploader_id: uploader_id, uploader: uploader, image: image, score: score, upvotes: upvotes, downvotes: downvotes, faves: faves, comment_count: comment_count, tags: tags, tag_ids: tag_ids, width: width, height: height, aspect_ratio: aspect_ratio, original_format: original_format, mime_type: mime_type, sha512_hash: sha512_hash, orig_sha512_hash: orig_sha512_hash, sourse_url: sourse_url, representations: r, is_rendered: is_rendered, is_optimized: is_optimized)
+        let metadata = ImageResult.Metadata(id: id, created_at: created_at, updated_at: updated_at, duplicate_reports: duplicate_reports, first_seen_at: first_seen_at, file_name: file_name, description: description, uploader_id: uploader_id, uploader: uploader, image: image, score: score, upvotes: upvotes, downvotes: downvotes, faves: faves, comment_count: comment_count, tags: tags, tag_ids: tag_ids, width: width, height: height, aspect_ratio: aspect_ratio, original_format: original_format, mime_type: mime_type, sha512_hash: sha512_hash, orig_sha512_hash: orig_sha512_hash, source_url: source_url, representations: r, is_rendered: is_rendered, is_optimized: is_optimized)
         
         return Promise { fulfill, _ in
             fulfill(ImageResult(metadata: metadata))
@@ -173,8 +173,8 @@ class TagParser: Parser, ParserForItem {
     static func parse(data: Data) -> Promise<TagResult> {
         return Promise { fulfill, reject in
             do {
-                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary {
-                    parse(dictionary: json).then { result -> Void in
+                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary, let tag = json["tag"] as? NSDictionary {
+                    parse(dictionary: tag).then { result -> Void in
                         fulfill(result)
                         }.catch { error in
                             reject(error)

@@ -41,6 +41,8 @@ class ListCollectionFilterVC: UIViewController {
         applyButton.tintColor = Theme.colors().labelText
         applyButton.backgroundColor = Theme.colors().background2
         sortOrderSC.tintColor = Theme.colors().labelText
+        
+        popoverPresentationController?.backgroundColor = view.backgroundColor
     }
     
     func setupContent() {

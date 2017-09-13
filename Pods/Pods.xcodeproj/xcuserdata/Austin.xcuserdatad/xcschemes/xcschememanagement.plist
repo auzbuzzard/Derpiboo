@@ -34,6 +34,11 @@
 			<key>orderHint</key>
 			<integer>13</integer>
 		</dict>
+		<key>MarkdownKit.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>16</integer>
+		</dict>
 		<key>PiedPiper.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -122,6 +127,11 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>416B388906DEFAC81F0676F277AC9058</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>4E3A48611E1C33617942FF712764DDFA</key>
 		<dict>
 			<key>primary</key>
@@ -132,7 +142,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>5E85C6DDE8499A020E9B6D7BD6921938</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>67764DCEF2307142F89648FA582C0FC1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6AEF3B1F9A2ACBFB34E9142C9C76CC62</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -162,12 +182,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>9E5D93733F00DBAFF03EF4EF70FFC9A9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>B078DC03014007DE0D9C9C94121A1C78</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>B98E4579B9E676C7253003C207407BD7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BED5273E76A3DBEF7D777814357F2EDA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
