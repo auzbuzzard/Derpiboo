@@ -17,7 +17,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BjH-PY-42L">
-                    <rect key="frame" x="8" y="627.5" width="359" height="31.5"/>
+                    <rect key="frame" x="16" y="635.5" width="343" height="31.5"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="26"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -25,10 +25,10 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="BjH-PY-42L" firstAttribute="top" relation="greaterThanOrEqual" secondItem="7qS-bM-mBH" secondAttribute="top" constant="8" id="FhW-dU-tu8"/>
-                <constraint firstItem="7qS-bM-mBH" firstAttribute="trailing" secondItem="BjH-PY-42L" secondAttribute="trailing" constant="8" id="k1J-Yn-5OO"/>
-                <constraint firstItem="7qS-bM-mBH" firstAttribute="bottom" secondItem="BjH-PY-42L" secondAttribute="bottom" constant="8" id="pb7-H8-8VN"/>
-                <constraint firstItem="BjH-PY-42L" firstAttribute="leading" secondItem="7qS-bM-mBH" secondAttribute="leading" constant="8" id="yfy-uc-UVO"/>
+                <constraint firstItem="BjH-PY-42L" firstAttribute="top" relation="greaterThanOrEqual" secondItem="7qS-bM-mBH" secondAttribute="top" id="FhW-dU-tu8"/>
+                <constraint firstItem="7qS-bM-mBH" firstAttribute="trailing" secondItem="BjH-PY-42L" secondAttribute="trailing" constant="16" id="k1J-Yn-5OO"/>
+                <constraint firstItem="7qS-bM-mBH" firstAttribute="bottom" secondItem="BjH-PY-42L" secondAttribute="bottom" id="pb7-H8-8VN"/>
+                <constraint firstItem="BjH-PY-42L" firstAttribute="leading" secondItem="7qS-bM-mBH" secondAttribute="leading" constant="16" id="yfy-uc-UVO"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="7qS-bM-mBH"/>
             <connections>

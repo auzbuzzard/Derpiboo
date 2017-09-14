@@ -229,7 +229,7 @@ extension ListCollectionVC: UINavigationControllerDelegate {
 extension ListCollectionVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width: CGFloat = {
-            var w = (view.window?.bounds.size.width ?? 375) - 30
+            var w = (view.window?.bounds.size.width ?? 375) - 32
             if w > 480 { w = 480 }
             return w
         }()
@@ -259,7 +259,7 @@ extension ListCollectionVC: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 16, left: 0, bottom: 0, right: 0)
+        return UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
     }
 }
 

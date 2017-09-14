@@ -43,7 +43,7 @@ class ImageDetailVCTagTableCell: UITableViewCell {
         //collectionView.layoutIfNeeded()
         let layoutSize = collectionView.collectionViewLayout.collectionViewContentSize
         
-        return CGSize(width: layoutSize.width + 48, height: layoutSize.height + 48)
+        return CGSize(width: layoutSize.width + 48, height: layoutSize.height + 32)
     }
     
     

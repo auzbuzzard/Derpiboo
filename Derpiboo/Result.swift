@@ -76,10 +76,28 @@ class UserResult: Result {
     var metadata: Metadata
     
     struct Metadata {
-        let name: String
         let id: Int
-        let level: Int
-        let avatar_id: Int?
+        let name: String
+        let slug: String
+        let role: String
+        let description: String?
+        let avatar_url: String?
+        let created_at: String
+        let comment_count: Int
+        let uploads_count: Int
+        let post_count: Int
+        let topic_count: Int
+        
+        let links: [Any]
+        let awards: [MetadataAwards]
+    }
+    
+    struct MetadataAwards {
+        let image_url: String
+        let title: String
+        let id: Int
+        let label: String
+        let awarded_on: String
     }
     
     init(metadata: Metadata) {

@@ -114,7 +114,7 @@ class ImageDetailVC: UITableViewController, SFSafariViewControllerDelegate {
             cell.setupLayout()
             
             guard let count = comments?.count, indexPath.row < count else { return cell }
-            cell.setupContent(comment: comments?[count - indexPath.row - 1])
+            cell.setupContent(comment: comments?[count - indexPath.row - 1], indexPath: indexPath)
             return cell
         }
     }

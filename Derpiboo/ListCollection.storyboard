@@ -31,7 +31,7 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="mainCell" id="SsQ-U3-JzQ" customClass="ListCollectionVCMainCell" customModule="e926" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="mainCell" id="SsQ-U3-JzQ" customClass="ListCollectionVCMainCell" customModule="Derpiboo" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="380"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -44,7 +44,7 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4nY-6g-Orz">
                                             <rect key="frame" x="291" y="328" width="72" height="40"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gTj-cu-s5o">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gTj-cu-s5o">
                                                     <rect key="frame" x="16" y="8" width="40" height="24"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                                     <nil key="textColor"/>
@@ -447,10 +447,10 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oPO-gW-YRC">
-                                            <rect key="frame" x="16" y="16" width="343" height="32"/>
+                                            <rect key="frame" x="16" y="8" width="343" height="48"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PG3-tN-tlq">
-                                                    <rect key="frame" x="8" y="8" width="327" height="16"/>
+                                                    <rect key="frame" x="8" y="8" width="327" height="32"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -466,8 +466,8 @@
                                         </view>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="oPO-gW-YRC" firstAttribute="top" secondItem="Nmi-iw-Agt" secondAttribute="top" constant="16" id="H3y-Os-ZtP"/>
-                                        <constraint firstAttribute="bottom" secondItem="oPO-gW-YRC" secondAttribute="bottom" constant="16" id="nyi-yI-RsK"/>
+                                        <constraint firstItem="oPO-gW-YRC" firstAttribute="top" secondItem="Nmi-iw-Agt" secondAttribute="top" constant="8" id="H3y-Os-ZtP"/>
+                                        <constraint firstAttribute="bottom" secondItem="oPO-gW-YRC" secondAttribute="bottom" constant="8" id="nyi-yI-RsK"/>
                                         <constraint firstAttribute="trailing" secondItem="oPO-gW-YRC" secondAttribute="trailing" constant="16" id="pC1-JA-DcP"/>
                                         <constraint firstItem="oPO-gW-YRC" firstAttribute="leading" secondItem="Nmi-iw-Agt" secondAttribute="leading" constant="16" id="xIK-Jf-d2x"/>
                                     </constraints>
@@ -485,10 +485,10 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lRI-vy-H9m">
-                                            <rect key="frame" x="16" y="16" width="343" height="128"/>
+                                            <rect key="frame" x="16" y="8" width="343" height="144"/>
                                             <subviews>
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="249" verticalCompressionResistancePriority="1000" scrollEnabled="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="wYL-Sl-7FN">
-                                                    <rect key="frame" x="8" y="8" width="327" height="112"/>
+                                                    <rect key="frame" x="8" y="8" width="327" height="128"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <collectionViewLayout key="collectionViewLayout" id="hWN-jZ-S07" customClass="DGCollectionViewLeftAlignFlowLayout" customModule="DGCollectionViewLeftAlignFlowLayout"/>
                                                     <cells>
@@ -534,9 +534,9 @@
                                         </view>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="lRI-vy-H9m" secondAttribute="bottom" constant="16" id="KbT-Xs-l9N"/>
+                                        <constraint firstAttribute="bottom" secondItem="lRI-vy-H9m" secondAttribute="bottom" constant="8" id="KbT-Xs-l9N"/>
                                         <constraint firstAttribute="trailing" secondItem="lRI-vy-H9m" secondAttribute="trailing" constant="16" id="Ln9-1J-a9n"/>
-                                        <constraint firstItem="lRI-vy-H9m" firstAttribute="top" secondItem="3hU-yg-6b6" secondAttribute="top" constant="16" id="QFL-b4-CsG"/>
+                                        <constraint firstItem="lRI-vy-H9m" firstAttribute="top" secondItem="3hU-yg-6b6" secondAttribute="top" constant="8" id="QFL-b4-CsG"/>
                                         <constraint firstItem="lRI-vy-H9m" firstAttribute="leading" secondItem="3hU-yg-6b6" secondAttribute="leading" constant="16" id="mDi-K0-eh1"/>
                                     </constraints>
                                 </tableViewCellContentView>
@@ -620,7 +620,7 @@
                                     <outlet property="textView" destination="caR-iN-FUp" id="K1X-Zv-flR"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="imageDetailVCCommentCell" rowHeight="160" id="IAa-Gu-7FC" customClass="ImageDetailVCCommentCell" customModule="Derpiboo" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="imageDetailVCCommentCell" rowHeight="160" id="IAa-Gu-7FC" customClass="ImageDetailVCCommentCell" customModule="Derpiboo" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="643.5" width="375" height="160"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IAa-Gu-7FC" id="IuZ-yN-esW">

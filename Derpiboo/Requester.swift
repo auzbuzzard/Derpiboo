@@ -156,41 +156,16 @@ class CommentRequester: Requester {
 }
 
 
-/*
 class UserRequester: Requester {
-    static let user_url = base_url + "/user/index"
-    static let user_show_url = base_url + "/user/show"
-    
-    func getUser(for id: Int, completion: @escaping completion) {
-        let url = UserRequester.user_show_url + "/\(id).json"
-        do {
-            try Network.fetch(url: url, params: nil) { data in
-                DispatchQueue.global().async {
-                    do {
-                        let result = try UserParser.parse(data: data)
-                        completion(result)
-                    } catch {
-                        print("UserRequester get error: \(data) of url: \(url)")
-                    }
-                }
-            }
-        } catch {
-            print("UserRequester Error")
+    func getUser(bySlug slug: String) -> Promise<UserResult> {
+        let url = Requester.base_url + "/profiles/\(slug).json"
+        return Network.get(url: url).then(on: .global(qos: .userInitiated)) { data -> Promise<UserResult> in
+            return UserParser.parse(data: data)
         }
     }
-    
-    func get(userOfId id: Int, searchCache: Bool, completion: @escaping completion) {
-        if searchCache, let user = try? Cache.shared.getUser(id: id) {
-            completion(user)
-            return
-        }
-        
-        get(userOfId: id, completion: completion)
-        
-    }
-    
 }
 
+/*
 class PoolRequester: Requester {
     
 }
