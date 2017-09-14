@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -23,9 +22,7 @@
                         <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AI7-W5-eof">
                             <rect key="frame" x="307" y="7" width="36" height="30"/>
                             <viewLayoutGuide key="safeArea" id="LGn-KU-TDP"/>
-                            <state key="normal" title="Clear">
-                                <color key="titleColor" name="TextLink"/>
-                            </state>
+                            <state key="normal" title="Clear"/>
                             <connections>
                                 <action selector="mainButtonDidClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="MIZ-gy-Mds"/>
                             </connections>
@@ -63,9 +60,4 @@
             <point key="canvasLocation" x="35.5" y="53.5"/>
         </view>
     </objects>
-    <resources>
-        <namedColor name="TextLink">
-            <color red="0.30500000715255737" green="0.57899999618530273" blue="0.85199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-    </resources>
 </document>

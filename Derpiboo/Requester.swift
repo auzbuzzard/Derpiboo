@@ -73,36 +73,19 @@ class UserRequester: Requester {
     }
 }
 
-/*
-class PoolRequester: Requester {
-    
-}
-
-class FilterRequester: Requester {
-    
-    typealias completion = (FilterResult) -> Void
-    
-    static var filter_url: String { get {
-        return base_url + "/filters"
-        } }
-    
-    func get(filterOfId id: Int, completion: @escaping completion) {
-        let url = FilterRequester.filter_url + "/\(id).json"
-        do {
-            try Network.fetch(url: url, params: nil) { data in
-                DispatchQueue.global().async {
-//                    do {
-//                        let result = try UserParser.parse(data: data)
-//                        completion(result)
-//                    } catch {
-//                        print("UserRequester get error: \(data) of url: \(url)")
-//                    }
-                }
-            }
-        } catch {
-            print("UserRequester Error")
+class FilterListRequester: Requester {
+    func downloadLists() -> Promise<FilterListResult> {
+        let url = Requester.base_url + "/filters.json"
+        return Network.get(url: url).then(on: .global(qos: .userInitiated)) { data -> Promise<FilterListResult> in
+            return FilterListParser.parse(data: data)
         }
     }
-    
 }
-*/
+
+
+
+
+
+
+
+

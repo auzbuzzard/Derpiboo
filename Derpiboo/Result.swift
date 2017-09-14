@@ -106,14 +106,20 @@ class UserResult: Result {
     
 }
 
-class FilterResult: Result {
+struct FilterListResult: Result {
+    let system_filters: [FilterResult]
+    let user_filters: [FilterResult]?
+    let search_filters: [FilterResult]
+}
+
+struct FilterResult: ResultItemInt {
     
     var id: Int { get { return metadata.id } }
     var name: String { get { return metadata.name } }
     
     var metadata: Metadata
     
-    struct Metadata {
+    struct Metadata: ResultItemMetadata {
         let id: Int
         let name: String
         let description: String
@@ -123,19 +129,14 @@ class FilterResult: Result {
         let hidden_tags: String
         let hidden_complex: String
         let spoilered_complex: String
-        let isPublic: Bool
+        let `public`: Bool
         let system: Bool
         let user_count: Int
+        let user_id: Int?
     }
     init(metadata: Metadata) {
         self.metadata = metadata
     }
-}
-
-class FilterListResult: Result {
-    lazy var system_filters = [FilterResult]()
-    lazy var user_filters = [FilterResult]()
-    lazy var search_filters = [FilterResult]()
 }
 
 struct TagResult: ResultItem {
@@ -184,6 +185,22 @@ struct CommentResult: ResultItemInt {
         let deleted: Bool
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

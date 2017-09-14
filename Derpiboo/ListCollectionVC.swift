@@ -52,7 +52,7 @@ class ListCollectionVC: UICollectionViewController {
             navigationItem.rightBarButtonItems = nil
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(useE621ModeDidChange), name: Notification.Name.init(rawValue: Preferences.useE621Mode.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(filterDidChange), name: Notification.Name(FilterManager.currentFilterDidChangeName), object: nil)
     }
     
     deinit {
@@ -94,6 +94,7 @@ class ListCollectionVC: UICollectionViewController {
     }
     
     func getNewResultsForStupidSelector() {
+        print("refreshing")
         getNewResult(withTags: nil)
     }
     
@@ -143,7 +144,7 @@ class ListCollectionVC: UICollectionViewController {
     
     // Mark: - Notification Observing
     
-    func useE621ModeDidChange() {
+    func filterDidChange() {
         dataSource?.getResults(asNew: true, withTags: dataSource?.tags, withSorting: nil).then {
             self.collectionView?.reloadData()
             }.catch { error in print(error) }

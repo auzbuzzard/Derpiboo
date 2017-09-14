@@ -172,6 +172,11 @@ class ImageDetailVC: UITableViewController, SFSafariViewControllerDelegate {
             let url = URL(string: Requester.base_url + "/profiles/\(uploader_id)")
             let svc = SFSafariViewController(url: url!, entersReaderIfAvailable: false)
             svc.delegate = self
+            if #available(iOS 10, *) {
+                svc.preferredBarTintColor = Theme.colors().background_header
+                svc.preferredControlTintColor = Theme.colors().labelText
+            }
+            
             self.present(svc, animated: true, completion: nil)
         case .uploader_description: return
         case .tag: return

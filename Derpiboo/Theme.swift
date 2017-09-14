@@ -133,6 +133,7 @@ struct Theme {
         UITabBar.appearance().layer.borderWidth = 0.0
         UITabBar.appearance().clipsToBounds = true
         UITabBar.appearance().tintColor = colors().labelLink
+        UITabBar.appearance().barTintColor = colors().background
         
         // Nav Bar
         //UINavigationBar.appearance().setBackgroundImage(background_header_imageColor, for: .default)
