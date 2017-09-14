@@ -13,11 +13,10 @@ import UIScrollView_InfiniteScroll
 protocol ListCollectionVCDataSource {
     var results: [ImageResult] { get }
     var tags: [String]? { get }
-    var sortBy: ListRequester.SortType { get }
-    var sortOrder: ListRequester.SortOrderType { get }
+    var sortFilter: SortFilter { get }
     
-    func getResults(asNew reset: Bool, withTags tags: [String]?, withSorting: (sortBy: ListRequester.SortType, inOrder: ListRequester.SortOrderType)?) -> Promise<Void>
-    func setSorting(sortBy: ListRequester.SortType, sortOrder: ListRequester.SortOrderType)
+    func getResults(asNew reset: Bool, withTags tags: [String]?, withSorting: SortFilter?) -> Promise<Void>
+    func setSorting(filter: SortFilter)
 }
 
 /// There CollectionViewController class that deals with the vertical scroll view of lists of returned image results.
@@ -45,6 +44,13 @@ class ListCollectionVC: UICollectionViewController {
         setupRefreshControl()
         setupInfiniteScroll()
         navigationController?.delegate = self
+        if #available(iOS 11, *) {
+            navigationController?.navigationBar.prefersLargeTitles = true
+            navigationItem.largeTitleDisplayMode = .always
+        }
+        if isFirstListCollectionVC {
+            navigationItem.rightBarButtonItems = nil
+        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(useE621ModeDidChange), name: Notification.Name.init(rawValue: Preferences.useE621Mode.rawValue), object: nil)
     }
@@ -72,7 +78,7 @@ class ListCollectionVC: UICollectionViewController {
         collectionView?.addInfiniteScroll { [weak self] (scrollView) -> Void in
             // Setup loading when performing infinite scroll
             let lastCount = (self?.dataSource?.results.count)!
-            _ = self?.dataSource?.getResults(asNew: false, withTags: self?.dataSource?.tags, withSorting: (sortBy: self!.dataSource!.sortBy, inOrder: self!.dataSource!.sortOrder)).then { () -> Void in
+            _ = self?.dataSource?.getResults(asNew: false, withTags: self?.dataSource?.tags, withSorting: nil).then { () -> Void in
                 // Update collection view
                 var index = [IndexPath]()
                 for n in lastCount..<(self?.dataSource?.results.count)! {
@@ -92,7 +98,7 @@ class ListCollectionVC: UICollectionViewController {
     }
     
     func getNewResult(withTags tags: [String]? = nil) {
-        _ = dataSource?.getResults(asNew: true, withTags: tags != nil ? tags: dataSource?.tags, withSorting: (sortBy: dataSource!.sortBy, inOrder: dataSource!.sortOrder)).then { () -> Void in
+        _ = dataSource?.getResults(asNew: true, withTags: tags != nil ? tags: dataSource?.tags, withSorting: nil).then { () -> Void in
             self.collectionView?.reloadData()
             /*
             self.collectionView?.performBatchUpdates({
@@ -131,7 +137,7 @@ class ListCollectionVC: UICollectionViewController {
             popoverVC.modalPresentationStyle = .popover
             popoverVC.popoverPresentationController!.delegate = self
             
-            popoverVC.listVC = self
+            popoverVC.delegate = self
         }
     }
     
@@ -217,8 +223,8 @@ class ListCollectionVC: UICollectionViewController {
 extension ListCollectionVC: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if viewController is ListCollectionVC {
-            navigationController.setNavigationBarHidden(shouldHideNavigationBar, animated: animated)
-            navigationController.hidesBarsOnSwipe = !shouldHideNavigationBar
+            navigationController.setNavigationBarHidden(false, animated: animated)
+            //navigationController.hidesBarsOnSwipe = !shouldHideNavigationBar
         } else {
             navigationController.setNavigationBarHidden(false, animated: animated)
             navigationController.hidesBarsOnSwipe = false
@@ -259,7 +265,7 @@ extension ListCollectionVC: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
+        return UIEdgeInsets(top: 16, left: 0, bottom: 0, right: 0)
     }
 }
 
@@ -271,7 +277,22 @@ extension ListCollectionVC: UIPopoverPresentationControllerDelegate {
     }
 }
 
+// Mark: - ListCollectionFilterVCDelegate
 
+extension ListCollectionVC: ListCollectionFilterVCDelegate {
+    func filterDidApply(filter: SortFilter) {
+        dataSource?.setSorting(filter: filter)
+        getNewResult()
+        
+        collectionView?.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
+    }
+    
+    func currentFilter() -> SortFilter? {
+        return dataSource?.sortFilter
+    }
+    
+    
+}
 
 
 

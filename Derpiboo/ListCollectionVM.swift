@@ -10,12 +10,16 @@ import Foundation
 import PromiseKit
 
 class ListCollectionVM: ListCollectionVCDataSource {
+    
     // Mark: - Internal Data
     
     private var result: ListResult
     
-    init(result: ListResult) {
+    init(result: ListResult, sortFilter: SortFilter? = nil) {
         self.result = result
+        if let sortFilter = sortFilter {
+            self.sortFilter = sortFilter
+        }
     }
     
     // Mark: - Interface
@@ -24,27 +28,24 @@ class ListCollectionVM: ListCollectionVCDataSource {
     
     var tags: [String]? { return result.tags }
     
-    var sortBy: ListRequester.SortType = .creationDate
-    var sortOrder: ListRequester.SortOrderType = .descending
+    var sortFilter: SortFilter = SortFilter(sortBy: .creationDate, sortOrder: .descending)
     
     // TODO: - Fix loading next page so that it can detect fails.
-    func getResults(asNew reset: Bool, withTags tags: [String]?, withSorting: (sortBy: ListRequester.SortType, inOrder: ListRequester.SortOrderType)?) -> Promise<Void> {
+    func getResults(asNew reset: Bool, withTags tags: [String]?, withSorting: SortFilter?) -> Promise<Void> {
         if reset { result = ListResult() }
         result.tags = tags
         if let withSorting = withSorting {
-            sortBy = withSorting.sortBy
-            sortOrder = withSorting.inOrder
+            sortFilter = withSorting
         }
-        return ListRequester().downloadList(for: tags != nil ? .search : .images, tags: tags, withSorting: withSorting != nil ? (sortBy: sortBy, inOrder: sortOrder) : nil, page: result.currentPage + 1).then { listResult -> Void in
+        return ListRequester().downloadList(for: tags != nil ? .search : .images, tags: tags, withSorting: sortFilter, page: result.currentPage + 1).then { listResult -> Void in
             self.result.add(listResult)
         }.catch { error in
             print("Error getting results: \(error)")
         }
     }
     
-    func setSorting(sortBy: ListRequester.SortType, sortOrder: ListRequester.SortOrderType) {
-        self.sortBy = sortBy
-        self.sortOrder = sortOrder
+    func setSorting(filter: SortFilter) {
+        self.sortFilter = filter
     }
     
     // Mark: - Methods

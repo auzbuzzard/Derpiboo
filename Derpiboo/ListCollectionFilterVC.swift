@@ -8,10 +8,15 @@
 
 import UIKit
 
+protocol ListCollectionFilterVCDelegate {
+    func filterDidApply(filter: SortFilter)
+    func currentFilter() -> SortFilter?
+}
+
 class ListCollectionFilterVC: UIViewController {
     
     // Mark: - Class references
-    var listVC: ListCollectionVC!
+    var delegate: ListCollectionFilterVCDelegate?
     
     // Mark: - Properties
     let pickerTextField = UITextField()
@@ -27,8 +32,8 @@ class ListCollectionFilterVC: UIViewController {
     // Mark: - VC Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        selectedSortBy = listVC.dataSource?.sortBy ?? .creationDate
-        selectedSortOrder = listVC.dataSource?.sortOrder ?? .descending
+        selectedSortBy = delegate?.currentFilter()?.sortBy ?? .creationDate
+        selectedSortOrder = delegate?.currentFilter()?.sortOrder ?? .descending
         
         setupTheme()
         setupContent()
@@ -95,12 +100,7 @@ class ListCollectionFilterVC: UIViewController {
         }
     }
     @IBAction func applyButtonIsClicked(_ sender: UIButton) {
-        listVC.dataSource?.setSorting(sortBy: selectedSortBy, sortOrder: selectedSortOrder)
-        listVC.getNewResult()
-        //let origin = CGPoint(x: (listVC.collectionView?.contentInset.left ?? 0), y: (listVC.collectionView?.contentInset.top ?? 0))
-        //print(origin)
-        //listVC.collectionView?.setContentOffset(origin, animated: true)
-        listVC.collectionView?.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
+        delegate?.filterDidApply(filter: SortFilter(sortBy: selectedSortBy, sortOrder: selectedSortOrder))
         dismiss(animated: true, completion: nil)
     }
     

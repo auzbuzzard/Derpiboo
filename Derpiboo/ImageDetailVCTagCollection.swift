@@ -79,7 +79,7 @@ extension ImageDetailVC: UICollectionViewDelegate, UICollectionViewDataSource, U
             #if DEBUG
                 print("Tag tapped: \(tags[indexPath.row])")
             #endif
-            self.open(with: tags[indexPath.row])
+            self.open(with: tags[indexPath.row].trimmingCharacters(in: .whitespaces))
         }
     }
     

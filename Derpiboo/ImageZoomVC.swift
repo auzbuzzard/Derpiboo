@@ -24,6 +24,10 @@ class ImageZoomVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if #available(iOS 11, *) {
+            navigationItem.largeTitleDisplayMode = .never
+        }
+        
         view.backgroundColor = Theme.colors().background
         mainImageView = UIImageView(frame: CGRect.zero)
         if imageResult.metadata.original_format_enum == .webm || imageResult.metadata.original_format_enum == .swf {

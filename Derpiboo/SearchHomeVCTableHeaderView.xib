@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="SearchHomeVCTableHeaderView" customModule="Derpiboo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ds4-tE-hIW">
+                    <rect key="frame" x="16" y="623" width="343" height="44"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AI7-W5-eof">
+                            <rect key="frame" x="307" y="7" width="36" height="30"/>
+                            <viewLayoutGuide key="safeArea" id="LGn-KU-TDP"/>
+                            <state key="normal" title="Clear">
+                                <color key="titleColor" name="TextLink"/>
+                            </state>
+                            <connections>
+                                <action selector="mainButtonDidClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="MIZ-gy-Mds"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nXb-3k-ai2">
+                            <rect key="frame" x="0.0" y="12" width="299" height="20.5"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="D6q-EV-ACJ"/>
+                        <constraint firstItem="nXb-3k-ai2" firstAttribute="leading" secondItem="ds4-tE-hIW" secondAttribute="leading" id="FTX-Bg-z9z"/>
+                        <constraint firstAttribute="trailing" secondItem="AI7-W5-eof" secondAttribute="trailing" id="Iqp-Cr-wwI"/>
+                        <constraint firstItem="AI7-W5-eof" firstAttribute="leading" secondItem="nXb-3k-ai2" secondAttribute="trailing" constant="8" id="aIl-my-T86"/>
+                        <constraint firstItem="nXb-3k-ai2" firstAttribute="centerY" secondItem="ds4-tE-hIW" secondAttribute="centerY" id="qCu-Vb-EeE"/>
+                        <constraint firstItem="AI7-W5-eof" firstAttribute="centerY" secondItem="ds4-tE-hIW" secondAttribute="centerY" id="t23-aD-8NS"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="ds4-tE-hIW" secondAttribute="trailing" constant="16" id="3Ij-B6-n2j"/>
+                <constraint firstItem="ds4-tE-hIW" firstAttribute="top" relation="greaterThanOrEqual" secondItem="vUN-kp-3ea" secondAttribute="top" constant="16" id="fj6-vk-vS2"/>
+                <constraint firstItem="ds4-tE-hIW" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="yAm-SK-CRT"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="ds4-tE-hIW" secondAttribute="bottom" id="zUq-A7-tDi"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="mainButton" destination="AI7-W5-eof" id="emO-rK-qQ8"/>
+                <outlet property="mainLabel" destination="nXb-3k-ai2" id="HQ0-rK-ff1"/>
+            </connections>
+            <point key="canvasLocation" x="35.5" y="53.5"/>
+        </view>
+    </objects>
+    <resources>
+        <namedColor name="TextLink">
+            <color red="0.30500000715255737" green="0.57899999618530273" blue="0.85199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

@@ -28,6 +28,14 @@
             </objects>
             <point key="canvasLocation" x="828" y="-0.44977511244377816"/>
         </scene>
+        <!--ListCollectionFilterVC-->
+        <scene sceneID="Boh-Yy-NFl">
+            <objects>
+                <viewControllerPlaceholder storyboardName="ListCollection" referencedIdentifier="ListCollectionFilterVC" id="E5s-Pl-LLE" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xuX-f0-TmY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1720" y="-581"/>
+        </scene>
         <!--Search HomeVC-->
         <scene sceneID="bPT-Ia-mEY">
             <objects>
@@ -37,12 +45,29 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="CsD-an-laf">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchHomeVCTableHeaderView" id="CsD-an-laf" customClass="SearchHomeVCTableHeaderView" customModule="Derpiboo" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CsD-an-laf" id="dc9-Zg-Hgi">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="historyCell" textLabel="rBc-ea-vnw" style="IBUITableViewCellStyleDefault" id="5T7-nG-1RV">
+                                <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5T7-nG-1RV" id="COm-UJ-hHF">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rBc-ea-vnw">
+                                            <rect key="frame" x="16" y="0.0" width="344" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -51,7 +76,15 @@
                             <outlet property="delegate" destination="Ntf-ES-qgO" id="iQi-fA-QSp"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="6PL-tV-ye9"/>
+                    <navigationItem key="navigationItem" id="6PL-tV-ye9">
+                        <barButtonItem key="rightBarButtonItem" title="Filter" id="CVP-9S-KRX">
+                            <connections>
+                                <segue destination="E5s-Pl-LLE" kind="popoverPresentation" identifier="showFilterVC" popoverAnchorBarButtonItem="CVP-9S-KRX" id="dao-M6-Eu2">
+                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                </segue>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="unT-sn-QRU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -115,10 +115,6 @@ struct Theme {
     }
     
     static func apply(Theme theme: Colors) {
-        let background_header_color = colors().background_header.withAlphaComponent(0.98)
-        let background_header_imageColor = UIImage(color: background_header_color)
-        let background_color = colors().background.withAlphaComponent(0.98)
-        let background_imageColor = UIImage(color: background_color)
         
         if theme == .dark {
             UINavigationBar.appearance().barStyle = UIBarStyle.black
@@ -126,26 +122,28 @@ struct Theme {
         }
         
         // Status Bar
-        UIApplication.shared.statusBarView?.backgroundColor = colors().background_header
+        //UIApplication.shared.statusBarView?.backgroundColor = background_header_color
         
         // Tab Bar
-        UITabBar.appearance().backgroundImage = background_imageColor
+        //UITabBar.appearance().backgroundImage = background_imageColor
         //UITabBar.appearance().barTintColor = theme.background_header
         UITabBar.appearance().tintColor = theme.labelLink
+        
             // Remove top gradient line
         UITabBar.appearance().layer.borderWidth = 0.0
         UITabBar.appearance().clipsToBounds = true
         UITabBar.appearance().tintColor = colors().labelLink
         
         // Nav Bar
-        UINavigationBar.appearance().setBackgroundImage(background_header_imageColor, for: .default)
-        //UINavigationBar.appearance().barTintColor = theme.background_header
+        //UINavigationBar.appearance().setBackgroundImage(background_header_imageColor, for: .default)
+        UINavigationBar.appearance().barTintColor = theme.background_header
         UINavigationBar.appearance().tintColor = theme.labelText
+        
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : Theme.colors().labelText]
         
         // Table View
         UITableView.appearance().backgroundColor = theme.background
-        UITableViewCell.appearance().backgroundColor = theme.background2
+        UITableViewCell.appearance().backgroundColor = theme.background
         
         // Collection View
         UICollectionView.appearance().backgroundColor = theme.background

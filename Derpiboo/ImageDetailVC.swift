@@ -29,6 +29,11 @@ class ImageDetailVC: UITableViewController, SFSafariViewControllerDelegate {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.delegate = self
         
+        if #available(iOS 11, *) {
+            navigationItem.largeTitleDisplayMode = .never
+        }
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -200,6 +205,8 @@ class ImageDetailVC: UITableViewController, SFSafariViewControllerDelegate {
         #if DEBUG
             print("opening: \(searchTag)")
         #endif
+        SearchManager.main.appendSearch(SearchManager.SearchHistory(timeStamp: Date(), searchString: searchTag, sortFilter: SortFilter(sortBy: .creationDate, sortOrder: .descending)))
+        
         let listVC = UIStoryboard(name: ListCollectionVC.storyboardName, bundle: nil).instantiateViewController(withIdentifier: ListCollectionVC.storyboardID) as! ListCollectionVC
         let dataSource = ListCollectionVM(result: ListResult())
         listVC.dataSource = dataSource

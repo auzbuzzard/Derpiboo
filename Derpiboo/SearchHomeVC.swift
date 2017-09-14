@@ -13,11 +13,26 @@ class SearchHomeVC: UITableViewController {
     var searchSuggestionsVC: SearchSuggestionsVC!
     var searchController: UISearchController!
     
+    private let showFilterVC = "showFilterVC"
+    
+    private let historyCellID = "historyCell"
+    
+    fileprivate var currentSortFilter = SortFilter(sortBy: .creationDate, sortOrder: .descending)
+    
     // Mark: - VC Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         searchSuggestionsVC = storyboard?.instantiateViewController(withIdentifier: SearchSuggestionsVC.storyboardID) as! SearchSuggestionsVC
         setupSearchField()
+        
+        //navigationController?.navigationBar.barTintColor = Theme.colors().background
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+        print(SearchManager.main.searches)
     }
     
     private func setupSearchField() {
@@ -25,18 +40,41 @@ class SearchHomeVC: UITableViewController {
         searchController.searchResultsUpdater = searchSuggestionsVC
         searchController.dimsBackgroundDuringPresentation = true
         //searchController.searchBar.backgroundImage = UIImage()
-        searchController.searchBar.barStyle = .black
+        //searchController.searchBar.barStyle = .black
+        //searchController.searchBar.tintColor = Theme.colors().background_header
+        
         searchController.searchBar.keyboardAppearance = .dark
+        searchController.searchBar.barStyle = .blackTranslucent
         searchController.delegate = self
         searchController.searchBar.delegate = self
         searchController.hidesNavigationBarDuringPresentation = false
         definesPresentationContext = true
         
-        let textField = searchController.searchBar.value(forKey: "searchField") as? UITextField
-        textField?.textColor = Theme.colors().labelText
-        textField?.placeholder = "Search for Images"
+        searchController.searchBar.barTintColor = Theme.colors().background_header
+        searchController.searchBar.placeholder = "Search for Images"
         
-        navigationItem.titleView = searchController.searchBar
+        if #available(iOS 11, *) {
+            navigationItem.title = "Search"
+            navigationController?.navigationBar.prefersLargeTitles = true
+            navigationItem.largeTitleDisplayMode = .always
+            navigationItem.searchController = searchController
+            navigationItem.hidesSearchBarWhenScrolling = false
+        } else {
+            navigationItem.titleView = searchController.searchBar
+        }
+    }
+    
+    // Mark: - Segue
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == showFilterVC {
+            let popoverVC = segue.destination as! ListCollectionFilterVC
+            
+            popoverVC.modalPresentationStyle = .popover
+            popoverVC.popoverPresentationController!.delegate = self
+            
+            popoverVC.delegate = self
+        }
     }
 
     // MARK: - Table view data source
@@ -46,14 +84,54 @@ class SearchHomeVC: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return min(SearchManager.main.searches.count, 10)
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: historyCellID, for: indexPath)
+        let history = SearchManager.main.recentSearches(count: 10)
+        print(history)
+        cell.textLabel?.text = history[indexPath.row].searchString
+        return cell
+    }
+    
+    // TODO: - FIX Floating Header
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let view = Bundle.main.loadNibNamed("SearchHomeVCTableHeaderView", owner: nil, options: nil)?.first as? SearchHomeVCTableHeaderView else { print("NO"); return UIView() }
+        view.setupLayout()
+        view.setupContent(delegate: self)
+        return view
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 68
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.section {
+        case 0:
+            let index = indexPath.row
+            guard index < SearchManager.main.searches.count else { return }
+            let history = SearchManager.main.searches[SearchManager.main.searches.count - 1 - index]
+            showResults(with: history.searchString, sortFilter: history.sortFilter)
+        default: break
+        }
+        return
     }
     
     // Mark: - Methods
     
-    func showResults(with stringTag: String?) {
+    func showResults(with stringTag: String?, sortFilter: SortFilter? = nil) {
+        if let stringTag = stringTag {
+            SearchManager.main.appendSearch(SearchManager.SearchHistory(timeStamp: Date(), searchString: stringTag, sortFilter: currentSortFilter))
+            tableView.reloadData()
+        }
+        if let sortFilter = sortFilter {
+            currentSortFilter = sortFilter
+        }
+        
         let listVC = UIStoryboard(name: ListCollectionVC.storyboardName, bundle: nil).instantiateViewController(withIdentifier: ListCollectionVC.storyboardID) as! ListCollectionVC
-        let dataSource = ListCollectionVM(result: ListResult())
+        let dataSource = ListCollectionVM(result: ListResult(), sortFilter: currentSortFilter)
         listVC.dataSource = dataSource
         #if DEBUG
             print("getting search: \(String(describing: stringTag))")
@@ -62,7 +140,7 @@ class SearchHomeVC: UITableViewController {
         listVC.getNewResult(withTags: dataSource.tags(from: stringTag))
         
         navigationController?.delegate = listVC
-        listVC.isFirstListCollectionVC = true
+        listVC.isFirstListCollectionVC = false
         listVC.shouldHideNavigationBar = false
         
         navigationController?.pushViewController(listVC, animated: true)
@@ -98,23 +176,61 @@ extension SearchHomeVC: UISearchBarDelegate {
     }
 }
 
-extension SearchHomeVC: UINavigationControllerDelegate {
-    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        if viewController == self {
-            navigationController.setNavigationBarHidden(true, animated: animated)
-            if navigationController.hidesBarsOnSwipe == true {
-                navigationController.hidesBarsOnSwipe = false
-            }
-        } else {
-            navigationController.setNavigationBarHidden(false, animated: animated)
-            if let _ = viewController as? ListCollectionVC {
-                navigationController.hidesBarsOnSwipe = true
-                
-            } else {
-                if navigationController.hidesBarsOnSwipe == true {
-                    navigationController.hidesBarsOnSwipe = false
-                }
-            }
-        }
+// Mark: - Popover Presentation Delegate
+
+extension SearchHomeVC: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
     }
 }
+
+// Mark: - ListCollectionFilterVCDelegate
+
+extension SearchHomeVC: ListCollectionFilterVCDelegate {
+    func filterDidApply(filter: SortFilter) {
+        currentSortFilter = filter
+    }
+    
+    func currentFilter() -> SortFilter? {
+        return currentSortFilter
+    }
+    
+    
+}
+
+// Mark: - SearchHomeVCTableHeaderView
+
+class SearchHomeVCTableHeaderView: UIView {
+    
+    static let storyboardID = "searchHomeVCTableHeaderView"
+    var delegate: SearchHomeVC?
+    
+    @IBOutlet weak var mainLabel: UILabel!
+    @IBOutlet weak var mainButton: UIButton!
+    
+    @IBAction func mainButtonDidClick(_ sender: UIButton) {
+        SearchManager.main.clearHistory()
+        delegate?.tableView.reloadData()
+    }
+    
+    func setupLayout() {
+        mainLabel.textColor = Theme.colors().labelText
+        mainButton.tintColor = Theme.colors().labelLink
+    }
+    
+    func setupContent(delegate: SearchHomeVC?) {
+        self.delegate = delegate
+        mainLabel.text = "Recent"
+        mainButton.titleLabel?.text = "Clear"
+    }
+    
+}
+
+
+
+
+
+
+
+
+
