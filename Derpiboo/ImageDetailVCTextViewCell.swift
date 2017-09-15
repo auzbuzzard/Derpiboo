@@ -32,7 +32,10 @@ class ImageDetailVCTextViewCell: UITableViewCell {
     }
     
     private func attributedString(from string: String) -> NSAttributedString {
-        return NSAttributedString(string: string)
+        return NSAttributedString(string: string, attributes: [
+            NSForegroundColorAttributeName: Theme.colors().labelText,
+            NSFontAttributeName: UIFont.systemFont(ofSize: 17)
+            ])
     }
 
 }
