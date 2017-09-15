@@ -20,6 +20,9 @@ class ImageZoomVC: UIViewController {
     fileprivate(set) var isFileImage = false
     fileprivate(set) var isFullScreen = false
     
+    // See app delegate
+    func canRotate() -> Void {}
+    
     // Mark: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
