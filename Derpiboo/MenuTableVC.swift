@@ -10,13 +10,16 @@ import UIKit
 
 class MenuTableVC: UITableViewController {
     
-    let profileCellID = "profileCell"
-    let defaultCellID = "defaultCell"
+    fileprivate let profileCellID = "menuTableVCProfileCell"
+    fileprivate let defaultCellID = "menuTableVCDefaultCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.delegate = self
+        title = "Account"
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = true
+        }
         
         tableView.backgroundColor = Theme.colors().background
     }
@@ -42,36 +45,15 @@ class MenuTableVC: UITableViewController {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: profileCellID, for: indexPath) as! MenuTableVCProfileCell
             
-            cell.profileLabel.textColor = Theme.colors().labelText
-            /*
-            if Identity.main.isLoggedIn == true {
-                let user = Identity.main.user!
-                cell.profileLabel.text = user.metadata.name
-                if let avatar_id = user.metadata.avatar_id {
-                    _ = ImageRequester().get(imageOfId: avatar_id) { result in
-                        _ = result.getImage(ofSize: .thumb, callback: { image, id, error in
-                            if error == nil {
-                                DispatchQueue.main.async {
-                                    cell.profileImageView.image = image
-                                    self.tableView.reloadRows(at: [indexPath], with: .none)
-                                }
-                            } else {
-                                print("load image error")
-                            }
-                        })
-                    }
-                }
-            } else {
-                cell.profileLabel.text = "Not logged in"
-            }
-            */
+            cell.setupLayout()
+            cell.setupContent()
+
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: defaultCellID, for: indexPath) as! MenuTableVCDefaultCell
             
-            cell.mainLabel.textColor = Theme.colors().labelText
-            
-            cell.mainLabel.text = "Settings"
+            cell.setupLayout()
+            cell.setupContent()
             
             return cell
         default:
@@ -107,42 +89,6 @@ class MenuTableVC: UITableViewController {
         }
     }
     
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -158,22 +104,24 @@ class MenuTableVC: UITableViewController {
     
 }
 
-extension MenuTableVC: UINavigationControllerDelegate {
-    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        if viewController == self {
-            navigationController.setNavigationBarHidden(false, animated: animated)
-        } else {
-            navigationController.setNavigationBarHidden(false, animated: animated)
-        }
-    }
-}
-
 class MenuTableVCProfileCell: UITableViewCell {
     
     @IBOutlet weak var viewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var viewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var profileLabel: UILabel!
+    
+    func setupLayout() {
+        profileLabel.textColor = Theme.colors().labelText
+        
+        profileImageView.layer.cornerRadius = 10
+        profileImageView.layer.masksToBounds = true
+    }
+    
+    func setupContent() {
+        profileLabel.text = "(Not Logged in)"
+        profileImageView.image = #imageLiteral(resourceName: "no_avatar")
+    }
     
 }
 
@@ -183,6 +131,17 @@ class MenuTableVCDefaultCell: UITableViewCell {
     @IBOutlet weak var viewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var mainImageView: UIImageView!
     @IBOutlet weak var mainLabel: UILabel!
+    
+    func setupLayout() {
+        mainLabel.textColor = Theme.colors().labelText
+        
+        mainImageView.layer.cornerRadius = 10
+        mainImageView.layer.masksToBounds = true
+    }
+    
+    func setupContent() {
+        mainLabel.text = "Settings"
+    }
     
 }
 

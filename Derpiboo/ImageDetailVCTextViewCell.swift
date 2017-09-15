@@ -18,6 +18,7 @@ class ImageDetailVCTextViewCell: UITableViewCell {
     @IBOutlet weak var textView: UITextView!
     
     func setupLayout() {
+        
         //BkgdView
         bkgdView.backgroundColor = Theme.colors().background2
         

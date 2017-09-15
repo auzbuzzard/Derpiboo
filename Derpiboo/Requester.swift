@@ -82,7 +82,14 @@ class FilterListRequester: Requester {
     }
 }
 
-
+class FilterRequester: Requester {
+    func downloadFilter(id: Int) -> Promise<FilterResult> {
+        let url = Requester.base_url + "/filters/\(id).json"
+        return Network.get(url: url).then(on: .global(qos: .userInitiated)) { data -> Promise<FilterResult> in
+            return FilterParser.parse(data: data)
+        }
+    }
+}
 
 
 

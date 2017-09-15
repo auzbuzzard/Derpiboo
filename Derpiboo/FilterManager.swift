@@ -16,8 +16,10 @@ class FilterManager {
     static let defaultFilterID = 100073
     
     static let main = FilterManager()
+    
     private init() {
         filterListResult = FilterListRequester().downloadLists()
+        loadFilterFromStoredID()
     }
     
     var filterListResult: Promise<FilterListResult>
@@ -30,16 +32,19 @@ class FilterManager {
     
     func reloadListResult() {
         filterListResult = FilterListRequester().downloadLists()
-        #if DEBUG
-            print("result reloading")
-        #endif
     }
     
     func storedSelectedFilterID() -> Int? {
-        return UserDefaults.standard.integer(forKey: FilterManager.storedFilterID)
+        return UserDefaults.standard.integer(forKey: FilterManager.storedFilterID) != 0 ? UserDefaults.standard.integer(forKey: FilterManager.storedFilterID) : nil
     }
     
     func storeSelectedFilterID(_ id: Int) {
         UserDefaults.standard.set(id, forKey: FilterManager.storedFilterID)
+    }
+    
+    func loadFilterFromStoredID() {
+        FilterRequester().downloadFilter(id: storedSelectedFilterID() ?? FilterManager.defaultFilterID).then { result in
+            self.currentFilter = result
+            }.catch { error in print(error) }
     }
 }

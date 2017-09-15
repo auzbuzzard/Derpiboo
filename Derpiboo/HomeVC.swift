@@ -19,7 +19,7 @@ class HomeVC: UINavigationController {
         
         instantiateVC()
         
-        navigationItem.title = "Home"
+        //navigationItem.title = "Derpibooru"
     }
     
     func instantiateVC() {
@@ -28,7 +28,7 @@ class HomeVC: UINavigationController {
         listVC.isFirstListCollectionVC = true
         listVC.shouldHideNavigationBar = true
         
-        listVC.title = "Home"
+        listVC.title = "Derpibooru"
         
         listVC.dataSource = ListCollectionVM(result: ListResult())
         listVC.getNewResult()
