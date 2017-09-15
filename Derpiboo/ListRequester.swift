@@ -80,11 +80,7 @@ class ListRequester: Requester {
             params.append("sd=\(sortFilter.sortOrder.queryString)")
         }
         
-        #if DEBUG
-            if let filterID = UserDefaults.standard.integer(forKey: FilterManager.storedFilterID) as? Int {
-                params.append("filter_id=\(filterID)")
-            }
-        #endif
+        params.append("filter_id=\(FilterManager.main.currentFilterID)")
         
         let url = ListRequester.url(for: type) + "?\(params.joined(separator: "&"))"
         

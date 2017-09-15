@@ -24,7 +24,6 @@
                     <connections>
                         <segue destination="2A8-vz-cyb" kind="relationship" relationship="viewControllers" id="z3L-SP-Oxb"/>
                         <segue destination="Q96-xa-SNd" kind="relationship" relationship="viewControllers" id="Og2-HP-9N5"/>
-                        <segue destination="8Rw-7G-U0E" kind="relationship" relationship="viewControllers" id="OlP-iQ-2zl"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
@@ -358,6 +357,7 @@
                     <tabBarItem key="tabBarItem" systemItem="more" id="L2V-iQ-ysf"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="fz9-nE-zfX">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

@@ -52,6 +52,8 @@ class SearchHomeVC: UITableViewController {
         searchController.searchBar.barTintColor = Theme.colors().background_header
         searchController.searchBar.placeholder = "Search for Images"
         
+        searchController.searchBar.autocapitalizationType = .none
+        
         if #available(iOS 11, *) {
             navigationItem.title = "Search"
             navigationController?.navigationBar.prefersLargeTitles = true
@@ -168,7 +170,7 @@ extension SearchHomeVC: UISearchControllerDelegate {
 extension SearchHomeVC: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchController.dismiss(animated: true, completion: {
-            self.showResults(with: searchBar.text)
+            self.showResults(with: searchBar.text?.lowercased().trimmingCharacters(in: .whitespaces))
         })
         
     }
