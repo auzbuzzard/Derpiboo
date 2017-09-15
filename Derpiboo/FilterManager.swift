@@ -25,6 +25,9 @@ class FilterManager {
     
     var filterListResult: Promise<FilterListResult>
     
+    var currentFilterID: Int {
+        return currentFilter?.id ?? FilterManager.defaultFilterID
+    }
     var currentFilter: FilterResult? {
         didSet {
             NotificationCenter.default.post(name: NSNotification.Name(FilterManager.currentFilterDidChangeName), object: nil)
