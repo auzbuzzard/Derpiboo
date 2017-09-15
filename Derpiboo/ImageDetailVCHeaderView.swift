@@ -13,6 +13,7 @@ class ImageDetailVCHeaderView: UIView {
     @IBOutlet weak var mainLabel: UILabel!
 
     func setupLayout() {
+        backgroundColor = Theme.colors().background
         mainLabel.textColor = Theme.colors().labelText
     }
 }

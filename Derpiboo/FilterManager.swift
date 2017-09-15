@@ -12,6 +12,8 @@ import PromiseKit
 class FilterManager {
     
     static let currentFilterDidChangeName = "derpiboo.currentFilterDidChangeName"
+    static let filtersDidSet = "derpiboo.filtersDidSet"
+    
     static let storedFilterID = "selectedFilterID"
     static let defaultFilterID = 100073
     static let auzbuzzardFilterID = 144017
@@ -19,23 +21,51 @@ class FilterManager {
     static let main = FilterManager()
     
     private init() {
-        filterListResult = FilterListRequester().downloadLists()
-        loadFilterFromStoredID()
+        _ = reloadListResult()
+        currentFilterID = storedSelectedFilterID() ?? FilterManager.auzbuzzardFilterID
     }
     
-    var filterListResult: Promise<FilterListResult>
+    private var filterListResult: FilterListResult?
     
-    var currentFilterID: Int {
-        return currentFilter?.id ?? FilterManager.defaultFilterID
-    }
-    var currentFilter: FilterResult? {
+    var filters = Dictionary<FilterListType, [FilterResult]>() {
         didSet {
-            NotificationCenter.default.post(name: NSNotification.Name(FilterManager.currentFilterDidChangeName), object: nil)
+            NotificationCenter.default.post(name: Notification.Name(FilterManager.filtersDidSet), object: nil)
         }
     }
     
-    func reloadListResult() {
-        filterListResult = FilterListRequester().downloadLists()
+    
+    var currentFilterID: Int = 0 {
+        didSet {
+            NotificationCenter.default.post(name: Notification.Name(FilterManager.currentFilterDidChangeName), object: nil)
+        }
+    }
+    
+    var currentFilter: FilterResult? {
+        return filter(from: currentFilterID)
+    }
+    
+    enum FilterListType { case system_filters, user_filters, search_filters, special }
+    
+    // Internal Methods
+    
+    func reloadListResult() -> Promise<Void> {
+        return FilterListRequester().downloadLists().then { listResult -> Void in
+            self.filterListResult = listResult
+            self.filters[FilterListType.system_filters] = listResult.system_filters
+            self.filters[FilterListType.user_filters] = listResult.user_filters
+            self.filters[FilterListType.search_filters] = listResult.search_filters
+            self.reloadSpecialFilters()
+            }.catch { error in print(error) }
+    }
+    
+    fileprivate func reloadSpecialFilters() {
+        FilterRequester().downloadFilter(id: FilterManager.auzbuzzardFilterID).then { result in
+            self.filters[FilterListType.special] = [result]
+            }.catch { error in print(error) }
+    }
+    
+    func filter(from id: Int) -> FilterResult? {
+        return filters.values.joined().first(where: {$0.id == id} )
     }
     
     func storedSelectedFilterID() -> Int? {
@@ -44,11 +74,5 @@ class FilterManager {
     
     func storeSelectedFilterID(_ id: Int) {
         UserDefaults.standard.set(id, forKey: FilterManager.storedFilterID)
-    }
-    
-    func loadFilterFromStoredID() {
-        FilterRequester().downloadFilter(id: storedSelectedFilterID() ?? FilterManager.auzbuzzardFilterID).then { result in
-            self.currentFilter = result
-            }.catch { error in print(error) }
     }
 }

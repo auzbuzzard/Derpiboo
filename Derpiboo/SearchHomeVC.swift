@@ -214,6 +214,7 @@ class SearchHomeVCTableHeaderView: UIView {
     }
     
     func setupLayout() {
+        backgroundColor = Theme.colors().background
         mainLabel.textColor = Theme.colors().labelText
         mainButton.tintColor = Theme.colors().labelLink
     }
