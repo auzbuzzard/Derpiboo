@@ -14,6 +14,7 @@ class FilterManager {
     static let currentFilterDidChangeName = "derpiboo.currentFilterDidChangeName"
     static let storedFilterID = "selectedFilterID"
     static let defaultFilterID = 100073
+    static let auzbuzzardFilterID = 144017
     
     static let main = FilterManager()
     
@@ -43,7 +44,7 @@ class FilterManager {
     }
     
     func loadFilterFromStoredID() {
-        FilterRequester().downloadFilter(id: storedSelectedFilterID() ?? FilterManager.defaultFilterID).then { result in
+        FilterRequester().downloadFilter(id: storedSelectedFilterID() ?? FilterManager.auzbuzzardFilterID).then { result in
             self.currentFilter = result
             }.catch { error in print(error) }
     }
