@@ -54,6 +54,7 @@
 		D98CB9101C2998100029A6F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D98CB90E1C2998100029A6F7 /* LaunchScreen.storyboard */; };
 		D98CB91B1C2998100029A6F7 /* DerpibooTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB91A1C2998100029A6F7 /* DerpibooTests.swift */; };
 		D98CB9261C2998100029A6F7 /* DerpibooUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CB9251C2998100029A6F7 /* DerpibooUITests.swift */; };
+		D99E89EE1F6BAA900093AD50 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D99E89ED1F6BAA900093AD50 /* Settings.bundle */; };
 		D9A0AA221F4A206D00F1D721 /* Gifu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9A0AA211F4A206D00F1D721 /* Gifu.framework */; };
 		D9A4AF691F57F6DB00C47DEE /* ImageDetailVCTagsTextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A4AF681F57F6DB00C47DEE /* ImageDetailVCTagsTextViewCell.swift */; };
 		D9A4AF6B1F58010700C47DEE /* DGCollectionViewLeftAlignFlowLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9A4AF6A1F58010600C47DEE /* DGCollectionViewLeftAlignFlowLayout.framework */; };
@@ -144,6 +145,7 @@
 		D98CB9211C2998100029A6F7 /* DerpibooUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DerpibooUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D98CB9251C2998100029A6F7 /* DerpibooUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DerpibooUITests.swift; sourceTree = "<group>"; };
 		D98CB9271C2998100029A6F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D99E89ED1F6BAA900093AD50 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		D9A0AA211F4A206D00F1D721 /* Gifu.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Gifu.framework; path = "../../../../Developer/Xcode/DerivedData/Derpiboo-csidkyqynvzfxrboliimewdaukkc/Build/Products/Debug-iphoneos/Gifu/Gifu.framework"; sourceTree = "<group>"; };
 		D9A4AF661F57EED600C47DEE /* UICollectionViewLeftAlignFlowLayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UICollectionViewLeftAlignFlowLayout.framework; path = "Pods/../build/Debug-iphoneos/UICollectionViewLeftAlignFlowLayout/UICollectionViewLeftAlignFlowLayout.framework"; sourceTree = "<group>"; };
 		D9A4AF681F57F6DB00C47DEE /* ImageDetailVCTagsTextViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailVCTagsTextViewCell.swift; sourceTree = "<group>"; };
@@ -372,6 +374,7 @@
 			isa = PBXGroup;
 			children = (
 				D98374361DB0462E00055A68 /* AppDelegate.swift */,
+				D99E89ED1F6BAA900093AD50 /* Settings.bundle */,
 				D99E89EC1F6BAA0E0093AD50 /* Storyboards */,
 				D98CB90C1C2998100029A6F7 /* Assets.xcassets */,
 				D98CB9111C2998100029A6F7 /* Info.plist */,
@@ -533,6 +536,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D99E89EE1F6BAA900093AD50 /* Settings.bundle in Resources */,
 				D97239AE1F48EED30082E37A /* SearchTab.storyboard in Resources */,
 				D972A6691F6A67630049276B /* SearchHomeVCTableHeaderView.xib in Resources */,
 				D97239B01F48F0520082E37A /* ListCollection.storyboard in Resources */,
