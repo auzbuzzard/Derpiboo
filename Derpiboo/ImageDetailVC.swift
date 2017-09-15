@@ -50,7 +50,6 @@ class ImageDetailVC: UITableViewController, SFSafariViewControllerDelegate {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         if let section = sectionIndex(for: .tag), let cell = tableView.cellForRow(at: IndexPath(row: 0, section: section)) as? ImageDetailVCTagTableCell {
-            print("yes")
             cell.collectionView.collectionViewLayout.invalidateLayout()
         }
     }
@@ -96,7 +95,6 @@ class ImageDetailVC: UITableViewController, SFSafariViewControllerDelegate {
             cell.formatTheme()
             cell.setupLayout(tableView: tableView)
             cell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
-            print(cell.contentView.bounds.height)
             return cell
         case .source:
             let cell = tableView.dequeueReusableCell(withIdentifier: ImageDetailVCLabelCell.storyboardID, for: indexPath) as! ImageDetailVCLabelCell

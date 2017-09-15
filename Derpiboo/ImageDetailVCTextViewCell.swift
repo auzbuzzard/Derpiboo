@@ -18,8 +18,6 @@ class ImageDetailVCTextViewCell: UITableViewCell {
     @IBOutlet weak var textView: UITextView!
     
     func setupLayout() {
-        MarkdownParser.shared.link.color = .blue
-        
         //BkgdView
         bkgdView.backgroundColor = Theme.colors().background2
         
@@ -33,7 +31,7 @@ class ImageDetailVCTextViewCell: UITableViewCell {
     }
     
     private func attributedString(from string: String) -> NSAttributedString {
-        return MarkdownParser.shared.parse(string)
+        return NSAttributedString(string: string)
     }
 
 }
