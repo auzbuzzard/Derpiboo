@@ -16,6 +16,8 @@ class FiltersSelectionTableVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = "Filters"
+        
         refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
         
         tableView.allowsMultipleSelection = false
