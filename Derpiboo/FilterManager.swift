@@ -30,7 +30,9 @@ class FilterManager {
     
     func reloadListResult() {
         filterListResult = FilterListRequester().downloadLists()
-        print("result reloading")
+        #if DEBUG
+            print("result reloading")
+        #endif
     }
     
     func storedSelectedFilterID() -> Int? {

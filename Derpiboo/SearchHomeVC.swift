@@ -32,7 +32,6 @@ class SearchHomeVC: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
-        print(SearchManager.main.searches)
     }
     
     private func setupSearchField() {
@@ -90,14 +89,13 @@ class SearchHomeVC: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: historyCellID, for: indexPath)
         let history = SearchManager.main.recentSearches(count: 10)
-        print(history)
         cell.textLabel?.text = history[indexPath.row].searchString
         return cell
     }
     
     // TODO: - FIX Floating Header
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let view = Bundle.main.loadNibNamed("SearchHomeVCTableHeaderView", owner: nil, options: nil)?.first as? SearchHomeVCTableHeaderView else { print("NO"); return UIView() }
+        guard let view = Bundle.main.loadNibNamed("SearchHomeVCTableHeaderView", owner: nil, options: nil)?.first as? SearchHomeVCTableHeaderView else { return UIView() }
         view.setupLayout()
         view.setupContent(delegate: self)
         return view

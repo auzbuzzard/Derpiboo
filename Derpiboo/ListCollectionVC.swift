@@ -94,7 +94,9 @@ class ListCollectionVC: UICollectionViewController {
     }
     
     func getNewResultsForStupidSelector() {
-        print("refreshing")
+        #if DEBUG
+            print("refreshing")
+        #endif
         getNewResult(withTags: nil)
     }
     

@@ -99,7 +99,9 @@ class FiltersSelectionTableVC: UITableViewController {
     // MARK: - Internal Methods
     
     func changeSelectedFilter(to index: Int) {
-        print("Changing filter from \(selectedFilterIndex) \(String(describing: filterListResult?.system_filters[selectedFilterIndex].name)) to \(index) \(String(describing: filterListResult?.system_filters[index].name))")
+        #if DEBUG
+            print("Changing filter from \(selectedFilterIndex) \(String(describing: filterListResult?.system_filters[selectedFilterIndex].name)) to \(index) \(String(describing: filterListResult?.system_filters[index].name))")
+        #endif
         guard let filterListResult = filterListResult, index < filterListResult.system_filters.count else { return }
         let filter = filterListResult.system_filters[index]
         selectedFilterIndex = index
