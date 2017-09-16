@@ -11,6 +11,7 @@
 		09621C90A40048984745F504 /* Pods_DerpibooUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41CDD8590068EEB4149C4461 /* Pods_DerpibooUITests.framework */; };
 		AE40B2BAE58736F9EEB792A4 /* Pods_Derpiboo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456DF0278CAF3C96B5B0C5EA /* Pods_Derpiboo.framework */; };
 		D905E3C11F46253900B6F276 /* SearchHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D905E3C01F46253900B6F276 /* SearchHomeVC.swift */; };
+		D90E76691F6D01DC009013E0 /* ListCollectionVCTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90E76681F6D01DC009013E0 /* ListCollectionVCTest.swift */; };
 		D928981B1F57A03E00090B8B /* ImageResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D928981A1F57A03E00090B8B /* ImageResult.swift */; };
 		D928F35B1F452507009A8185 /* ListCollectionVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D928F35A1F452507009A8185 /* ListCollectionVM.swift */; };
 		D92C228B1F6A52CE0073E017 /* ListRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92C228A1F6A52CE0073E017 /* ListRequester.swift */; };
@@ -93,6 +94,7 @@
 		ACA1619518626313A31DF643 /* Pods-DerpibooUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DerpibooUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DerpibooUITests/Pods-DerpibooUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		D905780E1F59FC5A00EA5B4C /* MarkdownKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MarkdownKit.framework; path = "../../../../Developer/Xcode/DerivedData/Derpiboo-csidkyqynvzfxrboliimewdaukkc/Build/Products/Debug-iphoneos/MarkdownKit/MarkdownKit.framework"; sourceTree = "<group>"; };
 		D905E3C01F46253900B6F276 /* SearchHomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHomeVC.swift; sourceTree = "<group>"; };
+		D90E76681F6D01DC009013E0 /* ListCollectionVCTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionVCTest.swift; sourceTree = "<group>"; };
 		D928981A1F57A03E00090B8B /* ImageResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResult.swift; sourceTree = "<group>"; };
 		D928F35A1F452507009A8185 /* ListCollectionVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionVM.swift; sourceTree = "<group>"; };
 		D92C228A1F6A52CE0073E017 /* ListRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRequester.swift; sourceTree = "<group>"; };
@@ -390,6 +392,7 @@
 			children = (
 				D98CB91A1C2998100029A6F7 /* DerpibooTests.swift */,
 				D98CB91C1C2998100029A6F7 /* Info.plist */,
+				D90E76681F6D01DC009013E0 /* ListCollectionVCTest.swift */,
 			);
 			path = DerpibooTests;
 			sourceTree = "<group>";
@@ -749,6 +752,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D90E76691F6D01DC009013E0 /* ListCollectionVCTest.swift in Sources */,
 				D98CB91B1C2998100029A6F7 /* DerpibooTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

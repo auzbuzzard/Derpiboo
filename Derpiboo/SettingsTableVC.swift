@@ -28,6 +28,8 @@ class SettingsTableVC: UITableViewController {
     }
     
     func setupLayout() {
+        title = "Settings"
+        
         filterCellMainLabel.textColor = Theme.colors().labelText
         filterCellDetailLabel.textColor = Theme.colors().labelText
     }

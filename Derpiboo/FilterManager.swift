@@ -25,6 +25,10 @@ class FilterManager {
         currentFilterID = storedSelectedFilterID() ?? FilterManager.auzbuzzardFilterID
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     private var filterListResult: FilterListResult?
     
     var filters = Dictionary<FilterListType, [FilterResult]>() {
