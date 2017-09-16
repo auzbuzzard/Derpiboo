@@ -11,32 +11,6 @@ import PromiseKit
 import Carlos
 
 // Mark: Protocols
-// For External Class Conformance
-
-protocol UsingImageCache {
-    var imageCache: ImageCache { get }
-}
-extension UsingImageCache {
-    var imageCache: ImageCache { return ImageCache.shared }
-}
-protocol UsingUserCache {
-    var userCache: UserCache { get }
-}
-extension UsingUserCache {
-    var userCache: UserCache { return UserCache.shared }
-}
-protocol UsingImageResultCache {
-    var imageResultCache: ImageResultCache { get }
-}
-extension UsingImageResultCache {
-    var imageResultCache: ImageResultCache { return ImageResultCache.shared }
-}
-protocol UsingTagCache {
-    var tagCache: TagCache { get }
-}
-extension UsingTagCache {
-    var tagCache: TagCache { return TagCache.shared }
-}
 
 // For internal class conformance
 protocol CacheClass { }
@@ -50,7 +24,7 @@ class Cache {
 }
 
 class ImageCache: CacheClass {
-    class DataWrapper: NSObject {
+    private class DataWrapper: NSObject {
         let data: Data
         init(_ data: Data) { self.data = data }
     }

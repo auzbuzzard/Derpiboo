@@ -14,48 +14,6 @@ class ListRequester: Requester {
         case images, lists, search
     }
     
-    enum SortType: Int {
-        case creationDate = 0, score, wilsonScore, relevance, width, height, comments, random
-        
-        static let count = 8
-        
-        var queryString: String {
-            switch self {
-            case .creationDate: return "created_at"
-            case .score: return "score"
-            case .wilsonScore: return "wilson"
-            case .relevance: return "relevance"
-            case .width: return "width"
-            case .height: return "height"
-            case .comments: return "comments"
-            case .random: return "random"
-            }
-        }
-        var description: String {
-            switch self {
-            case .creationDate: return "Creation Date"
-            case .score: return "Score"
-            case .wilsonScore: return "Wilson Score"
-            case .relevance: return "Relevance"
-            case .width: return "Width"
-            case .height: return "Height"
-            case .comments: return "Comments"
-            case .random: return "Random!"
-            }
-        }
-    }
-    
-    enum SortOrderType {
-        case descending, ascending
-        
-        var queryString: String {
-            switch self {
-            case .descending: return "desc"
-            case .ascending: return "asc"
-            }
-        }
-    }
-    
     static func url(for type: ListType) -> String {
         switch type {
         case .images: return base_url + "/images.json"
@@ -80,11 +38,7 @@ class ListRequester: Requester {
             params.append("sd=\(sortFilter.sortOrder.queryString)")
         }
         
-        #if DEBUG
-            if let filterID = UserDefaults.standard.integer(forKey: FilterManager.storedFilterID) as? Int {
-                params.append("filter_id=\(filterID)")
-            }
-        #endif
+        params.append("filter_id=\(FilterManager.main.currentFilterID)")
         
         let url = ListRequester.url(for: type) + "?\(params.joined(separator: "&"))"
         

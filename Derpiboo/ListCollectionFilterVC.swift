@@ -21,8 +21,8 @@ class ListCollectionFilterVC: UIViewController {
     // Mark: - Properties
     let pickerTextField = UITextField()
     
-    fileprivate var selectedSortBy: ListRequester.SortType!
-    fileprivate var selectedSortOrder: ListRequester.SortOrderType!
+    fileprivate var selectedSortBy: SortFilter.SortType!
+    fileprivate var selectedSortOrder: SortFilter.SortOrderType!
     
     // Mark: - IBOutlets
     @IBOutlet weak var sortByPickerButton: UIButton!
@@ -120,11 +120,11 @@ extension ListCollectionFilterVC: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return ListRequester.SortType.count
+        return SortFilter.SortType.count
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        guard let type = ListRequester.SortType(rawValue: row) else { return nil }
+        guard let type = SortFilter.SortType(rawValue: row) else { return nil }
         let title = type.description
         return NSAttributedString(string: title, attributes: [
             NSForegroundColorAttributeName : Theme.colors().labelText
@@ -132,7 +132,7 @@ extension ListCollectionFilterVC: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        guard let type = ListRequester.SortType(rawValue: row) else { return }
+        guard let type = SortFilter.SortType(rawValue: row) else { return }
         sortByPickerButton.setTitle(type.description, for: .normal)
         selectedSortBy = type
     }

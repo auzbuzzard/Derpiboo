@@ -31,7 +31,7 @@ class ImageRequester: Requester {
     
 }
 
-class TagRequester: Requester, UsingTagCache {
+class TagRequester: Requester {
     static var tag_url: String { return base_url + "/tags" }
     
     func downloadTag(for id: String) -> Promise<TagResult> {
@@ -40,7 +40,7 @@ class TagRequester: Requester, UsingTagCache {
         return Network.get(url: url).then(on: .global(qos: .userInitiated)) { data in
             TagParser.parse(data: data)
             }.then { result -> Promise<TagResult> in
-                self.tagCache.setTag(result).then { result }
+                Cache.tag.setTag(result).then { result }
             }.then { result -> Promise<TagResult> in
                 return Promise<TagResult>(value: result)
         }

@@ -9,7 +9,7 @@
 import UIKit
 import PromiseKit
 
-struct ImageResult: ResultItem, UsingImageCache {
+struct ImageResult: ResultItem {
     var id: String { return metadata.id }
     
     private(set) var metadata: Metadata
@@ -124,7 +124,7 @@ struct ImageResult: ResultItem, UsingImageCache {
         #if DEBUG
             print("[Verbose] imageResult(\(id)) is trying to get imageData FROM CACHE for size (\(size)).")
         #endif
-        return imageCache.getImageData(for: self.id, size: size)
+        return Cache.image.getImageData(for: self.id, size: size)
     }
     
     func downloadImageData(forSize size: Metadata.ImageSize) -> Promise<Data> {
@@ -134,7 +134,7 @@ struct ImageResult: ResultItem, UsingImageCache {
         
         return Network.get(url: url(forSize: size))
             .then { data -> Promise<Data> in
-                _ = self.imageCache.setImageData(data, id: self.id, size: size)
+                _ = Cache.image.setImageData(data, id: self.id, size: size)
                 return Promise(value: data)
         }
     }
