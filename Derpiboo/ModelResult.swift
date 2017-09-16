@@ -9,11 +9,11 @@
 import UIKit
 import PromiseKit
 
-protocol Result {
+protocol ModelResult {
     
 }
 
-protocol ResultListable: Result {
+protocol ResultListable: ModelResult {
     associatedtype Item: ResultItem
     var results: [Item] { get set }
 }
@@ -26,14 +26,8 @@ extension ResultListable {
     }
 }
 
-protocol ResultItem: Result {
+protocol ResultItem: ModelResult {
     associatedtype Metadata: ResultItemMetadata
-    var id: String { get }
-    var metadata: Metadata { get }
-}
-protocol ResultItemInt: Result {
-    associatedtype Metadata: ResultItemMetadata
-    var id: Int { get }
     var metadata: Metadata { get }
 }
 
@@ -69,13 +63,13 @@ struct ListResult: ResultListable {
 
 
 
-class UserResult: Result {
+class UserResult: ResultItem {
     
     var id: Int { get { return metadata.id } }
     
     var metadata: Metadata
     
-    struct Metadata {
+    struct Metadata: ResultItemMetadata {
         let id: Int
         let name: String
         let slug: String
@@ -106,13 +100,13 @@ class UserResult: Result {
     
 }
 
-struct FilterListResult: Result {
+struct FilterListResult: ModelResult {
     let system_filters: [FilterResult]
     let user_filters: [FilterResult]?
     let search_filters: [FilterResult]
 }
 
-struct FilterResult: ResultItemInt {
+struct FilterResult: ResultItem {
     
     var id: Int { get { return metadata.id } }
     var name: String { get { return metadata.name } }
@@ -172,7 +166,7 @@ struct TagResult: ResultItem {
     }
 }
 
-struct CommentResult: ResultItemInt {
+struct CommentResult: ResultItem {
     var id: Int { return metadata.id }
     private(set) var metadata: Metadata
     

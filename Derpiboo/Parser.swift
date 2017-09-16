@@ -9,14 +9,16 @@
 import Foundation
 import PromiseKit
 
+// MARK: - Protocols
+
 protocol Parser {
-    associatedtype ParseResult: Result
+    associatedtype ParseResult: ModelResult
     static func parse(data: Data) -> Promise<ParseResult>
 }
 
 protocol ParserForList {
-    associatedtype ParseResult: Result
-    static func parse(data: Data, as listType: ListRequester.ListType) -> Promise<ParseResult>
+    associatedtype ParseResult: ModelResult
+    static func parse(data: Data) -> Promise<[ParseResult]>
 }
 
 protocol ParserForItem {
@@ -24,118 +26,77 @@ protocol ParserForItem {
     static func parse(dictionary item: NSDictionary) -> Promise<Result>
 }
 
+extension ParserForItem {
+    static func parse(data: Data) -> Promise<Result> {
+        return Promise<NSDictionary> { fulfill, reject in
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary { fulfill(json) }
+                else { reject(ParserError.CannotCastJsonIntoNSDictionary(data: data)) }
+            } catch {
+                reject(error)
+            }
+            }.then { json -> Promise<Result> in
+                return parse(dictionary: json)
+        }
+    }
+}
+
 enum ParserError: Error {
     case JsonDataCorrupted(data: Data)
     case CannotCastJsonIntoNSDictionary(data: Data)
+    case parserGuardFailed(id: String, variable: String)
 }
 
-class ListParser: ParserForList {
-    static func parse(data: Data, as listType: ListRequester.ListType) -> Promise<ListResult> {
-        return Promise { fulfill, reject in
-            do {
-                let key: String = {
-                    switch listType {
-                    case .images, .lists: return "images"
-                    case .search: return "search"
-                    }
-                }()
-                
-                guard let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary, let items = json[key] as? Array<NSDictionary> else { reject(ParserError.CannotCastJsonIntoNSDictionary(data: data)); return }
-                
-                var results = [ImageResult]()
-                
-                for item in items {
-                    ImageParser.parse(dictionary: item).then { result -> Void in
-                        results.append(result)
-                        }.catch { error -> Void in
-                            
-                    }
-                }
-                fulfill(ListResult(result: results))
-            } catch {
-                reject(error)
-            }
-        }
-    }
-}
+// MARK: - Implementation
 
-
-
-class UserParser: Parser {
-    
-    static func parse(data: Data) -> Promise<UserResult> {
-        return Promise { fulfill, reject in
-            do {
-                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary {
-                    parse(dictionary: json).then { result -> Void in
-                        fulfill(result)
-                        }.catch { error in
-                            reject(error)
-                    }
-                } else {
-                    reject(ParserError.CannotCastJsonIntoNSDictionary(data: data))
-                }
-            } catch {
-                reject(error)
-            }
-        }
-    }
-    
+struct UserParser: ParserForItem {
     static func parse(dictionary item: NSDictionary) -> Promise<UserResult> {
-        let id = item["id"] as? Int ?? 0
-        let name = item["name"] as? String ?? ""
-        let slug = item["slug"] as? String ?? ""
-        let role = item["role"] as? String ?? ""
+        guard let id = item["id"] as? Int else { return Promise(error: ParserError.parserGuardFailed(id: "0", variable: "id")) }
+        guard let name = item["name"] as? String else { return Promise(error: ParserError.parserGuardFailed(id: "\(id)", variable: "name")) }
+        guard let slug = item["slug"] as? String else { return Promise(error: ParserError.parserGuardFailed(id: "\(id)", variable: "slug")) }
+        guard let role = item["role"] as? String else { return Promise(error: ParserError.parserGuardFailed(id: "\(id)", variable: "role")) }
         let description = item["description"] as? String
         let avatar_url = item["avatar_url"] as? String
-        let created_at = item["created_at"] as? String ?? ""
-        let comment_count = item["comment_count"] as? Int ?? 0
-        let uploads_count = item["uploads_count"] as? Int ?? 0
-        let post_count = item["post_count"] as? Int ?? 0
-        let topic_count = item["topic_count"] as? Int ?? 0
+        guard let created_at = item["created_at"] as? String else { return Promise(error: ParserError.parserGuardFailed(id: "\(id)", variable: "created_at")) }
+        guard let comment_count = item["comment_count"] as? Int else { return Promise(error: ParserError.parserGuardFailed(id: "\(id)", variable: "comment_count")) }
+        guard let uploads_count = item["uploads_count"] as? Int else { return Promise(error: ParserError.parserGuardFailed(id: "\(id)", variable: "uploads_count")) }
+        guard let post_count = item["post_count"] as? Int else { return Promise(error: ParserError.parserGuardFailed(id: "\(id)", variable: "post_count")) }
+        guard let topic_count = item["topic_count"] as? Int else { return Promise(error: ParserError.parserGuardFailed(id: "\(id)", variable: "topic_count")) }
         
+        // TODO: - Implement links
         let links: [Any] = []
-        let awards: [UserResult.MetadataAwards] = {
-            var array = [UserResult.MetadataAwards]()
-            if let json = item["awards"] as? Array<NSDictionary> {
-                for awardItem in json {
-                    let image_url = awardItem["image_url"] as? String ?? ""
-                    let title = awardItem["title"] as? String ?? ""
-                    let id = awardItem["id"] as? Int ?? 0
-                    let label = awardItem["label"] as? String ?? ""
-                    let awarded_on = awardItem["awarded_on"] as? String ?? ""
-                    
-                    let metadataAwards = UserResult.MetadataAwards(image_url: image_url, title: title, id: id, label: label, awarded_on: awarded_on)
-                    
-                    array.append(metadataAwards)
-                }
+        
+        guard let awards: [UserResult.MetadataAwards] = {
+            guard let json = item["awards"] as? Array<NSDictionary> else { return nil }
+            
+            return json.flatMap { awardItem in
+                guard let image_url = awardItem["image_url"] as? String else { print(ParserError.parserGuardFailed(id: "\(id)", variable: "awards_image_url")); return nil }
+                guard let title = awardItem["title"] as? String else { print(ParserError.parserGuardFailed(id: "\(id)", variable: "awards_title")); return nil }
+                guard let award_id = awardItem["id"] as? Int else { print(ParserError.parserGuardFailed(id: "\(id)", variable: "awards_id")); return nil }
+                guard let label = awardItem["label"] as? String else { print(ParserError.parserGuardFailed(id: "\(id)", variable: "awards_label")); return nil }
+                guard let awarded_on = awardItem["awarded_on"] as? String else { print(ParserError.parserGuardFailed(id: "\(id)", variable: "awards_awarded_on")); return nil }
+                
+                return UserResult.MetadataAwards(image_url: image_url, title: title, id: award_id, label: label, awarded_on: awarded_on)
             }
-            return array
-        }()
+        }() else { return Promise(error: ParserError.parserGuardFailed(id: "\(id)", variable: "awards")) }
         
         let metadata = UserResult.Metadata(id: id, name: name, slug: slug, role: role, description: description, avatar_url: avatar_url, created_at: created_at, comment_count: comment_count, uploads_count: uploads_count, post_count: post_count, topic_count: topic_count, links: links, awards: awards)
         
-        return Promise { fulfill, _ in
-            fulfill(UserResult(metadata: metadata))
-        }
+        return Promise(value: UserResult(metadata: metadata))
     }
 }
 
 class TagParser: Parser, ParserForItem {
     static func parse(data: Data) -> Promise<TagResult> {
-        return Promise { fulfill, reject in
+        return Promise<NSDictionary> { fulfill, reject in
             do {
-                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary, let tag = json["tag"] as? NSDictionary {
-                    parse(dictionary: tag).then { result -> Void in
-                        fulfill(result)
-                        }.catch { error in
-                            reject(error)
-                    }
-                } else {
-                    reject(ParserError.CannotCastJsonIntoNSDictionary(data: data))
-                }
+                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary,
+                    let tag = json["tag"] as? NSDictionary { fulfill(tag) }
+                else { reject(ParserError.CannotCastJsonIntoNSDictionary(data: data)) }
+            } catch {
+                reject(error)
             }
-        }
+        }.then { json in return parse(dictionary: json) }
     }
     
     static func parse(dictionary item: NSDictionary) -> Promise<TagResult> {
@@ -162,26 +123,23 @@ class TagParser: Parser, ParserForItem {
     }
 }
 
-class CommentParser {
+struct CommentParser: ParserForList {
     static func parse(data: Data) -> Promise<[CommentResult]> {
-        return Promise { fulfill, reject in
+        return Promise<Array<NSDictionary>> { fulfill, reject in
             do {
-                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary, let comments = json["comments"] as? Array<NSDictionary> {
-                    var results = [CommentResult]()
-                    
-                    for comment in comments {
-                        parse(dictionary: comment).then { result -> Void in
-                            results.append(result)
-                            }.catch { error -> Void in
-                                
-                        }
-                    }
-                    fulfill(results)
-                } else {
-                    reject(ParserError.CannotCastJsonIntoNSDictionary(data: data))
-                }
+                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary,
+                    let comments = json["comments"] as? Array<NSDictionary> { fulfill(comments) }
+                else { reject(ParserError.CannotCastJsonIntoNSDictionary(data: data)) }
+            } catch {
+                reject(error)
             }
-        }
+        }.then(on: .global(qos: .userInitiated)) { comments in
+            return when(resolved: comments.map{ return parse(dictionary: $0) })
+        }.then(on: .global(qos: .userInitiated)) { results in
+            return results.flatMap {
+                if case let .fulfilled(value) = $0 { return value } else { return nil }
+            }
+        }.catch { error in print(error) }
     }
     
     static func parse(dictionary item: NSDictionary) -> Promise<CommentResult> {
@@ -194,73 +152,57 @@ class CommentParser {
         
         let metadata = CommentResult.Metadata(id: id, body: body, author: author, image_id: image_id, posted_at: posted_at, deleted: deleted)
         
-        return Promise { fulfill, _ in
-            fulfill(CommentResult(metadata: metadata))
-        }
+        return Promise(value: CommentResult(metadata: metadata))
     }
 }
 
-class FilterListParser: Parser {
+struct FilterListParser: Parser {
     
     static func parse(data: Data) -> Promise<FilterListResult> {
-        return Promise { fulfill, reject in
+        return Promise<NSDictionary> { fulfill, reject in
             do {
-                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary {
-                    var system_filters = [FilterResult]()
-                    var user_filters: [FilterResult]?
-                    var search_filters = [FilterResult]()
-                    
-                    if let system_filters_json = json["system_filters"] as? Array<NSDictionary> {
-                        for item in system_filters_json {
-                            FilterParser.parse(dictionary: item).then { result in
-                                system_filters.append(result)
-                                }.catch { error in print(error) }
-                        }
-                    }
-                    if let user_filters_json = json["user_filters"] as? Array<NSDictionary> {
-                        user_filters = [FilterResult]()
-                        for item in user_filters_json {
-                            FilterParser.parse(dictionary: item).then { result in
-                                user_filters!.append(result)
-                                }.catch { error in print(error) }
-                        }
-                    }
-                    if let search_filters_json = json["search_filters"] as? Array<NSDictionary> {
-                        for item in search_filters_json {
-                            FilterParser.parse(dictionary: item).then { result in
-                                search_filters.append(result)
-                                }.catch { error in print(error) }
-                        }
-                    }
-                    
-                    fulfill(FilterListResult(system_filters: system_filters, user_filters: user_filters, search_filters: search_filters))
-                } else {
-                    reject(ParserError.CannotCastJsonIntoNSDictionary(data: data))
+                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary { fulfill(json) }
+                else { reject(ParserError.CannotCastJsonIntoNSDictionary(data: data)) }
+            } catch {
+                reject(error)
+            }
+        }.then(on: .global(qos: .userInitiated)) { json -> Promise<[Result<[Result<FilterResult>]>]> in
+            guard let system_filters_json = json["system_filters"] as? Array<NSDictionary> else { return Promise(error: ParserError.parserGuardFailed(id: "FilterListParser", variable: "system_filters")) }
+            guard let search_filters_json = json["search_filters"] as? Array<NSDictionary> else { return Promise(error: ParserError.parserGuardFailed(id: "FilterListParser", variable: "search_filters")) }
+            let user_filters_json = json["user_filters"] as? Array<NSDictionary>
+            
+            let system_filters = when(resolved: system_filters_json.map { return FilterParser.parse(dictionary: $0) })
+            let search_filters = when(resolved: search_filters_json.map { return FilterParser.parse(dictionary: $0) })
+            let user_filters: Promise<[Result<FilterResult>]>? = {
+                if let user_filters_json = user_filters_json {
+                    return when(resolved: user_filters_json.map { return FilterParser.parse(dictionary: $0) } )
+                } else { return nil }
+            }()
+            if let user_filters = user_filters { return when(resolved: system_filters, search_filters, user_filters) }
+            else { return when(resolved: system_filters, search_filters) }
+            
+        }.then(on: .global(qos: .userInitiated)) { results in
+            var system_filters = [FilterResult]()
+            var search_filters = [FilterResult]()
+            var user_filters = [FilterResult]()
+            
+            for case let (index, .fulfilled(value)) in results.enumerated() {
+                let arr: [FilterResult] = value.flatMap { if case let .fulfilled(value) = $0 { return value } else { return nil } }
+                switch index {
+                case 0: system_filters = arr
+                case 1: search_filters = arr
+                case 2: user_filters = arr
+                default: break
                 }
             }
-        }
+            
+            return Promise(value: FilterListResult(system_filters: system_filters, user_filters: user_filters, search_filters: search_filters))
+            
+        }.catch { error in print(error) }
     }
-    
 }
 
-class FilterParser: Parser {
-    
-    static func parse(data: Data) -> Promise<FilterResult> {
-        return Promise { fulfill, reject in
-            do {
-                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary {
-                    parse(dictionary: json).then { result -> Void in
-                        fulfill(result)
-                        }.catch { error in
-                            reject(error)
-                    }
-                } else {
-                    reject(ParserError.CannotCastJsonIntoNSDictionary(data: data))
-                }
-            }
-        }
-    }
-    
+struct FilterParser: ParserForItem {
     static func parse(dictionary item: NSDictionary) -> Promise<FilterResult> {
         let id = item["id"] as? Int ?? 0
         let name = item["name"] as? String ?? ""
@@ -282,7 +224,6 @@ class FilterParser: Parser {
             fulfill(FilterResult(metadata: metadata))
         }
     }
-    
 }
 
 
