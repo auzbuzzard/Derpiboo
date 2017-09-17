@@ -42,36 +42,32 @@ class ImageDetailVCCommentCell: UITableViewCell {
         currentIndexPath = indexPath
         guard let comment = comment else { return }
         if let slug = comment.metadata.author.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed) {
-            UserRequester().getUser(bySlug: slug).then { user -> Promise<Void> in
-                if let imageUrl = user.metadata.avatar_url {
+            UserResult.getUser(bySlug: slug).then { user -> Promise<Void> in
+                guard let imageUrl = user.metadata.avatar_url else { return Promise(error: CommentCellError.noImageURL) }
+                #if DEBUG
+                    print("[Verbose] Comment has avatar. Getting it now.")
+                #endif
+                return Cache.image.getImageData(for: imageUrl, size: .full)
+                .recover { error -> Promise<Data> in
                     #if DEBUG
-                        print("[Verbose] Comment has avatar. Getting it now.")
+                        print("[Verbose] No comment avatar in cache.")
                     #endif
-                    return Cache.image.getImageData(for: imageUrl, size: .full)
-                    .recover { error -> Promise<Data> in
-                        #if DEBUG
-                            print("[Verbose] No comment avatar in cache.")
-                        #endif
-                        return Network.get(url: "https:\(imageUrl)")
-                        }
-                    .then { imageData -> Void in
-                        #if DEBUG
-                            print("[Verbose] Setting Comment Avatar.")
-                        #endif
-                        _ = Cache.image.setImageData(imageData, id: imageUrl, size: .full)
-                        if let image = UIImage(data: imageData), indexPath == self.currentIndexPath {
-                            self.profileImageView.image = image
-                        }
+                    return Network.get(url: "https:\(imageUrl)")
                     }
-                } else {
-                    self.profileImageView.image = #imageLiteral(resourceName: "no_avatar")
-                    return Promise(error: CommentCellError.noImageURL)
+                .then { imageData -> Void in
+                    #if DEBUG
+                        print("[Verbose] Setting Comment Avatar.")
+                    #endif
+                    _ = Cache.image.setImageData(imageData, id: imageUrl, size: .full)
+                    if let image = UIImage(data: imageData), indexPath == self.currentIndexPath {
+                        self.profileImageView.image = image
+                    }
                 }
-                }.catch { error in
-                    switch error {
-                    case CommentCellError.noImageURL: break
-                    default: print(error)
-                    }
+            }.catch { error in
+                self.profileImageView.image = #imageLiteral(resourceName: "no_avatar")
+                if case CommentCellError.noImageURL = error {
+                    //self.profileImageView.image = #imageLiteral(resourceName: "no_avatar")
+                } else { print(error) }
             }
         }
         headerLabel.text = comment.metadata.author

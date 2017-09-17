@@ -85,13 +85,13 @@ class SearchHomeVC: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return min(SearchManager.main.searches.count, 10)
+        return SearchManager.main.searches.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: historyCellID, for: indexPath)
-        let history = SearchManager.main.recentSearches(count: 10)
-        cell.textLabel?.text = history[indexPath.row].searchString
+        let history = SearchManager.main.searches
+        cell.textLabel?.text = history[history.count - 1 - indexPath.row].searchString
         return cell
     }
     

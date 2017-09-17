@@ -98,6 +98,21 @@ class UserResult: ResultItem {
         self.metadata = metadata
     }
     
+    static func getUser(bySlug slug: String) -> Promise<UserResult> {
+        return Cache.user.getUser(for: slug)
+        .recover { error -> Promise<UserResult> in
+            switch error {
+            case UserCache.CacheError.noUserInStore(_), UserCache.CacheError.slugNotConvertible(_):
+                return UserRequester().getUser(bySlug: slug)
+            default: throw error
+            }
+        }
+    }
+    
+    enum UserResultError: Error {
+        case noUserFound(slug: String)
+    }
+    
 }
 
 struct FilterListResult: ModelResult {

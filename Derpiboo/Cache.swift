@@ -88,26 +88,37 @@ class ImageResultCache: CacheClass {
 class UserCache: CacheClass {
     fileprivate static let shared = UserCache()
     private init() { }
+    
+    private let writeQueue = DispatchQueue(label: "derpiboo.UserCache.writeQueue")
     lazy var users = Dictionary<String, UserResult>()
+    lazy private var userSlug = Dictionary<String, Int>()
     
     func getUser(for id: Int) -> Promise<UserResult> {
-        return Promise { fulfill, reject in
-            if let user = users["\(id)"] {
-                fulfill(user)
-            } else {
-                reject(CacheError.noUserInStore(id: id))
-            }
+        return writeQueue.promise {
+            guard let user = self.users["\(id)"] else { throw CacheError.noUserInStore(id: id) }
+            return user
         }
+    }
+    
+    func getUser(for slug: String) -> Promise<UserResult> {
+        guard let id = userIdFromSlug(slug) else { return Promise(error: CacheError.slugNotConvertible(slug: slug)) }
+        return getUser(for: id)
     }
     
     func setUser(_ user: UserResult) -> Promise<Void> {
-        return Promise { fulfill, reject in
-            users.updateValue(user, forKey: "\(user.id)")
-            fulfill()
+        return writeQueue.promise {
+            self.users.updateValue(user, forKey: "\(user.id)")
+            self.userSlug.updateValue(user.id, forKey: user.metadata.slug)
+            return
         }
     }
     
+    private func userIdFromSlug(_ slug: String) -> Int? {
+        return userSlug[slug]
+    }
+    
     enum CacheError: Error {
+        case slugNotConvertible(slug: String)
         case noUserInStore(id: Int)
     }
 }
