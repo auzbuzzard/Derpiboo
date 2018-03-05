@@ -63,9 +63,9 @@ struct ListResult: ResultListable {
 
 
 
-class UserResult: ResultItem {
+struct UserResult: ResultItem {
     
-    var id: Int { get { return metadata.id } }
+    var id: Int { return metadata.id }
     
     var metadata: Metadata
     
@@ -94,11 +94,7 @@ class UserResult: ResultItem {
         let awarded_on: String
     }
     
-    init(metadata: Metadata) {
-        self.metadata = metadata
-    }
-    
-    static func getUser(bySlug slug: String) -> Promise<UserResult> {
+    static func getUser(by slug: String) -> Promise<UserResult> {
         return Cache.user.getUser(for: slug)
         .recover { error -> Promise<UserResult> in
             switch error {

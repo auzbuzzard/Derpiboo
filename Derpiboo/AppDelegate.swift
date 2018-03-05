@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         _ = FilterManager.main
         _ = SearchManager.main
-        Theme.apply(Theme: .dark)
+        Theme.apply(.dark)
         
         return true
     }

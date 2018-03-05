@@ -120,7 +120,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="xDn-dN-c3c">
-                        <barButtonItem key="rightBarButtonItem" title="Settings" id="RPJ-KQ-04Q"/>
+                        <barButtonItem key="rightBarButtonItem" title="Settings" id="RPJ-KQ-04Q">
+                            <connections>
+                                <segue destination="npI-rS-0QH" kind="show" id="wYO-T4-NIn"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
@@ -318,4 +322,7 @@
             <point key="canvasLocation" x="2462" y="1354"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="wYO-T4-NIn"/>
+    </inferredMetricsTieBreakers>
 </document>

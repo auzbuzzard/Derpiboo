@@ -11,7 +11,7 @@ import PromiseKit
 
 class ListCollectionVM: ListCollectionVCDataSource {
     
-    // Mark: - Internal Data
+    // MARK: - Internal Data
     
     private var result: ListResult
     
@@ -22,7 +22,7 @@ class ListCollectionVM: ListCollectionVCDataSource {
         }
     }
     
-    // Mark: - Interface
+    // MARK: - Interface
     
     var results: [ImageResult] { return result.results }
     
@@ -39,8 +39,6 @@ class ListCollectionVM: ListCollectionVCDataSource {
         }
         return ListRequester().downloadList(for: tags != nil ? .search : .images, tags: tags, withSorting: sortFilter, page: result.currentPage + 1).then { listResult -> Void in
             self.result.add(listResult)
-        }.catch { error in
-            print("Error getting results: \(error)")
         }
     }
     
@@ -48,7 +46,7 @@ class ListCollectionVM: ListCollectionVCDataSource {
         self.sortFilter = filter
     }
     
-    // Mark: - Methods
+    // MARK: - Methods
     
     func tags(from stringTag: String?) -> [String]? {
         return stringTag?.components(separatedBy: ",").map{ $0.trimmingCharacters(in: .whitespaces)}
@@ -57,7 +55,7 @@ class ListCollectionVM: ListCollectionVCDataSource {
 
 struct ListCollectionVCMainCellVM: ListCollectionVCMainCellDataSource {
     
-    // Mark: - Internal Data
+    // MARK: - Internal Data
     
     private let result: ImageResult
     
@@ -65,7 +63,7 @@ struct ListCollectionVCMainCellVM: ListCollectionVCMainCellDataSource {
         self.result = result
     }
     
-    // Mark: - Interface
+    // MARK: - Interface
     var fileType: ImageResult.Metadata.File_Ext? { return result.metadata.original_format_enum }
     
     var artistsName: String { return result.metadata.uploader }
@@ -76,6 +74,6 @@ struct ListCollectionVCMainCellVM: ListCollectionVCMainCellDataSource {
     var score: Int { return result.metadata.score }
     //var rating: ImageResult.Metadata.Ratings { return result.metadata.rating }
     var imageType: ImageResult.Metadata.File_Ext { return result.metadata.original_format_enum ?? .jpg }
-    var mainImageData: Promise<Data> { return result.imageData(forSize: .large)}
-    var profileImageData: Promise<Data> { return result.imageData(forSize: .thumb)}
+    var mainImageData: Promise<Data> { return result.imageData(for: .large)}
+    var profileImageData: Promise<Data> { return result.imageData(for: .thumb)}
 }

@@ -21,7 +21,14 @@ protocol ListCollectionVCDataSource {
 
 /// There CollectionViewController class that deals with the vertical scroll view of lists of returned image results.
 class ListCollectionVC: UICollectionViewController {
-    // Mark: Constants and tags
+    
+    // MARK: - Declarations
+    
+    enum Errors: Error {
+        case setupInfiniteScrollFailed
+    }
+    
+    // MARK: Constants and tags
     public static let storyboardName = "ListCollection"
     public static let storyboardID = "listCollectionVC"
     private let showImageSegueID = "showImageZoomVC"
@@ -30,11 +37,11 @@ class ListCollectionVC: UICollectionViewController {
     var isFirstListCollectionVC = false
     var shouldHideNavigationBar = true
     
-    // Mark: Delegates
+    // MARK: Delegates
     
     var dataSource: ListCollectionVCDataSource?
     
-    // Mark: VC Life Cycle
+    // MARK: VC Life Cycle
     
     let refreshControl = UIRefreshControl()
     
@@ -77,11 +84,15 @@ class ListCollectionVC: UICollectionViewController {
         collectionView?.infiniteScrollIndicatorStyle = .whiteLarge
         collectionView?.addInfiniteScroll { [weak self] (scrollView) -> Void in
             // Setup loading when performing infinite scroll
-            let lastCount = (self?.dataSource?.results.count)!
-            _ = self?.dataSource?.getResults(asNew: false, withTags: self?.dataSource?.tags, withSorting: nil).then { () -> Void in
+            firstly { () -> Promise<(Void, Int)> in
+                guard let lastCount = self?.dataSource?.results.count,
+                    let dataSource = self?.dataSource else { return Promise(error: Errors.setupInfiniteScrollFailed) }
+                return dataSource.getResults(asNew: false, withTags: dataSource.tags, withSorting: nil).then { return ($0, lastCount) }
+            }.then { (_, lastCount) -> Void in
                 // Update collection view
+                guard let dataSource = self?.dataSource else { throw Errors.setupInfiniteScrollFailed }
                 var index = [IndexPath]()
-                for n in lastCount..<(self?.dataSource?.results.count)! {
+                for n in lastCount..<dataSource.results.count {
                     index.append(IndexPath(item: n, section: 0))
                 }
                 scrollView.performBatchUpdates({ () -> Void in
@@ -89,7 +100,7 @@ class ListCollectionVC: UICollectionViewController {
                 }, completion: { (finished) -> Void in
                     scrollView.finishInfiniteScroll()
                 })
-            }
+            }.catch { error in print(error) }
         }
     }
     
@@ -118,7 +129,7 @@ class ListCollectionVC: UICollectionViewController {
         }
     }
     
-    // Mark: - Segues
+    // MARK: - Segues
     func segue(isTappedBy sender: UITapGestureRecognizer) {
         if sender.state == .ended {
             let point = sender.location(in: collectionView)
@@ -144,7 +155,7 @@ class ListCollectionVC: UICollectionViewController {
         }
     }
     
-    // Mark: - Notification Observing
+    // MARK: - Notification Observing
     
     func filterDidChange() {
         dataSource?.getResults(asNew: true, withTags: dataSource?.tags, withSorting: nil).then {
@@ -190,35 +201,6 @@ class ListCollectionVC: UICollectionViewController {
             cell.animateImage()
         }
     }*/
-    
-    // Mark: - Scroll View
-    
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        //print("dragging")
-        if scrollView.panGestureRecognizer.translation(in: scrollView).y < 0 {
-            changeTabBar(hidden: true, animated: true)
-        } else {
-            changeTabBar(hidden: false, animated: true)
-        }
-    }
-    
-    func changeTabBar(hidden:Bool, animated: Bool){
-        let tabBar = self.tabBarController?.tabBar
-        if tabBar!.isHidden == hidden { return }
-        let frame = tabBar?.frame
-        let offset = (hidden ? (frame?.size.height)! : -(frame?.size.height)!)
-        let duration: TimeInterval = (animated ? 0.5 : 0.0)
-        tabBar?.isHidden = false
-        if frame != nil {
-            UIView.animate(withDuration: duration, animations: {
-                tabBar!.frame = tabBar!.frame.offsetBy(dx: 0, dy: offset)
-            }, completion: {
-                if $0 {
-                    tabBar?.isHidden = hidden
-                }
-            })
-        }
-    }
 }
 
 // MARK: - Nav Controller Delegate
@@ -272,7 +254,7 @@ extension ListCollectionVC: UICollectionViewDelegateFlowLayout {
     }
 }
 
-// Mark: - Popover Presentation Delegate
+// MARK: - Popover Presentation Delegate
 
 extension ListCollectionVC: UIPopoverPresentationControllerDelegate {
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
@@ -280,7 +262,7 @@ extension ListCollectionVC: UIPopoverPresentationControllerDelegate {
     }
 }
 
-// Mark: - ListCollectionFilterVCDelegate
+// MARK: - ListCollectionFilterVCDelegate
 
 extension ListCollectionVC: ListCollectionFilterVCDelegate {
     func filterDidApply(filter: SortFilter) {

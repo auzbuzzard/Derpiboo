@@ -93,53 +93,33 @@ struct ImageResult: ResultItem {
         }
     }
     
-    func imageData(forSize size: Metadata.ImageSize) -> Promise<Data> {
-        if metadata.original_format_enum == .webm || metadata.original_format_enum == .webm {
-            #if DEBUG
-                print("[Verbose] imageResult(\(id)) is trying to get imageData for size (\(size)), BUT image is of type \(String(describing: metadata.original_format_enum)).")
-            #endif
-            return Promise<Data>(error: ImageResultError.imageTypeNotSupported(id: id, type: metadata.original_format_enum))
-        }
-        
-        #if DEBUG
-            print("[Verbose] imageResult(\(id)) is trying to get imageData for size (\(size)).")
-        #endif
-        return imageDataFromCache(size: size)
-            .recover { error -> Promise<Data> in
-                if case ImageCache.CacheError.noImageInStore(_) = error {
-                    #if DEBUG
-                        print("[Verbose] imageResult(\(self.id)) can't find cached data for size (\(size)), will attempt download.")
-                    #endif
-                    return self.downloadImageData(forSize: size)
-                } else {
-                    #if DEBUG
-                        print("[Verbose] imageResult(\(self.id)) got into error for size (\(size)): \(error)")
-                    #endif
-                    throw error
-                }
+    func imageData(for size: Metadata.ImageSize) -> Promise<Data> {
+        return firstly {
+            if metadata.original_format_enum == .webm || metadata.original_format_enum == .swf {
+                throw Errors.imageTypeNotSupported(id: id, type: metadata.original_format_enum)
+            } else { return Promise{ fulfill, _ in fulfill() } }
+        }.then {
+            return self.imageDataFromCache(size: size)
+        }.recover { error -> Promise<Data> in
+            if case ImageCache.CacheError.noImageInStore(_) = error {
+                return self.downloadImageData(forSize: size)
+            } else { throw error }
         }
     }
     
     func imageDataFromCache(size: Metadata.ImageSize) -> Promise<Data> {
-        #if DEBUG
-            print("[Verbose] imageResult(\(id)) is trying to get imageData FROM CACHE for size (\(size)).")
-        #endif
         return Cache.image.getImageData(for: self.id, size: size)
     }
     
     func downloadImageData(forSize size: Metadata.ImageSize) -> Promise<Data> {
-        #if DEBUG
-            print("[Verbose] imageResult(\(id)) is trying to get imageData FROM DOWNLOAD for size (\(size)). URL: \(url(forSize: size))")
-        #endif
-        
-        return Network.get(url: url(forSize: size))
-            .then { data -> Promise<Data> in
-                _ = Cache.image.setImageData(data, id: self.id, size: size)
-                return Promise(value: data)
+        return Network.get(url: url(forSize: size)).then { data -> Promise<Data> in
+            Cache.image.setImageData(data, id: self.id, size: size)
+            .catch { print($0) }
+            return Promise(value: data)
         }
     }
     
-    enum ImageResultError: Error {
+    enum Errors: Error {
         case downloadFailed(id: String, url: String)
         case imageTypeNotSupported(id: String, type: Metadata.File_Ext?)
     }

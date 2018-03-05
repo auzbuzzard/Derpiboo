@@ -17,6 +17,7 @@ protocol CacheClass { }
 //extension CacheClass { }
 
 class Cache {
+    private init() { }
     static var image: ImageCache { return ImageCache.shared }
     static var imageResult: ImageResultCache { return ImageResultCache.shared }
     static var user: UserCache { return UserCache.shared }
@@ -35,13 +36,8 @@ class ImageCache: CacheClass {
     private lazy var images = NSCache<NSString, DataWrapper>()
     
     func getImageData(for id: String, size: ImageResult.Metadata.ImageSize) -> Promise<Data> {
-        return Promise { fulfill, reject in
-            if let image = images.object(forKey: "\(id)_\(size.rawValue)" as NSString) {
-                fulfill(image.data)
-            } else {
-                reject(CacheError.noImageInStore(id: id))
-            }
-        }
+        guard let image = images.object(forKey: "\(id)_\(size.rawValue)" as NSString) else { return Promise(error: CacheError.noImageInStore(id: id)) }
+        return Promise(value: image.data)
     }
     
     func setImageData(_ imageData: Data, id: String, size: ImageResult.Metadata.ImageSize) -> Promise<Void> {

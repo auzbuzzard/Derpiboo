@@ -42,7 +42,7 @@ class ImageDetailVCCommentCell: UITableViewCell {
         currentIndexPath = indexPath
         guard let comment = comment else { return }
         if let slug = comment.metadata.author.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed) {
-            UserResult.getUser(bySlug: slug).then { user -> Promise<Void> in
+            UserResult.getUser(by: slug).then { user -> Promise<Void> in
                 guard let imageUrl = user.metadata.avatar_url else { return Promise(error: CommentCellError.noImageURL) }
                 #if DEBUG
                     print("[Verbose] Comment has avatar. Getting it now.")

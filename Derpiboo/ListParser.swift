@@ -23,9 +23,7 @@ struct ListParser {
                     let items = json[key] as? Array<NSDictionary> {
                     fulfill(items)
                 } else { reject(ParserError.CannotCastJsonIntoNSDictionary(data: data)) }
-            } catch {
-                reject(error)
-            }
+            } catch { reject(error) }
         }.then(on: .global(qos: .userInitiated)) { items in
             return when(resolved: items.map{ return ImageParser.parse(dictionary: $0) })
         }.then(on: .global(qos: .userInitiated)) { results -> [ImageResult] in
@@ -34,6 +32,6 @@ struct ListParser {
             }
         }.then {
             return Promise(value: ListResult(result: $0))
-        }.catch { error in print(error) }
+        }
     }
 }

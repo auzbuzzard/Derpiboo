@@ -24,9 +24,6 @@ class SearchHomeVC: UITableViewController {
         super.viewDidLoad()
         searchSuggestionsVC = storyboard?.instantiateViewController(withIdentifier: SearchSuggestionsVC.storyboardID) as! SearchSuggestionsVC
         setupSearchField()
-        
-        //navigationController?.navigationBar.barTintColor = Theme.colors().background
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,9 +35,6 @@ class SearchHomeVC: UITableViewController {
         searchController = UISearchController(searchResultsController: searchSuggestionsVC)
         searchController.searchResultsUpdater = searchSuggestionsVC
         searchController.dimsBackgroundDuringPresentation = true
-        //searchController.searchBar.backgroundImage = UIImage()
-        //searchController.searchBar.barStyle = .black
-        //searchController.searchBar.tintColor = Theme.colors().background_header
         
         searchController.searchBar.keyboardAppearance = .dark
         searchController.searchBar.barStyle = .blackTranslucent

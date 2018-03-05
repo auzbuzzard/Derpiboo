@@ -35,8 +35,8 @@ extension ParserForItem {
             } catch {
                 reject(error)
             }
-            }.then { json -> Promise<Result> in
-                return parse(dictionary: json)
+        }.then { json -> Promise<Result> in
+            return parse(dictionary: json)
         }
     }
 }
@@ -117,9 +117,7 @@ class TagParser: Parser, ParserForItem {
         
         let metadata = TagResult.Metadata(id: id, name: name, slug: slug, description: description, short_description: short_description, images: images, spoiler_image_uri: spoiler_image_uri, aliased_to: aliased_to, aliased_to_id: aliased_to_id, namespace: namespace, name_in_namespace: name_in_namespace, implied_tags: implied_tags, implied_tag_ids: implied_tag_ids, category: category)
         
-        return Promise { fulfill, _ in
-            fulfill(TagResult(metadata: metadata))
-        }
+        return Promise(value: TagResult(metadata: metadata))
     }
 }
 
@@ -139,16 +137,16 @@ struct CommentParser: ParserForList {
             return results.flatMap {
                 if case let .fulfilled(value) = $0 { return value } else { return nil }
             }
-        }.catch { error in print(error) }
+        }
     }
     
     static func parse(dictionary item: NSDictionary) -> Promise<CommentResult> {
-        let id = item["id"] as? Int ?? 0
-        let body = item["body"] as? String ?? ""
-        let author = item["author"] as? String ?? ""
-        let image_id = item["image_id"] as? Int ?? 0
-        let posted_at = item["posted_at"] as? String ?? ""
-        let deleted = item["deleted"] as? Bool ?? false
+        guard let id = item["id"] as? Int else { return Promise(error: ParserError.parserGuardFailed(id: "0", variable: "id")) }
+        guard let body = item["body"] as? String else { return Promise(error: ParserError.parserGuardFailed(id: "\(id)", variable: "body")) }
+        guard let author = item["author"] as? String else { return Promise(error: ParserError.parserGuardFailed(id: "\(id)", variable: "author")) }
+        guard let image_id = item["image_id"] as? Int else { return Promise(error: ParserError.parserGuardFailed(id: "\(id)", variable: "image_id")) }
+        guard let posted_at = item["posted_at"] as? String else { return Promise(error: ParserError.parserGuardFailed(id: "\(id)", variable: "posted_at")) }
+        guard let deleted = item["deleted"] as? Bool else { return Promise(error: ParserError.parserGuardFailed(id: "\(id)", variable: "deleted")) }
         
         let metadata = CommentResult.Metadata(id: id, body: body, author: author, image_id: image_id, posted_at: posted_at, deleted: deleted)
         

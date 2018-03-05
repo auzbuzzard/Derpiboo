@@ -73,12 +73,12 @@ class ImageZoomVC: UIViewController {
     // Mark: - Data Loading
     
     func loadImage() {
-        _ = imageResult.imageData(forSize: .large).then { data -> Void in
+        _ = imageResult.imageData(for: .large).then { data -> Void in
             if !self.isFileImage {
                 self.setImageView(data: data, withZoom: true)
             }
         }
-        _ = imageResult.imageData(forSize: .full).then { data -> Void in
+        _ = imageResult.imageData(for: .full).then { data -> Void in
             self.setImageView(data: data, withZoom: false)
             self.isFileImage = true
         }

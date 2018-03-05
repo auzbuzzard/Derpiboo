@@ -68,8 +68,4 @@ struct ImageParser: ParserForItem {
         
         return Promise(value: ImageResult(metadata: metadata))
     }
-    
-    enum ImageParserError: Error {
-        case imageTypeIsNotSupported(id: Int, status: ImageResult.Metadata.File_Ext)
-    }
 }

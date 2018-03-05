@@ -26,6 +26,10 @@ protocol ListCollectionVCMainCellDataSource {
 }
 
 class ListCollectionVCMainCell: UICollectionViewCell {
+    enum Errors: Error {
+        case imageTypeNotSupported(indexPath: IndexPath)
+    }
+    
     static let storyboardID = "mainCell"
     
     var currentIndexPath: IndexPath!
@@ -41,7 +45,7 @@ class ListCollectionVCMainCell: UICollectionViewCell {
         super.prepareForReuse()
         label.removeFromSuperview()
         fileTypeWarningView.removeFromSuperview()
-        mainImageView.startAnimatingGIF()
+        mainImageView.stopAnimatingGIF()
         mainImageView.image = nil
         mainImageView.prepareForReuse()
     }
@@ -92,49 +96,62 @@ class ListCollectionVCMainCell: UICollectionViewCell {
         
         //check if image is unhandled filetype
         if dataSource.fileType == .webm || dataSource.fileType == .swf {
-            fileTypeWarningView.image = dataSource.fileType == .webm ? #imageLiteral(resourceName: "webm") : #imageLiteral(resourceName: "swf")
-            contentView.addSubview(fileTypeWarningView)
-            fileTypeWarningView.translatesAutoresizingMaskIntoConstraints = false
-            contentView.addConstraints([
-                NSLayoutConstraint(item: fileTypeWarningView, attribute: .centerX, relatedBy: .equal, toItem: mainImageView, attribute: .centerX, multiplier: 1, constant: 0),
-                NSLayoutConstraint(item: fileTypeWarningView, attribute: .centerY, relatedBy: .equal, toItem: mainImageView, attribute: .centerY, multiplier: 1, constant: 0),
-                NSLayoutConstraint(item: fileTypeWarningView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: mainImageView.bounds.width * 0.3),
-                NSLayoutConstraint(item: fileTypeWarningView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: mainImageView.bounds.width * 0.3)
-                ])
-            //webmIconView.bounds.size = CGSize(width: mainImage.bounds.width * 0.3, height: mainImage.bounds.width * 0.3)
-
-            /*
-            label.text = "webm"
-            label.textColor = Theme.colors().labelText
-            label.sizeToFit()
-            contentView.addSubview(label)
-            label.translatesAutoresizingMaskIntoConstraints = false
-            contentView.addConstraints([
-                    NSLayoutConstraint(item: label, attribute: .centerX, relatedBy: .equal, toItem: mainImage, attribute: .centerX, multiplier: 1, constant: 0),
-                    NSLayoutConstraint(item: label, attribute: .centerY, relatedBy: .equal, toItem: mainImage, attribute: .centerY, multiplier: 1, constant: 0)
-                ])
-             */
+            setFileTypeWarningImage(dataSource)
         }
         
         setMainImage(indexPath: indexPath, dataSource: dataSource)
     }
     
     func setMainImage(indexPath: IndexPath, dataSource: ListCollectionVCMainCellDataSource) {
-        _ = dataSource.mainImageData.then { data -> Void in
+        dataSource.mainImageData.then { data -> Void in
             if indexPath == self.currentIndexPath {
                 if dataSource.imageType == .gif {
                     self.mainImageView.prepareForAnimation(withGIFData: data)
                     self.mainImageView.startAnimatingGIF()
                 } else {
-                    guard let image = UIImage(data: data) else { print("Image at \(indexPath) could not be casted into UIImage."); return }
+                    guard let image = UIImage(data: data) else { throw  Errors.imageTypeNotSupported(indexPath: indexPath) }
                     self.mainImageView.image = image
                 }
+            }
+        }.catch { error in
+            switch error {
+            case ImageResult.Errors.imageTypeNotSupported(_), Errors.imageTypeNotSupported(_):
+                break
+            default: print(error)
             }
         }
     }
     
     func animateImage() {
         self.mainImageView.startAnimatingGIF()
+    }
+    
+    // Internal methods
+    
+    
+    fileprivate func setFileTypeWarningImage(_ dataSource: ListCollectionVCMainCellDataSource) {
+        fileTypeWarningView.image = dataSource.fileType == .webm ? #imageLiteral(resourceName: "webm") : #imageLiteral(resourceName: "swf")
+        contentView.addSubview(fileTypeWarningView)
+        fileTypeWarningView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addConstraints([
+            NSLayoutConstraint(item: fileTypeWarningView, attribute: .centerX, relatedBy: .equal, toItem: mainImageView, attribute: .centerX, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: fileTypeWarningView, attribute: .centerY, relatedBy: .equal, toItem: mainImageView, attribute: .centerY, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: fileTypeWarningView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: mainImageView.bounds.width * 0.3),
+            NSLayoutConstraint(item: fileTypeWarningView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: mainImageView.bounds.width * 0.3)
+            ])
+        //webmIconView.bounds.size = CGSize(width: mainImage.bounds.width * 0.3, height: mainImage.bounds.width * 0.3)
+        
+        /*
+         label.text = "webm"
+         label.textColor = Theme.colors().labelText
+         label.sizeToFit()
+         contentView.addSubview(label)
+         label.translatesAutoresizingMaskIntoConstraints = false
+         contentView.addConstraints([
+         NSLayoutConstraint(item: label, attribute: .centerX, relatedBy: .equal, toItem: mainImage, attribute: .centerX, multiplier: 1, constant: 0),
+         NSLayoutConstraint(item: label, attribute: .centerY, relatedBy: .equal, toItem: mainImage, attribute: .centerY, multiplier: 1, constant: 0)
+         ])
+         */
     }
     
 }

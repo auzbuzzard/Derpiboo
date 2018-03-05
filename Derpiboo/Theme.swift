@@ -114,7 +114,7 @@ struct Theme {
         return .dark
     }
     
-    static func apply(Theme theme: Colors) {
+    static func apply(_ theme: Colors) {
         
         if theme == .dark {
             UINavigationBar.appearance().barStyle = UIBarStyle.black
@@ -125,15 +125,11 @@ struct Theme {
         //UIApplication.shared.statusBarView?.backgroundColor = background_header_color
         
         // Tab Bar
-        //UITabBar.appearance().backgroundImage = background_imageColor
-        //UITabBar.appearance().barTintColor = theme.background_header
-        UITabBar.appearance().tintColor = theme.labelLink
-        
             // Remove top gradient line
         UITabBar.appearance().layer.borderWidth = 0.0
         UITabBar.appearance().clipsToBounds = true
-        UITabBar.appearance().tintColor = colors().labelLink
-        UITabBar.appearance().barTintColor = colors().background
+        UITabBar.appearance().tintColor = theme.labelLink
+        UITabBar.appearance().barTintColor = theme.background
         
         // Nav Bar
         //UINavigationBar.appearance().setBackgroundImage(background_header_imageColor, for: .default)
@@ -160,12 +156,6 @@ struct Theme {
         
         UISwitch.appearance().tintColor = theme.highlight
         
-    }
-}
-
-extension UIApplication {
-    var statusBarView: UIView? {
-        return value(forKey: "statusBar") as? UIView
     }
 }
 
