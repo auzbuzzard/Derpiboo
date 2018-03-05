@@ -3,7 +3,7 @@ This application makes use of the following third party libraries:
 
 ## Alamofire
 
-Copyright (c) 2014-2016 Alamofire Software Foundation (http://alamofire.org/)
+Copyright (c) 2014-2017 Alamofire Software Foundation (http://alamofire.org/)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -75,7 +75,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 BSD 3-Clause License
 
-Copyright (c) 2016, Digipolitan
+Copyright (c) 2017, Digipolitan
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -131,7 +131,7 @@ THE SOFTWARE.
 
 The MIT License (MIT)
 
-Copyright (c) 2014-2016 Reda Lemeden.
+Copyright (c) 2014-2018 Reda Lemeden.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in

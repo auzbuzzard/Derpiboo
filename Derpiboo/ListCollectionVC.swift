@@ -112,7 +112,7 @@ class ListCollectionVC: UICollectionViewController {
     }
     
     func getNewResult(withTags tags: [String]? = nil) {
-        _ = dataSource?.getResults(asNew: true, withTags: tags != nil ? tags: dataSource?.tags, withSorting: nil).then { () -> Void in
+        dataSource?.getResults(asNew: true, withTags: tags != nil ? tags: dataSource?.tags, withSorting: nil).then { () -> Void in
             self.collectionView?.reloadData()
             /*
             self.collectionView?.performBatchUpdates({
@@ -126,6 +126,8 @@ class ListCollectionVC: UICollectionViewController {
             })
              */
             self.refreshControl.endRefreshing()
+            }.catch { error in
+                print(error)
         }
     }
     

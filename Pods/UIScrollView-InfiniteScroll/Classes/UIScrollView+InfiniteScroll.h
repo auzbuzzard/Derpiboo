@@ -11,6 +11,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ UIScrollView infinite scroll category
+ */
 @interface UIScrollView (InfiniteScroll)
 
 /**
@@ -42,8 +45,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) CGFloat infiniteScrollIndicatorMargin;
 
 /**
- *  Sets the offset between the real end of the scroll view content and the scroll position, so the handler can be triggered before reaching end.
- *  Defaults to 0.0;
+ *  Set vertical adjustment for scroll coordinate used to determine when to call handler block.
+ *  Non-zero value advances the point when handler block is being called 
+ *  making it fire by N points earlier before scroll view reaches the bottom.
+ *  This value is measured in points and must be positive number.
+ *  Default: 0.0
  */
 @property (nonatomic) CGFloat infiniteScrollTriggerOffset;
 
@@ -95,22 +101,65 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-/*
- Convenience interface to avoid cast from UIScrollView to common subclasses such as UITableView and UICollectionView.
+/**
+ Convenience interface for UIScrollView+InfiniteScroll category.
  */
-
 @interface UITableView (InfiniteScrollConvenienceInterface)
 
+/**
+ *  Setup infinite scroll handler
+ *
+ *  @param handler a handler block
+ */
 - (void)addInfiniteScrollWithHandler:(void(^)(UITableView *tableView))handler;
+
+/**
+ *  Set a handler to be called to check if the infinite scroll should be shown
+ *
+ *  @param handler a handler block
+ */
 - (void)setShouldShowInfiniteScrollHandler:(BOOL(^)(UITableView *tableView))handler;
+
+/**
+ *  Finish infinite scroll animations
+ *
+ *  You must call this method from your infinite scroll handler to finish all
+ *  animations properly and reset infinite scroll state
+ *
+ *  @param handler a completion block handler called when animation finished
+ */
 - (void)finishInfiniteScrollWithCompletion:(nullable void(^)(UITableView *tableView))handler;
 
 @end
 
+
+/**
+ Convenience interface for UIScrollView+InfiniteScroll category.
+ */
 @interface UICollectionView (InfiniteScrollConvenienceInterface)
 
+/**
+ *  Setup infinite scroll handler
+ *
+ *  @param handler a handler block
+ */
 - (void)addInfiniteScrollWithHandler:(void(^)(UICollectionView *collectionView))handler;
+
+/**
+ *  Set a handler to be called to check if the infinite scroll should be shown
+ *
+ *  @param handler a handler block
+ */
 - (void)setShouldShowInfiniteScrollHandler:(BOOL(^)(UICollectionView *collectionView))handler;
+
+/**
+ *  Finish infinite scroll animations
+ *
+ *  You must call this method from your infinite scroll handler to finish all
+ *  animations properly and reset infinite scroll state
+ *
+ *  @param handler a completion block handler called when animation finished
+ */
 - (void)finishInfiniteScrollWithCompletion:(nullable void(^)(UICollectionView *collectionView))handler;
 
 @end

@@ -26,7 +26,7 @@ class ImageDetailVCTagsTextViewCell: UITableViewCell {
     // Mark: - Private methods
     
     private func setTagsAsAttributedString(tags: [String]) -> NSAttributedString {
-        when(fulfilled: tags.map { TagRequester().downloadTag(for: $0) } ).then { results -> Void in
+        when(fulfilled: tags.map { TagRequester().downloadTag(for: Int($0) ?? 0) } ).then { results -> Void in
             //let attributeStrings = results.map { self.attributedString(from: $0) }
             }.catch { error in print(error) }
         return NSAttributedString()

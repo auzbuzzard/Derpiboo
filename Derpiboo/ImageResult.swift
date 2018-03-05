@@ -19,9 +19,7 @@ struct ImageResult: ResultItem {
         
         let created_at: String
         let updated_at: String
-        
-        let duplicate_reports: [AnyObject]
-        
+                
         let first_seen_at: String
         
         let file_name: String
@@ -40,7 +38,7 @@ struct ImageResult: ResultItem {
         let comment_count: Int
         
         let tags: String
-        let tag_ids: [String]
+        let tag_ids: [Int]
         
         //let rating: Ratings
         

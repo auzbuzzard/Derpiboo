@@ -28,7 +28,14 @@ struct ListParser {
             return when(resolved: items.map{ return ImageParser.parse(dictionary: $0) })
         }.then(on: .global(qos: .userInitiated)) { results -> [ImageResult] in
             return results.flatMap {
-                if case let .fulfilled(value) = $0 { return value } else { return nil }
+                if case let .fulfilled(value) = $0 {
+                    return value
+                } else if case let .rejected(error) = $0 {
+                    print(error)
+                    return nil
+                } else {
+                    return nil
+                }
             }
         }.then {
             return Promise(value: ListResult(result: $0))

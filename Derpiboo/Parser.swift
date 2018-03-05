@@ -100,7 +100,7 @@ class TagParser: Parser, ParserForItem {
     }
     
     static func parse(dictionary item: NSDictionary) -> Promise<TagResult> {
-        let id = item["id"] as? String ?? ""
+        let id = item["id"] as? Int ?? 0
         let name = item["name"] as? String ?? ""
         let slug = item["slug"] as? String ?? ""
         let description = item["description"] as? String ?? ""

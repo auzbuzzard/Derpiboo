@@ -600,7 +600,7 @@ inline BOOL SVGCurveEqualToCurve(SVGCurve curve1, SVGCurve curve2)
  smooth-curveto:
  ( "S" | "s" ) wsp* smooth-curveto-argument-sequence
  */
-+ (SVGCurve) readSmoothCurvetoCommand:(NSScanner*)scanner path:(CGMutablePathRef)path relativeTo:(CGPoint)origin withPrevCurve:(SVGCurve)prevCurve
++ (SVGCurve) readSmoothCurvetoCommand:(NSScanner*)scanner path:(CGMutablePathRef)path relativeTo:(CGPoint)origin withPrevCurve:(SVGCurve)prevCurve isRelative:(BOOL) isRelative
 {
     NSString* cmd = nil;
     NSCharacterSet* cmdFormat = [NSCharacterSet characterSetWithCharactersInString:@"Ss"];
@@ -611,7 +611,7 @@ inline BOOL SVGCurveEqualToCurve(SVGCurve curve1, SVGCurve curve2)
 	
     [SVGKPointsAndPathsParser readWhitespace:scanner];
     
-    SVGCurve lastCurve = [SVGKPointsAndPathsParser readSmoothCurvetoArgumentSequence:scanner path:path relativeTo:origin withPrevCurve:prevCurve];
+    SVGCurve lastCurve = [SVGKPointsAndPathsParser readSmoothCurvetoArgumentSequence:scanner path:path relativeTo:origin withPrevCurve:prevCurve isRelative:isRelative];
     return lastCurve;
 }
 
@@ -620,12 +620,13 @@ inline BOOL SVGCurveEqualToCurve(SVGCurve curve1, SVGCurve curve2)
  smooth-curveto-argument
  | smooth-curveto-argument comma-wsp? smooth-curveto-argument-sequence
  */
-+ (SVGCurve) readSmoothCurvetoArgumentSequence:(NSScanner*)scanner path:(CGMutablePathRef)path relativeTo:(CGPoint)origin withPrevCurve:(SVGCurve)prevCurve
++ (SVGCurve) readSmoothCurvetoArgumentSequence:(NSScanner*)scanner path:(CGMutablePathRef)path relativeTo:(CGPoint)origin withPrevCurve:(SVGCurve)prevCurve isRelative:(BOOL) isRelative
 {
     SVGCurve curve = [SVGKPointsAndPathsParser readSmoothCurvetoArgument:scanner path:path relativeTo:origin withPrevCurve:prevCurve];
     
     if (![scanner isAtEnd]) {
-        curve = [SVGKPointsAndPathsParser readSmoothCurvetoArgumentSequence:scanner path:path relativeTo:curve.p withPrevCurve:curve];
+        CGPoint newOrigin = isRelative ? curve.p : origin;
+        curve = [SVGKPointsAndPathsParser readSmoothCurvetoArgumentSequence:scanner path:path relativeTo:newOrigin withPrevCurve:curve isRelative: isRelative];
     }
     
     return curve;
@@ -638,7 +639,8 @@ inline BOOL SVGCurveEqualToCurve(SVGCurve curve1, SVGCurve curve2)
 + (SVGCurve) readSmoothCurvetoArgument:(NSScanner*)scanner path:(CGMutablePathRef)path relativeTo:(CGPoint)origin withPrevCurve:(SVGCurve)prevCurve
 {
 	// FIXME: reduce the allocations here; make one SVGCurve and update it, not multiple CGPoint's
-	
+	[SVGKPointsAndPathsParser readCommaAndWhitespace:scanner];
+    
     CGPoint p1 = [SVGKPointsAndPathsParser readCoordinatePair:scanner];
     CGPoint coord1 = CGPointMake(p1.x+origin.x, p1.y+origin.y);
     [SVGKPointsAndPathsParser readCommaAndWhitespace:scanner];
@@ -649,7 +651,11 @@ inline BOOL SVGCurveEqualToCurve(SVGCurve curve1, SVGCurve curve2)
     SVGCurve thisCurve;
     if (SVGCurveEqualToCurve(SVGCurveZero, prevCurve)) {
         // assume control point is coincident with the current point
-        thisCurve = SVGCurveMake(coord1.x, coord1.y, coord2.x, coord2.y, coord1.x, coord1.y);
+        if (CGPointEqualToPoint(origin, CGPointZero)) {
+            thisCurve = SVGCurveMake(coord1.x, coord1.y, coord1.x, coord1.y, coord2.x, coord2.y);
+        } else {
+            thisCurve = SVGCurveMake(origin.x, origin.y, coord1.x, coord1.y, coord2.x, coord2.y);
+        }
     } else {
         // calculate the mirror of the previous control point
         CGPoint currentPoint = prevCurve.p;
@@ -775,12 +781,27 @@ inline BOOL SVGCurveEqualToCurve(SVGCurve curve1, SVGCurve curve2)
 	return CGPathGetCurrentPoint(path);
 }
 
-+ (SVGCurve)readEllipticalArcArguments:(NSScanner*)scanner path:(CGMutablePathRef)path relativeTo:(CGPoint)origin
++ (CGPoint)readEllipticalArcArguments:(NSScanner*)scanner path:(CGMutablePathRef)path relativeTo:(CGPoint)origin isRelative:(BOOL) isRelative
 {
-	NSCharacterSet* cmdFormat = [NSCharacterSet characterSetWithCharactersInString:@"Aa"];
-	
-	[scanner scanCharactersFromSet:cmdFormat intoString:nil];
+    NSCharacterSet* cmdFormat = [NSCharacterSet characterSetWithCharactersInString:@"Aa"];
+    BOOL ok = [scanner scanCharactersFromSet:cmdFormat intoString:nil];
+    
+    NSAssert(ok, @"failed to scan arc to command");
+    if (!ok) return origin;
+    
+    CGPoint endPoint = [SVGKPointsAndPathsParser readEllipticalArcArgumentsSequence:scanner path:path relativeTo:origin];
+    
+    while (![scanner isAtEnd]) {
+        CGPoint newOrigin = isRelative ? endPoint : origin;
+        endPoint = [SVGKPointsAndPathsParser readEllipticalArcArgumentsSequence:scanner path:path relativeTo:newOrigin];
+    }
+    
+    return endPoint;
+}
 
++ (CGPoint)readEllipticalArcArgumentsSequence:(NSScanner*)scanner path:(CGMutablePathRef)path relativeTo:(CGPoint)origin
+{
+    [SVGKPointsAndPathsParser readCommaAndWhitespace:scanner];
 	// need to find the center point of the ellipse from the two points and an angle
 	// see http://www.w3.org/TR/SVG/implnote.html#ArcImplementationNotes for these calculations
 	
@@ -819,14 +840,10 @@ inline BOOL SVGCurveEqualToCurve(SVGCurve curve1, SVGCurve curve2)
 	CGFloat x2 = origin.x + endPoint.x;
 	CGFloat y2 = origin.y + endPoint.y;
 
-	SVGCurve curve;
-	
-	curve.p = CGPointMake(x2, y2);
-	
 	if (rx == 0 || ry == 0)
 	{
-		CGPathAddLineToPoint(path, NULL, curve.p.x, curve.p.y);
-		return curve;
+		CGPathAddLineToPoint(path, NULL, x2, y2);
+		return CGPointMake(x2, y2);
 	}
 	CGFloat cosPhi = cos(phi);
 	CGFloat sinPhi = sin(phi);
@@ -899,7 +916,7 @@ inline BOOL SVGCurveEqualToCurve(SVGCurve curve1, SVGCurve curve2)
 	// add a inversely transformed circular arc to the current path
 	CGPathAddRelativeArc( path, &trInv, 0, 0, 1., startAngle, angleDelta);
 	
-	return curve;
+	return CGPointMake(x2, y2);
 }
 
 @end

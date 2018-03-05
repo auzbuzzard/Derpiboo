@@ -34,7 +34,7 @@ class ImageRequester: Requester {
 class TagRequester: Requester {
     static var tag_url: String { return base_url + "/tags" }
     
-    func downloadTag(for id: String) -> Promise<TagResult> {
+    func downloadTag(for id: Int) -> Promise<TagResult> {
         let url = TagRequester.tag_url + "/\(id).json"
         
         return Network.get(url: url).then(on: .global(qos: .userInitiated)) { data in

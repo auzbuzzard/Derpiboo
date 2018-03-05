@@ -24,6 +24,8 @@ class SearchHomeVC: UITableViewController {
         super.viewDidLoad()
         searchSuggestionsVC = storyboard?.instantiateViewController(withIdentifier: SearchSuggestionsVC.storyboardID) as! SearchSuggestionsVC
         setupSearchField()
+        
+        tableView.backgroundColor = Theme.colors().background
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -145,12 +145,12 @@ struct FilterResult: ResultItem {
 }
 
 struct TagResult: ResultItem {
-    var id: String { return metadata.id }
+    var id: Int { return metadata.id }
     
     private(set) var metadata: Metadata
     
     struct Metadata: ResultItemMetadata {
-        let id: String
+        let id: Int
         let name: String
         let slug: String
         let description: String
@@ -166,7 +166,7 @@ struct TagResult: ResultItem {
         let category: String?
     }
     
-    static func getTag(for id: String) -> Promise<TagResult> {
+    static func getTag(for id: Int) -> Promise<TagResult> {
         return Cache.tag.getTag(for: id).recover { error -> Promise<TagResult> in
             if case TagCache.CacheError.noTagInStore(_) = error {
                 return TagRequester().downloadTag(for: id)

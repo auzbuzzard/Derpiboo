@@ -122,9 +122,9 @@ class UserCache: CacheClass {
 class TagCache: CacheClass {
     fileprivate static let shared = TagCache()
     private init() { }
-    lazy var tags = Dictionary<String, TagResult>()
+    lazy var tags = Dictionary<Int, TagResult>()
     
-    func getTag(for id: String) -> Promise<TagResult> {
+    func getTag(for id: Int) -> Promise<TagResult> {
         return Promise { fulfill, reject in
             if let tag = tags[id] {
                 fulfill(tag)
@@ -142,7 +142,7 @@ class TagCache: CacheClass {
     }
     
     enum CacheError: Error {
-        case noTagInStore(id: String)
+        case noTagInStore(id: Int)
     }
 }
 
