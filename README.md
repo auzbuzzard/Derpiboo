@@ -1,4 +1,4 @@
-# project-derpi
+# Derpiboo
 An iOS app project for derpibooru.org written by an amateur programmer.
 
 
