@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'F3B882E7CD4C8C29237A33692BCCF9FB'
-               BlueprintName = 'DGCollectionViewLeftAlignFlowLayout'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'DGCollectionViewLeftAlignFlowLayout.framework'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F3B882E7CD4C8C29237A33692BCCF9FB"
+               BlueprintName = "DGCollectionViewLeftAlignFlowLayout"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "DGCollectionViewLeftAlignFlowLayout.framework">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '5E85C6DDE8499A020E9B6D7BD6921938'
-               BlueprintName = 'SVGKit'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'SVGKit.framework'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CA417A2B49D9288AD650E49B37CBC9BE"
+               BlueprintName = "SVGKit"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "SVGKit.framework">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

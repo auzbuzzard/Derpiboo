@@ -8,7 +8,7 @@
 
 import Foundation
 import PromiseKit
-import Fuzi
+//import Fuzi
 
 class Requester {
     static var base_url: String {

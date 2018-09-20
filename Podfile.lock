@@ -9,7 +9,6 @@ PODS:
   - CocoaLumberjack/Extensions (3.4.1):
     - CocoaLumberjack/Default
   - DGCollectionViewLeftAlignFlowLayout (1.0.4)
-  - Fuzi (1.0.1)
   - Gifu (3.0.0)
   - PiedPiper (0.10.1)
   - PromiseKit (4.5.2):
@@ -34,12 +33,22 @@ DEPENDENCIES:
   - Alamofire (~> 4.4)
   - Carlos
   - DGCollectionViewLeftAlignFlowLayout
-  - Fuzi (~> 1.0.0)
   - Gifu
   - PromiseKit (~> 4.0)
   - PromiseKit/Alamofire (~> 4.0)
   - SVGKit (from `https://github.com/SVGKit/SVGKit.git`, branch `2.x`)
   - UIScrollView-InfiniteScroll (~> 1.0.0)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - Carlos
+    - CocoaLumberjack
+    - DGCollectionViewLeftAlignFlowLayout
+    - Gifu
+    - PiedPiper
+    - PromiseKit
+    - UIScrollView-InfiniteScroll
 
 EXTERNAL SOURCES:
   SVGKit:
@@ -56,13 +65,12 @@ SPEC CHECKSUMS:
   Carlos: f6883dabefcdc762c050be9d1d7716d4beb60736
   CocoaLumberjack: 2e258a064cacc8eb9a2aca318e24d02a0a7fd56d
   DGCollectionViewLeftAlignFlowLayout: a0fa58797373ded039cafba8133e79373d048399
-  Fuzi: 851403654bac55675aaeed815d0c8a1d3e3d3e8b
   Gifu: 6543ca2056a3d697097c09fe543ef49348ccc892
   PiedPiper: 0f9bc4e76c6fb0154d6fe6e078174e7fc391a684
   PromiseKit: 743e497a5f505a470d3bbbf4ce0663c1268af0a4
   SVGKit: 4055d9e809b5db8633755979cfb3b02dc5a8c20d
   UIScrollView-InfiniteScroll: c132d6d5851daff229ab4a1060ccf70a05a051c9
 
-PODFILE CHECKSUM: e9418de3b6d97487457c72ef538a37546c155b93
+PODFILE CHECKSUM: 8e506d18b2e3cf76f3ee02aebc3680b3f72f4c12
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.5.2

@@ -20,7 +20,7 @@ target 'Derpiboo' do
   pod 'UIScrollView-InfiniteScroll', '~> 1.0.0'
   pod 'DGCollectionViewLeftAlignFlowLayout'  
   pod "Carlos"
-  pod 'Fuzi', '~> 1.0.0'
+  #pod 'Fuzi', '~> 1.0.0'
   
   target 'DerpibooTests' do
     inherit! :search_paths

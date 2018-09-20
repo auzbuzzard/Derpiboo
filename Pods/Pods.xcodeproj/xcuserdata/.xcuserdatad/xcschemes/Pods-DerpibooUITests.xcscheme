@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'B078DC03014007DE0D9C9C94121A1C78'
-               BlueprintName = 'Pods-DerpibooUITests'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'Pods-DerpibooUITests.framework'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "99FBCC42A696469E414D2509B2C63A76"
+               BlueprintName = "Pods-DerpibooUITests"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "Pods-DerpibooUITests.framework">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
