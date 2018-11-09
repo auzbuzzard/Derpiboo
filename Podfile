@@ -4,7 +4,7 @@ project 'Derpiboo.xcodeproj'
 # platform :ios, '9.0'
 
 swift_version = "3.0"
-pod "PromiseKit", "~> 4.0"
+pod "PromiseKit"
 
 target 'Derpiboo' do
   # Comment this line if you're not using Swift and don't want to use dynamic frameworks
@@ -20,7 +20,7 @@ target 'Derpiboo' do
   pod 'UIScrollView-InfiniteScroll', '~> 1.0.0'
   pod 'DGCollectionViewLeftAlignFlowLayout'  
   pod "Carlos"
-  pod 'Fuzi', '~> 1.0.0'
+  # pod 'Fuzi', '~> 1.0.0'
   
   target 'DerpibooTests' do
     inherit! :search_paths

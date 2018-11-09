@@ -26,7 +26,6 @@
 		D9554B361F444DCC00E58018 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9554B2F1F444DCC00E58018 /* Alamofire.framework */; };
 		D9554B381F444DCC00E58018 /* UIScrollView_InfiniteScroll.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9554B311F444DCC00E58018 /* UIScrollView_InfiniteScroll.framework */; };
 		D9554B391F444DCC00E58018 /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9554B321F444DCC00E58018 /* Carlos.framework */; };
-		D9554B3A1F444DCC00E58018 /* Fuzi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9554B331F444DCC00E58018 /* Fuzi.framework */; };
 		D9554B3C1F44530200E58018 /* ListCollectionVCMainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9554B3B1F44530200E58018 /* ListCollectionVCMainCell.swift */; };
 		D96F24F01DB86801008719ED /* FiltersSelectionTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96F24EF1DB86801008719ED /* FiltersSelectionTableVC.swift */; };
 		D97239A81F48EBB30082E37A /* ListCollectionFilterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97239A71F48EBB30082E37A /* ListCollectionFilterVC.swift */; };
@@ -176,7 +175,6 @@
 				D9554B361F444DCC00E58018 /* Alamofire.framework in Frameworks */,
 				D9554B381F444DCC00E58018 /* UIScrollView_InfiniteScroll.framework in Frameworks */,
 				D9554B391F444DCC00E58018 /* Carlos.framework in Frameworks */,
-				D9554B3A1F444DCC00E58018 /* Fuzi.framework in Frameworks */,
 				AE40B2BAE58736F9EEB792A4 /* Pods_Derpiboo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -479,7 +477,6 @@
 				D98CB8FD1C2998100029A6F7 /* Frameworks */,
 				D98CB8FE1C2998100029A6F7 /* Resources */,
 				DF580AD161B8DC6C0F43BD13 /* [CP] Embed Pods Frameworks */,
-				3B51A40B43D3CB3FA11A5333 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -498,8 +495,6 @@
 				D98CB9121C2998100029A6F7 /* Sources */,
 				D98CB9131C2998100029A6F7 /* Frameworks */,
 				D98CB9141C2998100029A6F7 /* Resources */,
-				87CA83258FC2A34826A22D9E /* [CP] Embed Pods Frameworks */,
-				ADB652FEED09CA40022600AF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -519,8 +514,6 @@
 				D98CB91D1C2998100029A6F7 /* Sources */,
 				D98CB91E1C2998100029A6F7 /* Frameworks */,
 				D98CB91F1C2998100029A6F7 /* Resources */,
-				04E0C5C88E1269541523084A /* [CP] Embed Pods Frameworks */,
-				41E949C26BCBEC21F3AEE07F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -622,64 +615,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		04E0C5C88E1269541523084A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DerpibooUITests/Pods-DerpibooUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		12CA9F94288FD69FAA5B345C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DerpibooTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		3B51A40B43D3CB3FA11A5333 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Derpiboo/Pods-Derpiboo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		41E949C26BCBEC21F3AEE07F /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DerpibooUITests/Pods-DerpibooUITests-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		64A389D7874B05E0D65C0B6E /* [CP] Check Pods Manifest.lock */ = {
@@ -688,43 +639,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DerpibooUITests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		87CA83258FC2A34826A22D9E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DerpibooTests/Pods-DerpibooTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		ADB652FEED09CA40022600AF /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DerpibooTests/Pods-DerpibooTests-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DF580AD161B8DC6C0F43BD13 /* [CP] Embed Pods Frameworks */ = {
@@ -733,9 +657,28 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Derpiboo/Pods-Derpiboo-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Carlos/Carlos.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
+				"${BUILT_PRODUCTS_DIR}/DGCollectionViewLeftAlignFlowLayout/DGCollectionViewLeftAlignFlowLayout.framework",
+				"${BUILT_PRODUCTS_DIR}/Gifu/Gifu.framework",
+				"${BUILT_PRODUCTS_DIR}/PiedPiper/PiedPiper.framework",
+				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SVGKit/SVGKit.framework",
+				"${BUILT_PRODUCTS_DIR}/UIScrollView-InfiniteScroll/UIScrollView_InfiniteScroll.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Carlos.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DGCollectionViewLeftAlignFlowLayout.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Gifu.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PiedPiper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVGKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIScrollView_InfiniteScroll.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -748,13 +691,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Derpiboo-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

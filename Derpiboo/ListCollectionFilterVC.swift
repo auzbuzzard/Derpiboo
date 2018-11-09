@@ -54,8 +54,8 @@ class ListCollectionFilterVC: UIViewController {
         sortByPickerButton.setTitle(selectedSortBy.description, for: .normal)
         sortOrderSC.selectedSegmentIndex = {
             switch selectedSortOrder {
-            case .descending: return 0
-            case .ascending: return 1
+            case .descending?: return 0
+            case .ascending?: return 1
             default: return 0
             }
         }()

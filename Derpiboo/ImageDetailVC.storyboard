@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="taZ-uc-GvS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="taZ-uc-GvS">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -28,7 +28,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" adjustsLetterSpacingToFitWidth="YES" id="pof-zA-rv1">
-                                            <rect key="frame" x="16" y="0.0" width="344" height="44"/>
+                                            <rect key="frame" x="16" y="0.0" width="343" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -182,10 +182,10 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4WV-We-2xY">
-                                            <rect key="frame" x="8" y="8" width="359" height="144"/>
+                                            <rect key="frame" x="16" y="11" width="343" height="138"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="caR-iN-FUp">
-                                                    <rect key="frame" x="0.0" y="0.0" width="359" height="144"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="343" height="138"/>
                                                     <attributedString key="attributedText">
                                                         <fragment content="Descriptions">
                                                             <attributes>
@@ -226,10 +226,10 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EVZ-DL-eZF">
-                                            <rect key="frame" x="8" y="8" width="359" height="144"/>
+                                            <rect key="frame" x="16" y="11" width="343" height="138"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" scrollEnabled="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R2V-wN-ePR">
-                                                    <rect key="frame" x="88" y="37" width="263" height="33"/>
+                                                    <rect key="frame" x="88" y="37" width="247" height="33"/>
                                                     <attributedString key="attributedText">
                                                         <fragment content="Descriptions">
                                                             <attributes>
@@ -241,7 +241,7 @@
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gz7-qK-p5z">
-                                                    <rect key="frame" x="88" y="8" width="263" height="21"/>
+                                                    <rect key="frame" x="88" y="8" width="247" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -292,10 +292,11 @@
                     <navigationItem key="navigationItem" id="mhO-hL-w5q">
                         <barButtonItem key="rightBarButtonItem" systemItem="action" id="3pg-nL-FGA">
                             <connections>
-                                <action selector="openInSafari:" destination="taZ-uc-GvS" id="Dns-xD-j5F"/>
+                                <action selector="share:" destination="taZ-uc-GvS" id="Wui-mt-PcR"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Unf-tY-qUQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

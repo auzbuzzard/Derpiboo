@@ -193,7 +193,13 @@ class ImageDetailVC: UITableViewController, SFSafariViewControllerDelegate {
         }
     }
     
-    @IBAction func openInSafari(_ sender: UIBarButtonItem) {
+    // MARK: - Share Sheet
+    
+    @IBAction func share(_ sender: UIBarButtonItem) {
+        
+    }
+    
+    func openInSafari() {
         let url = URL(string: ImageRequester.image_url + "/\(imageResult.id)")
         let svc = SFSafariViewController(url: url!, entersReaderIfAvailable: false)
         svc.delegate = self
